@@ -16,3 +16,4 @@
 
 Cómo funciona el Raycasting de Wolfenstein 3D - Pseudo 3D: https://www.youtube.com/watch?v=8XnQq28TRZY
 Ray casting HTML5 con JavaScript (Parte1) ¡Clonamos Wolfenstein 3D: https://youtu.be/8tYKQi_cRV0
+raycast theory https://www.youtube.com/watch?v=NbSee-XM7WA

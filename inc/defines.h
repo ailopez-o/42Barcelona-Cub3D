@@ -35,13 +35,11 @@ struct s_mlx
 	void	*win;
 	void	*img;
 	char	*img_buff;
+	int		bitxpixel;
+	int		lines;
+	int		endian;	
 };
 
-struct s_player
-{
-	int		ray[360];
-	t_point	position;
-};
 
 struct s_point
 {
@@ -57,6 +55,12 @@ struct s_line
 	t_point	p2;
 	int		stroke;
 	int 	color;
+};
+
+struct s_player
+{
+	t_point	position;
+	float	orientation;
 };
 
 struct s_cub

@@ -2,6 +2,7 @@
 #include "mlx.h"
 #include "time.h"
 #include "draw.h"
+#include "vectors.h"
 #include <sys/time.h>
 
 
@@ -20,6 +21,14 @@ int	key_press(int key, void *param)
 		terminate_program(cub);	
 	if (key == KEY_C)
 		clear_screen(&cub->screen);
+	if (key == KEY_LEFT)
+		cub->player.front = rotate_vector(cub->player.front, 10);
+	if (key == KEY_RIGHT)
+		cub->player.front = rotate_vector(cub->player.front, -10);
+	if (key == KEY_UP)
+		cub->player.pos = go_vector(cub->player.pos, cub->player.front, 10);
+	if (key == KEY_DOWN)
+		cub->player.pos = go_vector(cub->player.pos, cub->player.front, -10);
 	return (EXIT_SUCCESS);
 }
 
@@ -65,8 +74,8 @@ int	render(void *param)
 		num_frames = 0;
 	}
 	clear_screen(&cub->screen);
-	draw_ray(&cub->screen, cub->test_ray);
 	draw_line(&cub->screen, cub->walls[0].p1, cub->walls[0].p2);
+	draw_player(&cub->screen, cub->player);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	num_frames++;

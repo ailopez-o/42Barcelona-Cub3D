@@ -83,6 +83,7 @@ MLX =		${MLX_DIR}libmlx.a
 FILES =		src/mlx_window/key_hook.c \
 			src/mlx_window/mouse_hook.c \
 			src/mlx_window/draw_utils.c \
+			src/geometry/vectors.c \
 			src/main.c
 
 #	----------------------------------------	INLCUDES
@@ -176,6 +177,10 @@ $(DEP_ROOT):
 		@mkdir -p -m700 $@
 
 $(OBJ_ROOT)%.o:$(SRC_ROOT)mlx_window/%.c $(LIBFT) $(MKF)
+		@$(GCC) $(FLAGS) $(INCS) -c $< -o $(OBJ_ROOT)$(notdir $@)
+		@echo "▶ Compiled Cube3D file: <$(notdir $<)>"
+
+$(OBJ_ROOT)%.o:$(SRC_ROOT)geometry/%.c $(LIBFT) $(MKF)
 		@$(GCC) $(FLAGS) $(INCS) -c $< -o $(OBJ_ROOT)$(notdir $@)
 		@echo "▶ Compiled Cube3D file: <$(notdir $<)>"
 

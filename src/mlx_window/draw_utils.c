@@ -2,9 +2,10 @@
 #include "math.h"
 
 
-int	ft_round(double num);
-
-t_ray normalize_ray(t_ray ray);
+int			ft_round(double num);
+int			gradient(int startcolor, int endcolor, int len, int pix);
+void		draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color);
+t_vector 	normalize_vector(t_vector vector);
 
 void	my_pixel_put(t_mlx *screen, t_point pixel)
 {
@@ -14,36 +15,11 @@ void	my_pixel_put(t_mlx *screen, t_point pixel)
 		return ;
 	if ((int)pixel.y > WINY || (int)pixel.y < 0)
 		return ;
+	pixel.y = WINY - pixel.y;
 	calc = (WINX * 4 * ((int)pixel.y - 1)) + ((int)pixel.x * 4);
 	screen->img_buff[calc] = pixel.color & 0xff;
 	screen->img_buff[calc + 1] = (pixel.color >> 8) & 0xff;
 	screen->img_buff[calc + 2] = (pixel.color >> 16) & 0xff;
-}
-
-/*
-*	This function generates the color of each pixel between starcolor and endcolor
-*	To do that get the RGB chanels independtly and create a 
-*	linear escale between each channel.
-*	The function return the color number "pix" of line "0->len".
-*/
-
-int	gradient(int startcolor, int endcolor, int len, int pix)
-{
-	double	increment[3];
-	int		new[3];
-	int		newcolor;
-
-	increment[0] = (double)((endcolor >> 16) - \
-					(startcolor >> 16)) / (double)len;
-	increment[1] = (double)(((endcolor >> 8) & 0xFF) - \
-					((startcolor >> 8) & 0xFF)) / (double)len;
-	increment[2] = (double)((endcolor & 0xFF) - (startcolor & 0xFF)) \
-					/ (double)len;
-	new[0] = (startcolor >> 16) + ft_round(pix * increment[0]);
-	new[1] = ((startcolor >> 8) & 0xFF) + ft_round(pix * increment[1]);
-	new[2] = (startcolor & 0xFF) + ft_round(pix * increment[2]);
-	newcolor = (new[0] << 16) + (new[1] << 8) + new[2];
-	return (newcolor);
 }
 
 /*
@@ -81,6 +57,60 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 }
 
 
+void draw_circle(t_mlx *screen, t_point center, int radius, int color)
+{
+	t_point	drawer;
+	float	distance;
+
+	drawer.color = color;
+    for (drawer.y = center.y - radius; drawer.y <= center.y + radius; drawer.y++)
+    {
+        for (drawer.x = center.x - radius; drawer.x <= center.x + radius; drawer.x++)
+        {
+            distance = sqrt((drawer.x - center.x) * (drawer.x - center.x) + (drawer.y - center.y) * (drawer.y - center.y));
+            if (distance <= radius)
+            {
+                my_pixel_put(screen, drawer);
+            }
+        }
+    }
+}
+
+
+
+void	draw_player(t_mlx *screen, t_player player)
+{
+	draw_circle(screen, player.pos, 5, VERDE);
+	draw_vector(screen, player.front, player.pos, VERDE);
+}
+
+
+/*
+*	This function generates the color of each pixel between starcolor and endcolor
+*	To do that get the RGB chanels independtly and create a 
+*	linear escale between each channel.
+*	The function return the color number "pix" of line "0->len".
+*/
+
+int	gradient(int startcolor, int endcolor, int len, int pix)
+{
+	double	increment[3];
+	int		new[3];
+	int		newcolor;
+
+	increment[0] = (double)((endcolor >> 16) - \
+					(startcolor >> 16)) / (double)len;
+	increment[1] = (double)(((endcolor >> 8) & 0xFF) - \
+					((startcolor >> 8) & 0xFF)) / (double)len;
+	increment[2] = (double)((endcolor & 0xFF) - (startcolor & 0xFF)) \
+					/ (double)len;
+	new[0] = (startcolor >> 16) + ft_round(pix * increment[0]);
+	new[1] = ((startcolor >> 8) & 0xFF) + ft_round(pix * increment[1]);
+	new[2] = (startcolor & 0xFF) + ft_round(pix * increment[2]);
+	newcolor = (new[0] << 16) + (new[1] << 8) + new[2];
+	return (newcolor);
+}
+
 int	ft_round(double num)
 {
 	int	rounded;
@@ -92,17 +122,17 @@ int	ft_round(double num)
 }
 
 
-void draw_ray(t_mlx *screen, t_ray ray)
+void draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color)
 {
-	t_line	ray_line;
+	t_line	vector_line;
 	
-	ray = normalize_ray(ray);
-	ray_line.p1 = ray.pos;
-	ray_line.p2.x = ray.pos.x + ray.dir[X] * 50;
-	ray_line.p2.y = ray.pos.y - ray.dir[Y] * 50;
-	ray_line.p1.color = VERDE;
-	ray_line.p2.color = VERDE;
-	draw_line(screen, ray_line.p1, ray_line.p2);
+	vector = normalize_vector(vector);
+	vector_line.p1 = pos;
+	vector_line.p2.x = pos.x + vector.dir[X] * 50;
+	vector_line.p2.y = pos.y + vector.dir[Y] * 50;
+	vector_line.p1.color = color;
+	vector_line.p2.color = color;
+	draw_line(screen, vector_line.p1, vector_line.p2);
 }
 
 void clear_screen(t_mlx *screen)
@@ -124,21 +154,21 @@ void clear_screen(t_mlx *screen)
 	}
 }
 
-t_ray normalize_ray(t_ray ray)
+t_vector normalize_vector(t_vector vector)
 {
 	float 	factor;
 	t_point	abs_point;
 
-	abs_point.x = ray.dir[X];
-	if (ray.dir[X] < 0)
-		abs_point.x = - ray.dir[X];
-	abs_point.y = ray.dir[Y];
-	if (ray.dir[Y] < 0)
-		abs_point.y = - ray.dir[Y];
+	abs_point.x = vector.dir[X];
+	if (vector.dir[X] < 0)
+		abs_point.x = - vector.dir[X];
+	abs_point.y = vector.dir[Y];
+	if (vector.dir[Y] < 0)
+		abs_point.y = - vector.dir[Y];
 	factor = abs_point.y;
 	if (abs_point.x > abs_point.y)
 		factor = abs_point.x;
-	ray.dir[X] = ray.dir[X]/factor;
-	ray.dir[Y] = ray.dir[Y]/factor;
-	return (ray);
+	vector.dir[X] = vector.dir[X]/factor;
+	vector.dir[Y] = vector.dir[Y]/factor;
+	return (vector);
 }

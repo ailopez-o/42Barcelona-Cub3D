@@ -48,6 +48,7 @@ typedef struct s_point	t_point;
 typedef struct s_line	t_line;
 typedef struct s_player	t_player;
 typedef struct s_ray	t_ray;
+typedef struct s_vector	t_vector;
 
 struct s_mlx
 {
@@ -83,18 +84,25 @@ struct s_ray
 	float	dir[2];
 };
 
+struct s_vector
+{
+	t_point	*pos;
+	float	dir[2];
+};
+
 struct s_player
 {
-	t_point	position;
-	float	orientation;
+	t_point		pos;
+	t_vector	front;
+	t_vector	cam;
 };
 
 struct s_cub
 {
-	t_mlx	screen;
-	char	**map;
-	t_line	*walls;
-	t_ray	test_ray;
+	t_mlx		screen;
+	char		**map;
+	t_player	player;
+	t_line		*walls;
 };
 
 #endif

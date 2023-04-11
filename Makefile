@@ -82,6 +82,7 @@ MLX =		${MLX_DIR}libmlx.a
 
 FILES =		src/mlx_window/key_hook.c \
 			src/mlx_window/mouse_hook.c \
+			src/mlx_window/draw_utils.c \
 			src/main.c
 
 #	----------------------------------------	INLCUDES

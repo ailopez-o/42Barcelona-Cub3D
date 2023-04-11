@@ -42,6 +42,9 @@ int	mouse_move(int x, int y, void *param)
 	(void)x;
 	(void)y;
 	cub = (t_cub *)param;
+	cub->test_ray.dir[X] =  x - cub->test_ray.pos.x;
+	cub->test_ray.dir[Y] =  cub->test_ray.pos.y - y;
+	draw_ray(&cub->screen, cub->test_ray);
 	return (EXIT_SUCCESS);
 }
 

@@ -23,6 +23,9 @@
 # define WINX 1200
 # define WINY 800
 
+# define X 0
+# define Y 1
+
 
 # define ROJO 		0xc1272d
 # define VERDE		0x33cc55
@@ -36,6 +39,7 @@
 # define FLAMINGO	0xEC4B27
 # define JAFFA		0xEF8633
 # define SAFFRON	0xF3AF3D
+# define BLACK		0x151515
 
 
 typedef struct s_cub	t_cub;
@@ -43,6 +47,7 @@ typedef struct s_mlx	t_mlx;
 typedef struct s_point	t_point;
 typedef struct s_line	t_line;
 typedef struct s_player	t_player;
+typedef struct s_ray	t_ray;
 
 struct s_mlx
 {
@@ -72,6 +77,12 @@ struct s_line
 	int 	color;
 };
 
+struct s_ray
+{
+	t_point	pos;
+	float	dir[2];
+};
+
 struct s_player
 {
 	t_point	position;
@@ -83,6 +94,7 @@ struct s_cub
 	t_mlx	screen;
 	char	**map;
 	t_line	*walls;
+	t_ray	test_ray;
 };
 
 #endif

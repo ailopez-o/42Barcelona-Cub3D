@@ -4,6 +4,8 @@
 
 int	ft_round(double num);
 
+t_ray normalize_ray(t_ray ray);
+
 void	my_pixel_put(t_mlx *screen, t_point pixel)
 {
 	size_t	calc;
@@ -90,25 +92,53 @@ int	ft_round(double num)
 }
 
 
-// void draw_square(t_mlx *screen, t_point center, int size)
-// {
-// 	size_t	i;
-// 	size_t	j;
+void draw_ray(t_mlx *screen, t_ray ray)
+{
+	t_line	ray_line;
+	
+	ray = normalize_ray(ray);
+	ray_line.p1 = ray.pos;
+	ray_line.p2.x = ray.pos.x + ray.dir[X] * 50;
+	ray_line.p2.y = ray.pos.y - ray.dir[Y] * 50;
+	ray_line.p1.color = VERDE;
+	ray_line.p2.color = VERDE;
+	draw_line(screen, ray_line.p1, ray_line.p2);
+}
 
-// 	i = 0;
-// 	if (color == 0xFFA500)
-// 	{
-// 		cub->player->ply_x = x / cub->map->scale;
-// 		cub->player->ply_y = y / cub->map->scale;
-// 	}
-// 	while (i < cub->map->scale)
-// 	{
-// 		j = 0;
-// 		while (j < cub->map->scale)
-// 		{
-// 			my_pixel_put(cub->screen, x + i, y + j, color);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
+void clear_screen(t_mlx *screen)
+{	
+	t_point	cleaner;
+
+	cleaner.x = 0;
+	cleaner.y = 0;
+	cleaner.color = BLACK;
+	while (cleaner.y < WINY)
+	{
+		while (cleaner.x < WINX)
+		{
+			my_pixel_put(screen, cleaner);
+			cleaner.x ++;
+		}
+		cleaner.y ++;
+		cleaner.x = 0;
+	}
+}
+
+t_ray normalize_ray(t_ray ray)
+{
+	float 	factor;
+	t_point	abs_point;
+
+	abs_point.x = ray.dir[X];
+	if (ray.dir[X] < 0)
+		abs_point.x = - ray.dir[X];
+	abs_point.y = ray.dir[Y];
+	if (ray.dir[Y] < 0)
+		abs_point.y = - ray.dir[Y];
+	factor = abs_point.y;
+	if (abs_point.x > abs_point.y)
+		factor = abs_point.x;
+	ray.dir[X] = ray.dir[X]/factor;
+	ray.dir[Y] = ray.dir[Y]/factor;
+	return (ray);
+}

@@ -25,10 +25,10 @@ MKF =			Makefile
 ################################################################################
 
 # Variable to compile .c files
-GCC =			gcc -O3
+GCC =			gcc
 
 # Flags for the gcc compilation
-FLAGS =	
+FLAGS =			-g
 # FLAGS =			-Wall -Werror -Wextra -MMD -MP
 
 MINILIBXCC :=	-I mlx -L $(MLX_DIR) -lmlx

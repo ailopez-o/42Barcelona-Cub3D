@@ -1,11 +1,10 @@
 #include "defines.h"
 #include "math.h"
-
+#include "vectors.h"
 
 int			ft_round(double num);
 int			gradient(int startcolor, int endcolor, int len, int pix);
 void		draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color);
-t_vector 	normalize_vector(t_vector vector);
 
 void	my_pixel_put(t_mlx *screen, t_point pixel)
 {
@@ -82,6 +81,8 @@ void	draw_player(t_mlx *screen, t_player player)
 {
 	draw_circle(screen, player.pos, 5, VERDE);
 	draw_vector(screen, player.front, player.pos, VERDE);
+	draw_vector(screen, player.cam, player.pos, ROJO);
+
 }
 
 
@@ -154,21 +155,3 @@ void clear_screen(t_mlx *screen)
 	}
 }
 
-t_vector normalize_vector(t_vector vector)
-{
-	float 	factor;
-	t_point	abs_point;
-
-	abs_point.x = vector.dir[X];
-	if (vector.dir[X] < 0)
-		abs_point.x = - vector.dir[X];
-	abs_point.y = vector.dir[Y];
-	if (vector.dir[Y] < 0)
-		abs_point.y = - vector.dir[Y];
-	factor = abs_point.y;
-	if (abs_point.x > abs_point.y)
-		factor = abs_point.x;
-	vector.dir[X] = vector.dir[X]/factor;
-	vector.dir[Y] = vector.dir[Y]/factor;
-	return (vector);
-}

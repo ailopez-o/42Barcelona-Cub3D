@@ -20,3 +20,22 @@ t_point go_vector(t_point init, t_vector vector, int steps)
 	new_point.y = init.y + vector.dir[Y] * steps;
 	return (new_point);
 }
+
+t_vector normalize_vector(t_vector vector)
+{
+	float 	factor;
+	t_point	abs_point;
+
+	abs_point.x = vector.dir[X];
+	if (vector.dir[X] < 0)
+		abs_point.x = - vector.dir[X];
+	abs_point.y = vector.dir[Y];
+	if (vector.dir[Y] < 0)
+		abs_point.y = - vector.dir[Y];
+	factor = abs_point.y;
+	if (abs_point.x > abs_point.y)
+		factor = abs_point.x;
+	vector.dir[X] = vector.dir[X]/factor;
+	vector.dir[Y] = vector.dir[Y]/factor;
+	return (vector);
+}

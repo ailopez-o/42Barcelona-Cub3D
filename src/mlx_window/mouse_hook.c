@@ -1,5 +1,7 @@
 #include "defines.h"
 #include "draw.h"
+#include "vectors.h"
+
 
 
 /* 
@@ -27,7 +29,6 @@ int	mouse_press(int button, int x, int y, void *param)
 
 	(void) button;
 	cub = (t_cub *)param;
-	//printf("[%d][%d]\n", x, y);
 	return (EXIT_SUCCESS);
 }
 
@@ -37,11 +38,13 @@ int	mouse_press(int button, int x, int y, void *param)
 
 int	mouse_move(int x, int y, void *param)
 {
-	t_cub	*cub;
+	t_cub		*cub;
+	t_vector	vector;
 
-	(void)x;
-	(void)y;
 	cub = (t_cub *)param;
+	vector.dir[X] = x - cub->player.pos.x;
+	vector.dir[Y] = WINY - y - cub->player.pos.y;
+	cub->player.cam = normalize_vector(vector);
 	return (EXIT_SUCCESS);
 }
 

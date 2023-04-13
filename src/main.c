@@ -31,6 +31,8 @@ int	main(int argv, char **argc)
 	cub.player.pos.color = VERDE;
 	cub.player.front.dir[X] = 0;
 	cub.player.front.dir[Y] = 1;
+	cub.player.cam.dir[X] = 0;
+	cub.player.cam.dir[Y] = 1;
 
 	mlx_hook(cub.screen.win, 2, 0, key_press, &cub);
 	mlx_hook(cub.screen.win, 3, 0, key_release, &cub);

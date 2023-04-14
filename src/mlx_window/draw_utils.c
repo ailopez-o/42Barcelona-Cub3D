@@ -75,14 +75,23 @@ void draw_circle(t_mlx *screen, t_point center, int radius, int color)
     }
 }
 
+void	draw_ray_colider(t_mlx *screen, t_point pos, t_point *coliders)
+{
+	while (coliders->x != -1)
+	{
+		pos.color = WHITE;
+		coliders->color = ROJO;
+		draw_line(screen, pos, *coliders);
+		coliders++;
+	}
 
+}
 
 void	draw_player(t_mlx *screen, t_player player)
 {
 	draw_circle(screen, player.pos, 5, VERDE);
 	draw_vector(screen, player.front, player.pos, VERDE);
 	draw_vector(screen, player.cam, player.pos, ROJO);
-
 }
 
 

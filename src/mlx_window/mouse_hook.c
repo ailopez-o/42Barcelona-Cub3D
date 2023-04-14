@@ -40,6 +40,7 @@ int	mouse_move(int x, int y, void *param)
 {
 	t_cub		*cub;
 	t_vector	vector;
+	t_point		colision;
 
 	cub = (t_cub *)param;
 	vector.dir[X] = x - cub->player.pos.x;

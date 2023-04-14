@@ -95,6 +95,7 @@ struct s_player
 	t_point		pos;
 	t_vector	front;
 	t_vector	cam;
+	t_point		*ray_colider;
 };
 
 struct s_cub

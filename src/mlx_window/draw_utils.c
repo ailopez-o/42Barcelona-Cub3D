@@ -75,7 +75,7 @@ void draw_circle(t_mlx *screen, t_point center, int radius, int color)
     }
 }
 
-void	draw_ray_colider(t_mlx *screen, t_point pos, t_point *coliders)
+void	draw_ray_collider(t_mlx *screen, t_point pos, t_point *coliders)
 {
 	while (coliders->x != -1)
 	{
@@ -164,3 +164,13 @@ void clear_screen(t_mlx *screen)
 	}
 }
 
+void draw_walls(t_mlx *screen,t_line *walls)
+{
+	while(walls->p1.x != -1)
+	{
+		walls->p1.color = ROJO;
+		walls->p2.color = ROJO;
+		draw_line(screen, walls->p1, walls->p2);
+		walls++;
+	}
+}

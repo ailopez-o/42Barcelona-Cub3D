@@ -1,7 +1,7 @@
 #include "defines.h"
 #include "math.h"
 
-t_point get_colision(t_line wall, t_line ray);
+
 
 t_vector rotate_vector(t_vector vector, float ang)
 {
@@ -52,84 +52,3 @@ t_line vector_to_line(t_vector vector, t_point pos, int steps)
 	return (line);
 }
 
-
-t_point *get_dir_ray_colider(t_point pos, t_vector dir, int wide, t_line wall)
-{
-	t_vector	scan_vector;
-	t_point		colision;
-	t_point 	*ray_colider;
-	int			ang;
-	int			num_colision;
-
-	ang = 0;
-	num_colision = 0;
-	scan_vector = rotate_vector(dir, - wide/2);
-	ray_colider = malloc(sizeof(t_point) * (wide + 1));
-	while (ang < wide)
-	{
-		colision = get_colision(wall, vector_to_line(scan_vector, pos, 10));
-		if (colision.x != -1)
-		{
-			ray_colider[num_colision] = colision;
-			num_colision++;
-		}
-		ang +=1;
-		scan_vector = rotate_vector(scan_vector, 1);
-	}
-	ray_colider[num_colision].x = -1;
-	ray_colider[num_colision].y = -1;
-	return (ray_colider);
-}
-
-
-t_point *get_ray_colider(t_point pos, t_line wall)
-{
-	t_vector	scan_vector;
-	t_point		colision;
-	t_point 	*ray_colider;
-	int			ang;
-	int			num_colision;
-
-	ang = 0;
-	num_colision = 0;
-	scan_vector.dir[X] = 0;
-	scan_vector.dir[Y] = 1;
-	ray_colider = malloc(sizeof(t_point) * 361);
-	while (ang < 360)
-	{
-		colision = get_colision(wall, vector_to_line(scan_vector, pos, 10));
-		if (colision.x != -1)
-		{
-			ray_colider[num_colision] = colision;
-			num_colision++;
-		}
-		ang +=1;
-		scan_vector = rotate_vector(scan_vector, 1);
-	}
-	ray_colider[num_colision].x = -1;
-	ray_colider[num_colision].y = -1;
-	return (ray_colider);
-}
-
-t_point get_colision(t_line wall, t_line ray)
-{
-
-	float		den;
-	float		t;
-	float		u;
-	t_point		colision;
-
-	colision.x = -1;
-	colision.y = -1;
-	den = (wall.p1.x - wall.p2.x) * (ray.p1.y - ray.p2.y) - (wall.p1.y - wall.p2.y) * (ray.p1.x - ray.p2.x);
-	if (den == 0)
-		return (colision);
-	t = ((wall.p1.x - ray.p1.x) * (ray.p1.y - ray.p2.y) - (wall.p1.y - ray.p1.y) * (ray.p1.x - ray.p2.x)) / den;
-	u = -((wall.p1.x - wall.p2.x) * (wall.p1.y - ray.p1.y) - (wall.p1.y - wall.p2.y) * (wall.p1.x - ray.p1.x)) / den;
-	if (t > 0 && t <1 && u > 0)
-	{
-		colision.x = wall.p1.x + t * (wall.p2.x - wall.p1.x);
-		colision.y = wall.p1.y + t * (wall.p2.y - wall.p1.y);
-	}
-	return (colision);
-}

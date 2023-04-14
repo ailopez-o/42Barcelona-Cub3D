@@ -3,6 +3,7 @@
 #include "time.h"
 #include "draw.h"
 #include "vectors.h"
+#include "raycast.h"
 #include <sys/time.h>
 
 
@@ -74,10 +75,10 @@ int	render(void *param)
 		num_frames = 0;
 	}
 	clear_screen(&cub->screen);
-	draw_line(&cub->screen, cub->walls[0].p1, cub->walls[0].p2);
-	cub->player.ray_colider = get_dir_ray_colider(cub->player.pos, cub->player.cam, 60, cub->walls[0]);
+	draw_walls(&cub->screen, cub->walls);
+	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, 60, cub->walls);
 	draw_player(&cub->screen, cub->player);
-	draw_ray_colider(&cub->screen, cub->player.pos, cub->player.ray_colider);
+	draw_ray_collider(&cub->screen, cub->player.pos, cub->player.ray_colider);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	num_frames++;

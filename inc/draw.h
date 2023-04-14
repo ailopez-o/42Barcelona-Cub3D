@@ -4,4 +4,5 @@ void	draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color);
 void 	clear_screen(t_mlx *screen);
 void	draw_player(t_mlx *screen, t_player player);
 void 	draw_circle(t_mlx *screen, t_point center, int radius, int color);
-void	draw_ray_colider(t_mlx *screen, t_point pos, t_point *coliders);
+void	draw_ray_collider(t_mlx *screen, t_point pos, t_point *coliders);
+void    draw_walls(t_mlx *screen,t_line *walls);

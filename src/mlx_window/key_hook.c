@@ -63,6 +63,7 @@ int	render(void *param)
 	static unsigned long	last_time = 0;
 	unsigned long			current_time;
 	struct timeval			time;
+	t_point					polygon[4];
 
 	cub = (t_cub *)param;
 	gettimeofday(&time, NULL);
@@ -76,9 +77,10 @@ int	render(void *param)
 	}
 	clear_screen(&cub->screen);
 	draw_walls(&cub->screen, cub->walls);
-	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, 60, cub->walls);
+	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, 60, cub->objets);
 	draw_player(&cub->screen, cub->player);
 	draw_ray_collider(&cub->screen, cub->player.pos, cub->player.ray_colider);
+	draw_objets(&cub->screen, cub->objets);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	num_frames++;

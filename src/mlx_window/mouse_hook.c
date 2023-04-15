@@ -43,6 +43,8 @@ int	mouse_move(int x, int y, void *param)
 	t_point		colision;
 
 	cub = (t_cub *)param;
+	if (x > WINX || x < 0 || y > WINY || y < 0)
+		return (EXIT_SUCCESS);
 	vector.dir[X] = x - cub->player.pos.x;
 	vector.dir[Y] = WINY - y - cub->player.pos.y;
 	cub->player.cam = normalize_vector(vector);

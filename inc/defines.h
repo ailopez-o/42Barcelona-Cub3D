@@ -42,13 +42,24 @@
 # define BLACK		0x151515
 
 
-typedef struct s_cub	t_cub;
-typedef struct s_mlx	t_mlx;
-typedef struct s_point	t_point;
-typedef struct s_line	t_line;
-typedef struct s_player	t_player;
-typedef struct s_ray	t_ray;
-typedef struct s_vector	t_vector;
+# define	NULL_OBJET	0
+# define	WALL		1
+# define	DOOR		2
+# define	SPRITE		3
+
+typedef struct s_cub		t_cub;
+typedef struct s_mlx		t_mlx;
+typedef struct s_point		t_point;
+typedef struct s_line		t_line;
+typedef struct s_player		t_player;
+typedef struct s_ray		t_ray;
+typedef struct s_vector		t_vector;
+typedef struct s_colision	t_colision;
+typedef struct s_objet		t_objet;
+typedef struct s_polygon	t_polygon;
+
+
+
 
 struct s_mlx
 {
@@ -74,14 +85,6 @@ struct s_line
 {
 	t_point	p1;
 	t_point	p2;
-	int		stroke;
-	int 	color;
-};
-
-struct s_ray
-{
-	t_point	pos;
-	float	dir[2];
 };
 
 struct s_vector
@@ -90,19 +93,44 @@ struct s_vector
 	float	dir[2];
 };
 
+struct s_colision
+{
+	t_point	point;
+	t_line	line;
+	bool	valid;
+};
+
+struct s_polygon
+{
+	t_point	p1;
+	t_point	p2;
+	t_point	p3;
+	t_point	p4;
+	void	*texture;
+	int		color;
+};
+
+struct s_objet
+{
+	t_polygon	polygon;
+	int			type;
+	bool		is_collider;
+};
+
 struct s_player
 {
 	t_point		pos;
 	t_vector	front;
 	t_vector	cam;
-	t_point		*ray_colider;
+	t_colision	*ray_colider;
 };
 
 struct s_cub
 {
 	t_mlx		screen;
-	char		**map;
 	t_player	player;
+	char		**map;
+	t_objet		*objets;
 	t_line		*walls;
 };
 

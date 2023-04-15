@@ -75,14 +75,14 @@ void draw_circle(t_mlx *screen, t_point center, int radius, int color)
     }
 }
 
-void	draw_ray_collider(t_mlx *screen, t_point pos, t_point *coliders)
+void	draw_ray_collider(t_mlx *screen, t_point pos, t_colision *colisions)
 {
-	while (coliders->x != -1)
+	while (colisions->valid)
 	{
 		pos.color = WHITE;
-		coliders->color = ROJO;
-		draw_line(screen, pos, *coliders);
-		coliders++;
+		colisions->point.color = ROJO;
+		draw_line(screen, pos, colisions->point);
+		colisions++;
 	}
 
 }
@@ -172,5 +172,26 @@ void draw_walls(t_mlx *screen,t_line *walls)
 		walls->p2.color = ROJO;
 		draw_line(screen, walls->p1, walls->p2);
 		walls++;
+	}
+}
+
+void draw_polygon(t_mlx *screen, t_polygon *polygon)
+{
+	polygon->p1.color = polygon->color;
+	polygon->p2.color = polygon->color;
+	polygon->p3.color = polygon->color;
+	polygon->p4.color = polygon->color;
+	draw_line(screen, polygon->p1, polygon->p2);
+	draw_line(screen, polygon->p2, polygon->p3);
+	draw_line(screen, polygon->p3, polygon->p4);
+	draw_line(screen, polygon->p4, polygon->p1);
+}
+
+void draw_objets(t_mlx *screen, t_objet *objets)
+{
+	while(objets->type == WALL)
+	{
+		draw_polygon(screen, &objets->polygon);
+		objets++;
 	}
 }

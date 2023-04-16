@@ -97,6 +97,7 @@ struct s_colision
 {
 	t_point	point;
 	t_line	line;
+	float	distance;
 	bool	valid;
 };
 
@@ -131,7 +132,6 @@ struct s_cub
 	t_player	player;
 	char		**map;
 	t_objet		*objets;
-	t_line		*walls;
 };
 
 #endif

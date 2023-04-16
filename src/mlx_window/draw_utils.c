@@ -164,17 +164,6 @@ void clear_screen(t_mlx *screen)
 	}
 }
 
-void draw_walls(t_mlx *screen,t_line *walls)
-{
-	while(walls->p1.x != -1)
-	{
-		walls->p1.color = ROJO;
-		walls->p2.color = ROJO;
-		draw_line(screen, walls->p1, walls->p2);
-		walls++;
-	}
-}
-
 void draw_polygon(t_mlx *screen, t_polygon *polygon)
 {
 	polygon->p1.color = polygon->color;

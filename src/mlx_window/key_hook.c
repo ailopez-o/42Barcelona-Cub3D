@@ -15,7 +15,8 @@ int	terminate_program(void *param);
 
 int	key_press(int key, void *param)
 {
-	t_cub	*cub;
+	t_cub		*cub;
+	t_vector	ortogonal;
 
 	cub = (t_cub *)param;
 	if (key == KEY_ESC)
@@ -26,10 +27,21 @@ int	key_press(int key, void *param)
 		cub->player.front = rotate_vector(cub->player.front, 10);
 	if (key == KEY_RIGHT)
 		cub->player.front = rotate_vector(cub->player.front, -10);
-	if (key == KEY_UP)
+	if (key == KEY_W || key == KEY_UP)
 		cub->player.pos = go_vector(cub->player.pos, cub->player.front, 10);
-	if (key == KEY_DOWN)
+	if (key == KEY_S || key == KEY_DOWN)
 		cub->player.pos = go_vector(cub->player.pos, cub->player.front, -10);
+	if (key == KEY_A)
+	{
+		ortogonal = rotate_vector(cub->player.front, 90);
+		cub->player.pos = go_vector(cub->player.pos, ortogonal, 10);
+	}
+	if (key == KEY_D)
+	{
+		ortogonal = rotate_vector(cub->player.front, -90);
+		cub->player.pos = go_vector(cub->player.pos, ortogonal, 10);
+	}
+	
 	return (EXIT_SUCCESS);
 }
 
@@ -76,11 +88,11 @@ int	render(void *param)
 		num_frames = 0;
 	}
 	clear_screen(&cub->screen);
-	draw_walls(&cub->screen, cub->walls);
+	//free(cub->player.ray_colider);
 	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, 60, cub->objets);
 	draw_player(&cub->screen, cub->player);
-	draw_ray_collider(&cub->screen, cub->player.pos, cub->player.ray_colider);
 	draw_objets(&cub->screen, cub->objets);
+	draw_ray_collider(&cub->screen, cub->player.pos, cub->player.ray_colider);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	num_frames++;

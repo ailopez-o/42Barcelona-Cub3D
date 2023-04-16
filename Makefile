@@ -130,6 +130,7 @@ DARK_YELLOW =	\033[38;5;143m
 
 
 all:
+					@mkdir -p .obj/
 					@$(MAKE) -C $(LIBFT_DIR)
 					@$(MAKE) -C $(MLX_DIR)
 					@$(MAKE) $(NAME)

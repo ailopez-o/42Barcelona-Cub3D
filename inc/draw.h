@@ -5,6 +5,5 @@ void 	clear_screen(t_mlx *screen);
 void	draw_player(t_mlx *screen, t_player player);
 void 	draw_circle(t_mlx *screen, t_point center, int radius, int color);
 void	draw_ray_collider(t_mlx *screen, t_point pos, t_colision *colisions);
-void    draw_walls(t_mlx *screen,t_line *walls);
 void    draw_polygon(t_mlx *screen, t_polygon *polygon);
 void    draw_objets(t_mlx *screen, t_objet *objets);

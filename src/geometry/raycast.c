@@ -20,16 +20,16 @@ t_colision *get_dir_ray_collider(t_point pos, t_vector dir, int wide, t_objet *o
 	ang = 0;
 	num_colision = 0;
 	scan_vector = rotate_vector(dir, - wide/2);
-	ray_colider = malloc(sizeof(t_colision) * (WINX + 1));
+	ray_colider = malloc(sizeof(t_colision) * (WIN2D + 1));
 	while (ang < (float)wide)
 	{
 		colision = get_closest_colision(objets, pos, scan_vector);
 		if (colision.valid)
 			ray_colider[num_colision++] = colision;
-		ang += ((float) wide / WINX);
-		scan_vector = rotate_vector(scan_vector, ((float) wide / WINX));
+		ang += ((float) wide / WIN2D);
+		scan_vector = rotate_vector(scan_vector, ((float) wide / WIN2D));
 	}
-	printf("num_hits %d\n", num_colision);
+	// printf("num_hits %d\n", num_colision);
 	return (ray_colider);
 }
 

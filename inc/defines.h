@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll-pe <bmoll-pe@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/05 11:58:42 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/19 18:58:19 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define WINX 1200
+# define WINX 2400
 # define WINY 800
+# define WIN2D 1200
 
 # define X 0
 # define Y 1
@@ -40,7 +41,7 @@
 # define JAFFA		0xEF8633
 # define SAFFRON	0xF3AF3D
 # define BLACK		0x151515
-
+# define BGCOLOR	0x000000
 
 # define	NULL_OBJET	0
 # define	WALL		1
@@ -58,9 +59,6 @@ typedef struct s_colision	t_colision;
 typedef struct s_objet		t_objet;
 typedef struct s_polygon	t_polygon;
 
-
-
-
 struct s_mlx
 {
 	void	*handler;
@@ -71,7 +69,6 @@ struct s_mlx
 	int		lines;
 	int		endian;	
 };
-
 
 struct s_point
 {

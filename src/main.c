@@ -58,6 +58,17 @@ void hardcoder(t_cub *cub)
 	cub->objets[1].polygon.p4.x = 40;
 	cub->objets[1].polygon.p4.y = 400;
 
+	cub->objets[2].type = WALL;
+	cub->objets[2].polygon.color = SUPERAZUL;
+	cub->objets[2].polygon.p1.x = 1;
+	cub->objets[2].polygon.p1.y = 1;
+	cub->objets[2].polygon.p2.x = 1;
+	cub->objets[2].polygon.p2.y = WINY - 1;
+	cub->objets[2].polygon.p3.x = WIN2D - 1;
+	cub->objets[2].polygon.p3.y = WINY - 1;
+	cub->objets[2].polygon.p4.x = WIN2D - 1;
+	cub->objets[2].polygon.p4.y = 1;
+
 	cub->player.pos.x = 100;
 	cub->player.pos.y = 400;
 	cub->player.pos.color = VERDE;

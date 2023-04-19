@@ -2,9 +2,11 @@
 #include "math.h"
 #include "vectors.h"
 
-int			ft_round(double num);
-int			gradient(int startcolor, int endcolor, int len, int pix);
-void		draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color);
+int		ft_round(double num);
+int		gradient(int startcolor, int endcolor, int len, int pix);
+void	draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color);
+int 	oscurecer_color(int color_hex, int iteraciones);
+float	norm_distancia(int dist);
 
 void	my_pixel_put(t_mlx *screen, t_point pixel)
 {
@@ -55,6 +57,43 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 	}
 }
 
+void	draw_3d_line(t_mlx *screen, t_colision *colision, int iter)
+{
+	t_point start;
+	t_point end;
+
+	start.x = WINX - iter;
+	start.y = (WINY / 2) - ((WINY - colision->distance) / 2);
+	start.color = oscurecer_color(0xE83535, colision->distance);
+	end.x = WINX - iter;
+	end.y = (WINY / 2) + ((WINY - colision->distance) / 2);
+	if (colision->distance > 675)
+		end.y = WINY;
+	end.color = oscurecer_color(0xE83535, colision->distance);
+	printf("START (%f, %f) [%x]; END (%f, %f) [%x] || distance (%f)\n", start.x, start.y, start.color, end.x, end.y, end.color, colision->distance);
+	draw_line(screen, start, end);
+}
+
+// size of new line = size of line (with fish eye) * cos( player angle - ray angle)
+
+void	draw_ray_collider(t_mlx *screen, t_point pos, t_colision *colisions)
+{
+	static int	iter = 0;
+
+	while (colisions->valid)
+	{
+		pos.color = WHITE;
+		colisions->point.color = ROJO;
+		draw_line(screen, pos, colisions->point);
+		if (!(iter % 3))
+			draw_3d_line(screen, colisions, iter);
+		colisions++;
+		iter++;
+		if (iter > WIN2D)
+			iter = 0;
+	}
+
+}
 
 void draw_circle(t_mlx *screen, t_point center, int radius, int color)
 {
@@ -73,18 +112,6 @@ void draw_circle(t_mlx *screen, t_point center, int radius, int color)
             }
         }
     }
-}
-
-void	draw_ray_collider(t_mlx *screen, t_point pos, t_colision *colisions)
-{
-	while (colisions->valid)
-	{
-		pos.color = WHITE;
-		colisions->point.color = ROJO;
-		draw_line(screen, pos, colisions->point);
-		colisions++;
-	}
-
 }
 
 void	draw_player(t_mlx *screen, t_player player)
@@ -183,4 +210,43 @@ void draw_objets(t_mlx *screen, t_objet *objets)
 		draw_polygon(screen, &objets->polygon);
 		objets++;
 	}
+}
+
+int oscurecer_color(int color_hex, int iteraciones)
+{
+	if (iteraciones > 675)
+		return (BGCOLOR);
+    int r = (color_hex >> 16) & 0xFF;
+    int g = (color_hex >> 8) & 0xFF;
+    int b = color_hex & 0xFF;
+
+    // Escalar el número de iteraciones de 0-300
+    float escala = (float)iteraciones / 900.0;
+    if (escala > 1.0) escala = 1.0;
+
+    // Calcular el decremento en función de la escala
+    int decremento = (int)(escala * 255.0);
+
+    r -= decremento;
+    g -= decremento;
+    b -= decremento;
+
+    // Si la escala es mayor que 1, establecer el color a negro
+    if (escala >= 1.0) {
+        r = 0;
+        g = 0;
+        b = 0;
+    }
+
+    // Asegurarse de que los componentes RGB no sean menores que 0
+    r = (r < 0) ? 0 : r;
+    g = (g < 0) ? 0 : g;
+    b = (b < 0) ? 0 : b;
+    
+    return (r << 16) | (g << 8) | b;
+}
+
+float	norm_distancia(int dist)
+{
+	return (dist / 675);
 }

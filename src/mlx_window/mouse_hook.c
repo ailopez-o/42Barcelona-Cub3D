@@ -48,6 +48,7 @@ int	mouse_move(int x, int y, void *param)
 	vector.dir[X] = x - cub->player.pos.x;
 	vector.dir[Y] = WINY - y - cub->player.pos.y;
 	cub->player.cam = normalize_vector(vector);
+	cub->player.front = normalize_vector(vector);
 	return (EXIT_SUCCESS);
 }
 

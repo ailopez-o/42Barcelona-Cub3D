@@ -33,6 +33,22 @@ t_point go_vector(t_point init, t_vector vector, int steps)
 	return (new_point);
 }
 
+/**
+ * normalize_vector - normalizes a vector
+ *
+ * This function normalizes a given vector by dividing its direction
+ * components by the largest component. This ensures that the magnitude
+ * of the vector is equal to 1, and therefore the vector represents
+ * only the direction of the original vector. The function returns
+ * the normalized vector.
+ *
+ * @vector: the vector to be normalized
+ *
+ * Return: the normalized vector
+ */
+
+
+
 t_vector normalize_vector(t_vector vector)
 {
 	float 	factor;
@@ -51,6 +67,7 @@ t_vector normalize_vector(t_vector vector)
 	vector.dir[Y] = vector.dir[Y]/factor;
 	return (vector);
 }
+
 
 t_line vector_to_line(t_vector vector, t_point pos, int steps)
 {

@@ -1,6 +1,6 @@
 #include "defines.h"
+#include "geometry.h"
 #include <math.h>
-#include "vectors.h"
 
 
 t_colision	get_colision(t_line wall, t_point pos, t_vector ray_vect);

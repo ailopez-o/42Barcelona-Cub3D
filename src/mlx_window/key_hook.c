@@ -23,10 +23,10 @@ int	key_press(int key, void *param)
 		terminate_program(cub);	
 	if (key == KEY_C)
 		clear_screen(&cub->screen);
-	if (key == KEY_LEFT)
-		cub->player.front = rotate_vector(cub->player.front, 10);
-	if (key == KEY_RIGHT)
-		cub->player.front = rotate_vector(cub->player.front, -10);
+	// if (key == KEY_LEFT)
+	// 	cub->player.front = rotate_vector(cub->player.front, 10);
+	// if (key == KEY_RIGHT)
+	// 	cub->player.front = rotate_vector(cub->player.front, -10);
 	if (key == KEY_W || key == KEY_UP)
 		cub->player.pos = go_vector(cub->player.pos, cub->player.front, 10);
 	if (key == KEY_S || key == KEY_DOWN)
@@ -83,8 +83,8 @@ int	render(void *param)
 	if (current_time != last_time)
 	{
 		last_time = (time.tv_sec * 1000);
-		ft_putstr_fd("\rFPS >> ", 1);
-		ft_putnbr_fd(num_frames, 1);
+		// ft_putstr_fd("\rFPS >> ", 1);
+		// ft_putnbr_fd(num_frames, 1);
 		num_frames = 0;
 	}
 	clear_screen(&cub->screen);
@@ -92,7 +92,7 @@ int	render(void *param)
 	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, 60, cub->objets);
 	draw_player(&cub->screen, cub->player);
 	draw_objets(&cub->screen, cub->objets);
-	draw_ray_collider(&cub->screen, cub->player.pos, cub->player.ray_colider);
+	draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	num_frames++;

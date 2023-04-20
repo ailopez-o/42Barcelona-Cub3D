@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vectors.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/19 22:20:44 by bmoll-pe          #+#    #+#             */
+/*   Updated: 2023/04/19 23:54:11 by bmoll-pe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
-#include "math.h"
-
-
+#include <math.h>
 
 t_vector rotate_vector(t_vector vector, float ang)
 {
@@ -52,3 +62,29 @@ t_line vector_to_line(t_vector vector, t_point pos, int steps)
 	return (line);
 }
 
+float vector_to_angle(t_vector vector)
+{
+	double	angulo;
+
+	angulo = atan2(vector.dir[Y], vector.dir[X]) * 180 / M_PI;
+	if (angulo < 0) {
+		angulo += 360;
+	}
+	return angulo;
+}
+
+t_vector get_unit_vector(t_point p1, t_point p2)
+{
+    t_point		point;
+    t_vector	vect;
+    float		magnitude;
+
+	// printf("puntos: (%f, %f) y (%f, %f)\n", p1.x, p1.y, p2.x, p2.y);
+    point.x = p2.x - p1.x;
+    point.y = p2.y - p1.y;
+    magnitude = sqrt(point.x * point.x + point.y * point.y);
+    vect.dir[X] = point.x / magnitude;
+    vect.dir[Y] = point.y / magnitude;
+	// printf("vector: (%f, %f)\n", vect.dir[X], vect.dir[Y]);
+    return (vect);
+}

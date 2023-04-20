@@ -6,7 +6,7 @@
 /*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/19 18:58:19 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:25:03 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 
 # define X 0
 # define Y 1
-
 
 # define ROJO 		0xc1272d
 # define VERDE		0x33cc55
@@ -94,6 +93,7 @@ struct s_colision
 {
 	t_point	point;
 	t_line	line;
+	float	angle;
 	float	distance;
 	bool	valid;
 };

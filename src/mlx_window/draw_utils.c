@@ -1,12 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/19 22:20:48 by bmoll-pe          #+#    #+#             */
+/*   Updated: 2023/04/20 01:50:47 by bmoll-pe         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
-#include "math.h"
+#include <math.h>
 #include "vectors.h"
 
-int		ft_round(double num);
-int		gradient(int startcolor, int endcolor, int len, int pix);
-void	draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color);
-int 	oscurecer_color(int color_hex, int iteraciones);
-float	norm_distancia(int dist);
+int			ft_round(double num);
+int			gradient(int startcolor, int endcolor, int len, int pix);
+void		draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color);
+int 		oscurecer_color(int color_hex, int iteraciones);
+float		norm_distancia(int dist);
+float		vector_to_angle(t_vector vector);
+t_vector	get_unit_vector(t_point p1, t_point p2);
 
 void	my_pixel_put(t_mlx *screen, t_point pixel)
 {
@@ -57,26 +71,42 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 	}
 }
 
-void	draw_3d_line(t_mlx *screen, t_colision *colision, int iter)
+void	draw_3d_line(t_mlx *screen, t_player play, t_colision *colision, int iter)
 {
-	t_point start;
-	t_point end;
+	t_point		start;
+	t_point		end;
+	t_vector	vector_ray = get_unit_vector(play.pos, colision->point);
+	t_vector	vector_playr = play.front;
+	float		angulo_player = vector_to_angle(play.front);
+	float		angulo_ray = vector_to_angle(vector_ray);
+	float		line_size = ((WINY / colision->distance * 50) / 2);
+	float		new_distance;
+	
+	
+	int line_height = (int)(WINY / (colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) * 100);
 
+
+	if (iter == 0)
+		printf("\rangulo ply: %f, ang ray %f, diferencia %f, lo que necesitamos : a = cos(ß) * h = %f * %f = %f", angulo_player, angulo_ray, angulo_player - angulo_ray, cos((angulo_player - angulo_ray) * M_PI / 180), colision->distance, cos((angulo_player - angulo_ray) * M_PI / 180) * colision->distance);
 	start.x = WINX - iter;
-	start.y = (WINY / 2) - ((WINY - colision->distance) / 2);
+	start.y = (-line_height / 2 + WINY / 2);
+	// start.y = WINY / 2 - ((colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) / 2);
 	start.color = oscurecer_color(0xE83535, colision->distance);
 	end.x = WINX - iter;
-	end.y = (WINY / 2) + ((WINY - colision->distance) / 2);
-	if (colision->distance > 675)
+	end.y = (line_height / 2 + WINY / 2);
+	// end.y = WINY / 2 + ((colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) / 2);
+	if (colision->distance > 900)
 		end.y = WINY;
 	end.color = oscurecer_color(0xE83535, colision->distance);
-	printf("START (%f, %f) [%x]; END (%f, %f) [%x] || distance (%f)\n", start.x, start.y, start.color, end.x, end.y, end.color, colision->distance);
+
+
+
 	draw_line(screen, start, end);
 }
 
-// size of new line = size of line (with fish eye) * cos( player angle - ray angle)
 
-void	draw_ray_collider(t_mlx *screen, t_point pos, t_colision *colisions)
+
+void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions)
 {
 	static int	iter = 0;
 
@@ -85,8 +115,7 @@ void	draw_ray_collider(t_mlx *screen, t_point pos, t_colision *colisions)
 		pos.color = WHITE;
 		colisions->point.color = ROJO;
 		draw_line(screen, pos, colisions->point);
-		if (!(iter % 3))
-			draw_3d_line(screen, colisions, iter);
+		draw_3d_line(screen, cub->player, colisions, iter);
 		colisions++;
 		iter++;
 		if (iter > WIN2D)
@@ -214,14 +243,14 @@ void draw_objets(t_mlx *screen, t_objet *objets)
 
 int oscurecer_color(int color_hex, int iteraciones)
 {
-	if (iteraciones > 675)
+	if (iteraciones > 900)
 		return (BGCOLOR);
     int r = (color_hex >> 16) & 0xFF;
     int g = (color_hex >> 8) & 0xFF;
     int b = color_hex & 0xFF;
 
     // Escalar el número de iteraciones de 0-300
-    float escala = (float)iteraciones / 900.0;
+    float escala = (float)iteraciones / 920.0;
     if (escala > 1.0) escala = 1.0;
 
     // Calcular el decremento en función de la escala
@@ -249,4 +278,15 @@ int oscurecer_color(int color_hex, int iteraciones)
 float	norm_distancia(int dist)
 {
 	return (dist / 675);
+}
+
+float angle_between_lines(t_line l1, t_line l2)
+{
+    t_point v1 = {l1.p2.x - l1.p1.x, l1.p2.y - l1.p1.y};
+    t_point v2 = {l2.p2.x - l2.p1.x, l2.p2.y - l2.p1.y};
+    float dot_product = v1.x*v2.x + v1.y*v2.y;
+    float magnitude_v1 = sqrt(pow(v1.x, 2) + pow(v1.y, 2));
+    float magnitude_v2 = sqrt(pow(v2.x, 2) + pow(v2.y, 2));
+    float angle = acos(dot_product / (magnitude_v1 * magnitude_v2));
+    return angle;
 }

@@ -56,7 +56,7 @@ void hardcoder(t_cub *cub)
 	cub->objets[1].polygon.p3.x = 620;
 	cub->objets[1].polygon.p3.y = 700;
 	cub->objets[1].polygon.p4.x = 40;
-	cub->objets[1].polygon.p4.y = 400;
+	cub->objets[1].polygon.p4.y = 700;
 
 	cub->objets[2].type = WALL;
 	cub->objets[2].polygon.color = SUPERAZUL;

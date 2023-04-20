@@ -50,8 +50,15 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 	int		pixels;
 	int		len;
 
-	// if (valid_pixel(start) == 0 && valid_pixel(end) == 0)
-	// 	return (0);
+	if (start.y < 0)
+		start.y = 0;
+	if (start.y > WINY)
+		start.y = WINY;
+	if (end.y < 0)
+		end.y = 0;
+	if (end.y > WINY)
+		end.y = WINY;
+
 	delta.x = end.x - start.x;
 	delta.y = end.y - start.y;
 	pixels = sqrt((delta.x * delta.x) + \

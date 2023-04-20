@@ -20,9 +20,9 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define WINX 2400
-# define WINY 1000
 # define WIN2D 1200
+# define WINY 800
+# define WINX WIN2D * 2
 
 # define X 0
 # define Y 1

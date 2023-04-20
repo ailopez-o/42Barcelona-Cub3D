@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll-pe <bmoll-pe@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/05 11:58:42 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/19 22:25:03 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 # include <stdio.h>
 # include <stddef.h>
 # include <stdlib.h>
+# include <math.h>
 # include "keycodes.h"
 # include "libft.h"
 
-# define WINX 1200
+# define WIN2D 1200
 # define WINY 800
+# define WINX WIN2D * 2
 
 # define X 0
 # define Y 1
-
 
 # define ROJO 		0xc1272d
 # define VERDE		0x33cc55
@@ -40,15 +41,25 @@
 # define JAFFA		0xEF8633
 # define SAFFRON	0xF3AF3D
 # define BLACK		0x151515
+# define BGCOLOR	0x000000
 
+# define	NULL_OBJET	0
+# define	WALL		1
+# define	DOOR		2
+# define	SPRITE		3
 
-typedef struct s_cub	t_cub;
-typedef struct s_mlx	t_mlx;
-typedef struct s_point	t_point;
-typedef struct s_line	t_line;
-typedef struct s_player	t_player;
-typedef struct s_ray	t_ray;
-typedef struct s_vector	t_vector;
+# define 	FOV		60
+
+typedef struct s_cub		t_cub;
+typedef struct s_mlx		t_mlx;
+typedef struct s_point		t_point;
+typedef struct s_line		t_line;
+typedef struct s_player		t_player;
+typedef struct s_ray		t_ray;
+typedef struct s_vector		t_vector;
+typedef struct s_colision	t_colision;
+typedef struct s_objet		t_objet;
+typedef struct s_polygon	t_polygon;
 
 struct s_mlx
 {
@@ -60,7 +71,6 @@ struct s_mlx
 	int		lines;
 	int		endian;	
 };
-
 
 struct s_point
 {
@@ -74,14 +84,6 @@ struct s_line
 {
 	t_point	p1;
 	t_point	p2;
-	int		stroke;
-	int 	color;
-};
-
-struct s_ray
-{
-	t_point	pos;
-	float	dir[2];
 };
 
 struct s_vector
@@ -90,19 +92,46 @@ struct s_vector
 	float	dir[2];
 };
 
+struct s_colision
+{
+	t_point	point;
+	t_line	line;
+	float	angle;
+	float	distance;
+	bool	valid;
+};
+
+struct s_polygon
+{
+	t_point	p1;
+	t_point	p2;
+	t_point	p3;
+	t_point	p4;
+	void	*texture;
+	int		color;
+};
+
+struct s_objet
+{
+	t_polygon	polygon;
+	int			type;
+	bool		is_collider;
+};
+
 struct s_player
 {
 	t_point		pos;
 	t_vector	front;
 	t_vector	cam;
+	t_colision	*ray_colider;
 };
 
 struct s_cub
 {
 	t_mlx		screen;
-	char		**map;
 	t_player	player;
-	t_line		*walls;
+	char		**map;
+	t_objet		*objets;
 };
 
 #endif

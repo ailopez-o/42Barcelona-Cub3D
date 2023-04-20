@@ -3,192 +3,142 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bmoll-pe <bmoll-pe@student.42barcelona.    +#+  +:+       +#+         #
+#    By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/10/25 18:00:24 by bmoll-pe          #+#    #+#              #
-#    Updated: 2023/04/07 19:31:33 by bmoll-pe         ###   ########.fr        #
+#    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
+#    Updated: 2023/04/14 20:50:26 by bmoll            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-################################################################################
-# Project Variables
-################################################################################
+#	----------------------------------------	NAMES
 
 # Name value
-NAME =			cub3D
+NAME =		cub3D
 
 # Makefile file
-MKF =			Makefile
+MKF =		Makefile
 
-################################################################################
-# Compiler & Flags
-################################################################################
+#	----------------------------------------	FILES
 
-# Variable to compile .c files
-GCC =			gcc
+# All files into src/
+FILES =		main.c \
+			startup/init.c \
+			startup/parser.c \
+			mlx_window/hooks.c \
+			mlx_window/key_events.c \
+			mlx_window/mouse_events.c \
+			mlx_window/window_init.c \
+			geometry/vectors.c \
+			geometry/raycast.c \
+			geometry/utils.c \
+			drawers/basics.c \
+			drawers/utils.c \
+			drawers/render.c \
 
-# Flags for the gcc compilation
-FLAGS =			-g
-# FLAGS =			-Wall -Werror -Wextra -MMD -MP
-
-MINILIBXCC :=	-I mlx -L $(MLX_DIR) -lmlx
-
-OPENGL :=		-framework OpenGL -framework AppKit
-
-################################################################################
-# Root Folders
-################################################################################
-
+# Root folders
 SRC_ROOT := src/
 DEP_ROOT := .dep/
 OBJ_ROOT := .obj/
-INC_ROOT := inc/
 LIB_ROOT := lib/
 
-################################################################################
-# Content Folders
-################################################################################
-
-# List of folders with header files.Each folder needs to end with a '/'. The
-# path to the folders is relative to the root of the makefile. Library includes
-# can be specified here.
-
-INC_DIRS += ${INC_ROOT}
+# Objects and dependencies defines
+SRC 	:=	$(addprefix $(SRC_ROOT), $(FILES))
+OBJS 	:=	$(addprefix $(OBJ_ROOT), $(FILES:.c=.o))
+DEPS 	:=	$(addprefix $(DEP_ROOT), $(FILES:.c=.d))
+INCS 	:=	$(addprefix -I, $(INC_DIRS))
 
 
+#	----------------------------------------	HEADERS DIR
 
-################################################################################
-# Libraries
-################################################################################
+# Header of LIBFT
+DIR_LIBFT =	lib/libft
+
+# Headers of mlx
+DIR_MLX =	lib/mlx
+
+# Headers of project
+DIR_HEDS =	inc/
 
 
-# Makefile LIBFT
-LIBFT_DIR =		${LIB_ROOT}libft/
-INC_DIRS += 	${LIBFT_DIR}
+#	----------------------------------------	LIBRARIES
 
 # LIBFT libraries
-LIBFT =			${LIBFT_DIR}libft.a
+LIBFT =		lib/libft/libft.a
 
-# Makefile mlx
-MLX_DIR =		${LIB_ROOT}mlx/
-INC_DIRS += 	${MLX_DIR}
+# Makefile LIBFT
+LIBFT_DIR =	lib/libft
 
 # Mlx libraries
-MLX =		${MLX_DIR}libmlx.a
+MLX =		lib/mlx/libmlx.a
 
-################################################################################
-# Files
-################################################################################
+# Makefile mlx
+MLX_DIR =	lib/mlx
 
-FILES =		src/mlx_window/key_hook.c \
-			src/mlx_window/mouse_hook.c \
-			src/mlx_window/draw_utils.c \
-			src/geometry/vectors.c \
-			src/main.c
 
-#	----------------------------------------	INLCUDES
+#	----------------------------------------	COMPILATION
 
-INCS 	:= $(addprefix -I, $(INC_DIRS))
+# Variable to compile .c files
+GCC =		gcc
 
-#	----------------------------------------	OBJECTS
+# Flags for the gcc compilation
+FLAGS =		-MMD -MP
+# FLAGS =		-Wall -Werror -Wextra -MMD -MP
 
-OBJS 	:= $(addprefix $(OBJ_ROOT), $(notdir $(FILES:.c=.o)))
+MINILIBXCC := -I mlx -L $(DIR_MLX) -lmlx
 
-#	----------------------------------------	DEPENDENCIES
+OPENGL :=	-framework OpenGL -framework AppKit
 
-DEPS 	:= $(addprefix $(OBJ_ROOT), $(notdir $(FILES:.c=.d)))
+# Address sanitizing flags
+ASAN :=	-fsanitize=address -fsanitize-recover=address
+ASAN +=	-fno-omit-frame-pointer -fno-common
+ASAN +=	-fsanitize=pointer-subtract -fsanitize=pointer-compare
 
-################################################################################
-# Colors
-################################################################################
 
-# Colors
-DEL_LINE =		\033[2K
-ITALIC =		\033[3m
-BOLD =			\033[1m
-DEF_COLOR =		\033[0;39m
-GRAY =			\033[0;90m
-RED =			\033[0;91m
-GREEN =			\033[0;92m
-YELLOW =		\033[0;93m
-BLUE =			\033[0;94m
-MAGENTA =		\033[0;95m
-CYAN =			\033[0;96m
-WHITE =			\033[0;97m
-BLACK =			\033[0;99m
-ORANGE =		\033[38;5;209m
-BROWN =			\033[38;2;184;143;29m
-DARK_GRAY =		\033[38;5;234m
-MID_GRAY =		\033[38;5;245m
-DARK_GREEN =	\033[38;2;75;179;82m
-DARK_YELLOW =	\033[38;5;143m
-
-################################################################################
-# Project Target
-################################################################################
-
+#	----------------------------------------	RULES
 
 all:
-					@$(MAKE) -C $(LIBFT_DIR)
-					@$(MAKE) -C $(MLX_DIR)
-					@$(MAKE) $(NAME)
+		@$(MAKE) -C $(LIBFT_DIR)
+		@$(MAKE) -C $(MLX_DIR)
+		@$(MAKE) $(NAME)
 
 clean:
-					@rm -f $(DEPS)
-					@rm -f $(OBJS)
-					@printf "All cub3d objects removed\n"
+		@rm -rf $(DEP_ROOT) $(DEP_ROOT)
+		@printf "All cub3d objects removed\n"
 
 fclean:
-					@rm -f $(DEPS)
-					@rm -f $(OBJS)
-					@rm -f $(NAME)					
-					@printf "All cub3d files $(RED)removed\n$(DEF_COLOR)"
+		@rm -rf $(DEP_ROOT) $(DEP_ROOT)
+		@rm -f $(NAME)
+		@printf "All cub3d files removed\n"
 
 fcleanall:
-					@$(MAKE) fclean -C $(LIBFT_DIR)
-					@printf "All libft files $(RED)removed\n$(DEF_COLOR)"
-					@$(MAKE) clean -C $(MLX_DIR)
-					@printf "All mlx files $(RED)removed\n$(DEF_COLOR)"
-					@$(MAKE) fclean
+		@$(MAKE) fclean -C $(LIBFT_DIR)
+		@$(MAKE) clean -C $(MLX_DIR)
+		@printf "All libft files removed\n"
+		@printf "All mlx files removed\n"
+		@$(MAKE) fclean
 
 re:
-					@$(MAKE) fclean
-					@$(MAKE) all
+		@$(MAKE) fclean
+		@$(MAKE) all
 
 reall:
-					@$(MAKE) fcleanall
-					@$(MAKE) all
+		@$(MAKE) fcleanall
+		@$(MAKE) all
 
-test:
-		echo $(OBJS)
-
-
-$(NAME) ::			$(OBJS)
-					@printf "$(DEL_LINE)\r Compiling $@"
-					@$(GCC) $(FLAGS) $^ $(LIBFT) $(MLX) $(OPENGL) -o $@
+$(NAME) :: $(OBJS)
+		@printf "$(DEL_LINE)\r Compiling $@"
+		@$(GCC) $(FLAGS) $^ $(LIBFT) $(MINILIBXCC) $(OPENGL) -o $@
 
 $(NAME) ::
-					@printf "$(DEL_LINE)\r$(BOLD)$(DARK_GREEN)CUB3D COMPILED ✅$(DEF_COLOR)\n"
+		@printf "$(DEL_LINE)\rCUB3D COMPILED ✅$(DEF_COLOR)\n"
+
+$(OBJ_ROOT)%.o : $(SRC_ROOT)%.c $(MKF) $(LIBFT) $(MKF)
+		@mkdir -p $(dir $@) $(dir $(subst $(OBJ_ROOT), $(DEP_ROOT), $@))
+		@printf "$(DEF_COLOR)[CUB3D] compiling: $< \n"
+		@$(GCC) $(FLAGS) -I $(DIR_HEDS) -I $(LIBFT_DIR) -I $(DIR_MLX) -c $< -o $@
+		@mv $(patsubst %.o, %.d, $@) $(dir $(subst $(OBJ_ROOT), $(DEP_ROOT), $@))
 
 
-$(OBJ_ROOT):
-		@mkdir -p -m700 $@
-$(DEP_ROOT):
-		@mkdir -p -m700 $@
-
-$(OBJ_ROOT)%.o:$(SRC_ROOT)mlx_window/%.c $(LIBFT) $(MKF)
-		@$(GCC) $(FLAGS) $(INCS) -c $< -o $(OBJ_ROOT)$(notdir $@)
-		@echo "▶ Compiled Cube3D file: <$(notdir $<)>"
-
-$(OBJ_ROOT)%.o:$(SRC_ROOT)geometry/%.c $(LIBFT) $(MKF)
-		@$(GCC) $(FLAGS) $(INCS) -c $< -o $(OBJ_ROOT)$(notdir $@)
-		@echo "▶ Compiled Cube3D file: <$(notdir $<)>"
-
-$(OBJ_ROOT)%.o:$(SRC_ROOT)%.c $(LIBFT) $(MKF)
-		@$(GCC) $(FLAGS) $(INCS) -c $< -o $(OBJ_ROOT)$(notdir $@)
-		@echo "▶ Compiled Cube3D file: <$(notdir $<)>"
-
-# Include the deps when compile
 -include $(DEPS)
 
-.PHONY:			all update clean fclean re reall
+.PHONY:	all bonus update clean fclean re

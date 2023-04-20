@@ -93,8 +93,8 @@ void	draw_3d_line(t_mlx *screen, t_player play, t_colision *colision, int iter)
 	int line_height = (int)(WINY / (colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) * 100);
 
 
-	if (iter == 0)
-		printf("\rangulo ply: %f, ang ray %f, diferencia %f, lo que necesitamos : a = cos(ß) * h = %f * %f = %f", angulo_player, angulo_ray, angulo_player - angulo_ray, cos((angulo_player - angulo_ray) * M_PI / 180), colision->distance, cos((angulo_player - angulo_ray) * M_PI / 180) * colision->distance);
+	// if (iter == 0)
+	// 	printf("\rangulo ply: %f, ang ray %f, diferencia %f, lo que necesitamos : a = cos(ß) * h = %f * %f = %f", angulo_player, angulo_ray, angulo_player - angulo_ray, cos((angulo_player - angulo_ray) * M_PI / 180), colision->distance, cos((angulo_player - angulo_ray) * M_PI / 180) * colision->distance);
 	start.x = WINX - iter;
 	start.y = (-line_height / 2 + WINY / 2);
 	// start.y = WINY / 2 - ((colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) / 2);

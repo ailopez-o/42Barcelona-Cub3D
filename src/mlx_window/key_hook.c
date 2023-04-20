@@ -89,13 +89,13 @@ int	render(void *param)
 	if (current_time != last_time)
 	{
 		last_time = (time.tv_sec * 1000);
-		// ft_putstr_fd("\rFPS >> ", 1);
-		// ft_putnbr_fd(num_frames, 1);
+		ft_putstr_fd("\rFPS >> ", 1);
+		ft_putnbr_fd(num_frames, 1);
 		num_frames = 0;
 	}
 	clear_screen(&cub->screen);
 	//free(cub->player.ray_colider);
-	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, 60, cub->objets);
+	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, FOV, cub->objets);
 	draw_player(&cub->screen, cub->player);
 	draw_objets(&cub->screen, cub->objets);
 	draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);

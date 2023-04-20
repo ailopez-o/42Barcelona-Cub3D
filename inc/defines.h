@@ -21,7 +21,7 @@
 # include "libft.h"
 
 # define WINX 2400
-# define WINY 800
+# define WINY 1000
 # define WIN2D 1200
 
 # define X 0
@@ -46,6 +46,8 @@
 # define	WALL		1
 # define	DOOR		2
 # define	SPRITE		3
+
+# define 	FOV		60
 
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;

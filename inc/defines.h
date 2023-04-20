@@ -21,9 +21,10 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define WIN2D 1200
-# define WINY 800
+# define WIN2D 		1000
+# define WINY 		800
 # define WINX WIN2D * 2
+# define FOV		60
 
 # define X 0
 # define Y 1
@@ -48,7 +49,6 @@
 # define	DOOR		2
 # define	SPRITE		3
 
-# define 	FOV		60
 
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;

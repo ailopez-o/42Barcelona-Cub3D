@@ -91,8 +91,8 @@ void	render_3D(t_mlx *screen, t_player play, t_colision *colision)
 		draw_line(screen, start, end);
 		colision++;
 		iter++;
-		if (iter > WIN2D)
-			iter = 0;
+		// if (iter > WIN2D)
+		// 	iter = 0;
 	}
 }
 

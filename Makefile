@@ -6,7 +6,7 @@
 #    By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/04/14 20:50:26 by bmoll            ###   ########.fr        #
+#    Updated: 2023/04/20 17:06:35 by ailopez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,19 @@ NAME =		cub3D
 
 # Makefile file
 MKF =		Makefile
+MAKE = 		make --no-print-directory
+
+#	----------------------------------------	COLORS
+
+DEF_COLOR = \033[0;39m
+GRAY = \033[0;90m
+RED = \033[0;91m
+GREEN = \033[0;92m
+YELLOW = \033[0;93m
+BLUE = \033[0;94m
+MAGENTA = \033[0;95m
+CYAN = \033[0;96m
+WHITE = \033[0;97m
 
 #	----------------------------------------	FILES
 
@@ -97,24 +110,24 @@ ASAN +=	-fsanitize=pointer-subtract -fsanitize=pointer-compare
 #	----------------------------------------	RULES
 
 all:
-		@$(MAKE) -C $(LIBFT_DIR)
-		@$(MAKE) -C $(MLX_DIR)
+		@$(MAKE) -sC $(LIBFT_DIR)
+		@$(MAKE) -sC $(MLX_DIR)
 		@$(MAKE) $(NAME)
 
 clean:
-		@rm -rf $(DEP_ROOT) $(DEP_ROOT)
-		@printf "All cub3d objects removed\n"
+		@rm -rf $(DEP_ROOT) $(OBJ_ROOT)
+		@printf "$(RED)All cub3d objects removed\n$(DEF_COLOR)"
 
 fclean:
-		@rm -rf $(DEP_ROOT) $(DEP_ROOT)
+		@rm -rf $(DEP_ROOT) $(OBJ_ROOT)
 		@rm -f $(NAME)
-		@printf "All cub3d files removed\n"
+		@printf "$(RED)All cub3d files removed\n$(DEF_COLOR)"
 
 fcleanall:
-		@$(MAKE) fclean -C $(LIBFT_DIR)
-		@$(MAKE) clean -C $(MLX_DIR)
-		@printf "All libft files removed\n"
-		@printf "All mlx files removed\n"
+		@$(MAKE) fclean -sC $(LIBFT_DIR)
+		@printf "$(RED)All libft files removed\n$(DEF_COLOR)"
+		@$(MAKE) clean -sC $(MLX_DIR)
+		@printf "$(RED)All mlx files removed\n$(DEF_COLOR)"
 		@$(MAKE) fclean
 
 re:
@@ -130,7 +143,7 @@ $(NAME) :: $(OBJS)
 		@$(GCC) $(FLAGS) $^ $(LIBFT) $(MINILIBXCC) $(OPENGL) -o $@
 
 $(NAME) ::
-		@printf "$(DEL_LINE)\rCUB3D COMPILED ✅$(DEF_COLOR)\n"
+		@printf "$(DEL_LINE)$(GREEN)\rCUB3D COMPILED ✅$(DEF_COLOR)\n"
 
 $(OBJ_ROOT)%.o : $(SRC_ROOT)%.c $(MKF) $(LIBFT) $(MKF)
 		@mkdir -p $(dir $@) $(dir $(subst $(OBJ_ROOT), $(DEP_ROOT), $@))

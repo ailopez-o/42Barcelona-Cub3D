@@ -30,6 +30,7 @@
 # define Y 1
 
 # define ROJO 		0xc1272d
+# define DARK_RED	0x7d1e21
 # define VERDE		0x33cc55
 # define FUCSIA 	0xff255c
 # define AZUL		0x1B8EFA

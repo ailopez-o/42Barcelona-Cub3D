@@ -76,23 +76,19 @@ void	render_3D(t_mlx *screen, t_player play, t_colision *colision)
 		vector_ray = get_unit_vector(play.pos, colision->point),
 		angulo_ray = vector_to_angle(vector_ray);
 		line_height = (int)(WINY / (colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) * 100);
-		// if (iter == 0)
-		// 	printf("\rangulo ply: %f, ang ray %f, diferencia %f, lo que necesitamos : a = cos(ß) * h = %f * %f = %f", angulo_player, angulo_ray, angulo_player - angulo_ray, cos((angulo_player - angulo_ray) * M_PI / 180), colision->distance, cos((angulo_player - angulo_ray) * M_PI / 180) * colision->distance);
 		start.x = WINX - iter;
 		start.y = (-line_height / 2 + WINY / 2);
-		// start.y = WINY / 2 - ((colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) / 2);
-		start.color = color_fade(0xE83535, colision->distance);
+		start.color = color_fade(ROJO, colision->distance);
+		if (is_horizontal(colision->line))
+			start.color = color_fade(DARK_RED, colision->distance);
 		end.x = WINX - iter;
 		end.y = (line_height / 2 + WINY / 2);
-		// end.y = WINY / 2 + ((colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) / 2);
 		if (colision->distance > 900)
 			end.y = WINY;
-		end.color = color_fade(0xE83535, colision->distance);
+		end.color = start.color;
 		draw_line(screen, start, end);
 		colision++;
 		iter++;
-		// if (iter > WIN2D)
-		// 	iter = 0;
 	}
 }
 

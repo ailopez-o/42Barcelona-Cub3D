@@ -47,6 +47,7 @@ FILES =		main.c \
 			drawers/basics.c \
 			drawers/utils.c \
 			drawers/render.c \
+			parser/gnl.c \
 
 # Root folders
 SRC_ROOT := src/

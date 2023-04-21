@@ -49,6 +49,11 @@
 # define	DOOR		2
 # define	SPRITE		3
 
+#define		NO
+#define		SO
+#define		WE
+#define		EA
+
 
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;
@@ -60,6 +65,9 @@ typedef struct s_vector		t_vector;
 typedef struct s_colision	t_colision;
 typedef struct s_objet		t_objet;
 typedef struct s_polygon	t_polygon;
+typedef struct s_map		t_map;
+typedef struct s_texture	t_texture;
+
 
 struct s_mlx
 {
@@ -82,13 +90,13 @@ struct s_point
 
 struct s_line
 {
-	t_point	p1;
-	t_point	p2;
+	t_point		p1;
+	t_point		p2;
+	t_texture	*texture;
 };
 
 struct s_vector
 {
-	t_point	*pos;
 	float	dir[2];
 };
 
@@ -126,12 +134,27 @@ struct s_player
 	t_colision	*ray_colider;
 };
 
+struct s_texture
+{
+	char	**data;
+	char	*path;
+};
+
+
+struct s_map
+{	
+	t_objet		*objets;
+	t_texture	*textures;
+	char		**map;
+	int			bottom_color;
+	int			top_color;
+};
+
 struct s_cub
 {
 	t_mlx		screen;
 	t_player	player;
-	char		**map;
-	t_objet		*objets;
+	t_map		map;
 };
 
 #endif

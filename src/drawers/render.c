@@ -44,7 +44,7 @@ int	render(void *param)
 	draw_player(&cub->screen, cub->player);
 	draw_objets(&cub->screen, cub->map.objets);
 	render_3D(&cub->screen, cub->player, cub->player.ray_colider);
-	draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
+	// draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	num_frames++;

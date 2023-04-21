@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   vectors.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:44 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/19 23:54:11 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/21 21:30:03 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 #include <math.h>
+
+#define PLYCOLLIDE 8
+
+t_colision get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect);
 
 t_vector rotate_vector(t_vector vector, float ang)
 {
@@ -33,6 +37,30 @@ t_point go_vector(t_point init, t_vector vector, int steps)
 	return (new_point);
 }
 
+t_point move_player_vector(t_cub *cub, t_vector vector, int steps)
+{
+	uint16_t	iter;
+	t_point		new_point;
+	t_colision	colision;
+	int			value;
+
+	colision = get_closest_colision(cub->map.objets, cub->player.pos, vector);
+	iter = 0;
+	new_point.x = cub->player.pos.x;
+	new_point.y = cub->player.pos.y;
+	while (iter <= steps)
+	{
+		value = new_point.x + vector.dir[X];
+		if (fabs(value - colision.point.x) > PLYCOLLIDE)
+			new_point.x += vector.dir[X];
+		value = new_point.y + vector.dir[Y];
+		if (fabs(value - colision.point.y) > PLYCOLLIDE)
+			new_point.y += vector.dir[Y];
+		iter++;
+	}
+	return (new_point);
+}
+
 /**
  * normalize_vector - normalizes a vector
  *
@@ -46,8 +74,6 @@ t_point go_vector(t_point init, t_vector vector, int steps)
  *
  * Return: the normalized vector
  */
-
-
 
 t_vector normalize_vector(t_vector vector)
 {
@@ -96,12 +122,10 @@ t_vector get_unit_vector(t_point p1, t_point p2)
     t_vector	vect;
     float		magnitude;
 
-	// printf("puntos: (%f, %f) y (%f, %f)\n", p1.x, p1.y, p2.x, p2.y);
     point.x = p2.x - p1.x;
     point.y = p2.y - p1.y;
     magnitude = sqrt(point.x * point.x + point.y * point.y);
     vect.dir[X] = point.x / magnitude;
     vect.dir[Y] = point.y / magnitude;
-	// printf("vector: (%f, %f)\n", vect.dir[X], vect.dir[Y]);
     return (vect);
 }

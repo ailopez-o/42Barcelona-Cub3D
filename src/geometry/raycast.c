@@ -2,7 +2,6 @@
 #include "geometry.h"
 #include <math.h>
 
-
 t_colision	get_colision(t_line wall, t_point pos, t_vector ray_vect);
 t_colision	get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect);
 t_line		*get_polygon_lines(t_polygon polygon);
@@ -15,7 +14,6 @@ t_colision *get_dir_ray_collider(t_point pos, t_vector dir, int wide, t_objet *o
 	t_colision	colision;
 	t_colision 	*ray_colider;
 	float		ang;
-	float		step;
 	int			num_colision;
 
 	ang = 0;
@@ -25,14 +23,11 @@ t_colision *get_dir_ray_collider(t_point pos, t_vector dir, int wide, t_objet *o
 	while (ang < (float)wide)
 	{
 		colision = get_closest_colision(objets, pos, scan_vector);
-		if (ang == 0.00)
-			colision.angle = angle_between_lines(vector_to_line(scan_vector, pos,10), vector_to_line(dir, pos, 10));
 		if (colision.valid)
 			ray_colider[num_colision++] = colision;
 		ang += ((float) wide / WIN2D);
 		scan_vector = rotate_vector(scan_vector, ((float) wide / WIN2D));
 	}
-	// printf("num_hits %d\n", num_colision);
 	return (ray_colider);
 }
 
@@ -45,7 +40,6 @@ t_colision get_colision(t_line wall, t_point pos, t_vector ray_vect)
 	t_colision	colision;
 
 	colision.valid = false;
-	colision.angle = false;
 	ray = vector_to_line(ray_vect, pos, 10);
 	den = (wall.p1.x - wall.p2.x) * (ray.p1.y - ray.p2.y) - (wall.p1.y - wall.p2.y) * (ray.p1.x - ray.p2.x);
 	if (den == 0)

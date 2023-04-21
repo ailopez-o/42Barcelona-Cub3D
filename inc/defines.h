@@ -104,7 +104,6 @@ struct s_colision
 {
 	t_point	point;
 	t_line	line;
-	float	angle;
 	float	distance;
 	bool	valid;
 };
@@ -139,7 +138,6 @@ struct s_texture
 	char	**data;
 	char	*path;
 };
-
 
 struct s_map
 {	

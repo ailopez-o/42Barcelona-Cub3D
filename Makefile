@@ -36,7 +36,6 @@ WHITE = \033[0;97m
 # All files into src/
 FILES =		main.c \
 			startup/init.c \
-			startup/parser.c \
 			mlx_window/hooks.c \
 			mlx_window/key_events.c \
 			mlx_window/key_events_utils.c \
@@ -48,6 +47,7 @@ FILES =		main.c \
 			drawers/basics.c \
 			drawers/utils.c \
 			drawers/render.c \
+			parser/reader.c \
 			parser/gnl.c \
 
 # Root folders

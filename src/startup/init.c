@@ -1,4 +1,6 @@
 #include "defines.h"
+#include "mlx.h"
+#include "parser.h"
 #include <errno.h>
 #include <string.h>
 
@@ -14,12 +16,13 @@
  * Return: true if initialization succeeds, false otherwise
  */
 
-bool	init_cub(t_cub *cub)
+bool	init_cub(t_cub *cub, char *path)
 {
+	if (load_map(path, &cub->map) != EXIT_SUCCESS)
+		return(EXIT_FAILURE);
 	cub->map.objets = ft_calloc (sizeof(t_objet), 10);
 	if (!cub->map.objets)
 		return (fprintf(stderr, "Cube error: %s\n", strerror(errno)));
-
 	cub->map.objets[0].type = WALL;
 	cub->map.objets[0].polygon.color = SUPERAZUL;
 	cub->map.objets[0].polygon.p1.x = 800;

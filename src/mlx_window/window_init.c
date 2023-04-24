@@ -14,18 +14,18 @@
  * Return: Returns 0 on success, otherwise it returns an error message.
  */
 
-bool	window_init(t_cub *cub)
+bool	window_init(t_mlx *screen)
 {
-	cub->screen.handler = mlx_init();
-	if (!cub->screen.handler)
+	screen->handler = mlx_init();
+	if (!screen->handler)
 		return (fprintf(stderr, "Cube error: %s\n", strerror(errno)));
-	cub->screen.win = mlx_new_window(cub->screen.handler, WINX, WINY, "Cube3D");
-	if (!cub->screen.win)
+	screen->win = mlx_new_window(screen->handler, WINX, WINY, "Cube3D");
+	if (!screen->win)
 		return (fprintf(stderr, "Cube error: %s\n", strerror(errno)));
-	cub->screen.img = mlx_new_image(cub->screen.handler, WINX, WINY);
-	if (!cub->screen.img)
+	screen->img = mlx_new_image(screen->handler, WINX, WINY);
+	if (!screen->img)
 		return (fprintf(stderr, "Cube error: %s\n", strerror(errno)));
-	cub->screen.img_buff = mlx_get_data_addr(cub->screen.img,
+	screen->img_buff = mlx_get_data_addr(screen->img,
 			NULL, NULL, NULL);
 	return (0);
 }

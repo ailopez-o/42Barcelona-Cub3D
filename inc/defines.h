@@ -68,7 +68,9 @@ typedef struct s_colision	t_colision;
 typedef struct s_objet		t_objet;
 typedef struct s_polygon	t_polygon;
 typedef struct s_map		t_map;
+typedef struct s_img		t_img;
 typedef struct s_texture	t_texture;
+
 
 struct s_mlx
 {
@@ -134,17 +136,28 @@ struct s_player
 	t_colision	*ray_colider;
 };
 
+struct s_img
+{
+	void			*ptr;
+	char			*addr;
+	int				bpp;
+	int				linesize;
+	int				endian;
+	int				width;
+	int				height;
+};
+
 struct s_texture
 {
-	char	**data;
+	int		type;
 	char	*path;
+	t_img	img;
 };
 
 struct s_map
 {	
 	t_objet		*objets;
 	t_texture	*textures;
-	char		**map;
 	int			bottom_color;
 	int			top_color;
 };

@@ -6,7 +6,9 @@
 #include <sys/time.h>
 
 
-int	terminate_program(void *param);
+int		terminate_program(void *param);
+void	moove_player(t_cub *cub, int key);
+void	turn_player(t_cub *cub, int key);
 
 /* 
 *	This function handle when a key is pressed
@@ -15,38 +17,17 @@ int	terminate_program(void *param);
 int	key_press(int key, void *param)
 {
 	t_cub		*cub;
-	t_vector	ortogonal;
 
 	cub = (t_cub *)param;
 	if (key == KEY_ESC)
-		terminate_program(cub);	
+		terminate_program(cub);
 	if (key == KEY_C)
 		clear_screen(&cub->screen);
-	if (key == KEY_LEFT)
-	{
-		cub->player.front = rotate_vector(cub->player.front, 10);
-		cub->player.cam = cub->player.front;
-	}
-	if (key == KEY_RIGHT)
-	{
-		cub->player.front = rotate_vector(cub->player.front, -10);
-		cub->player.cam = cub->player.front;
-	}
-	if (key == KEY_W || key == KEY_UP)
-		cub->player.pos = go_vector(cub->player.pos, cub->player.front, 10);
-	if (key == KEY_S || key == KEY_DOWN)
-		cub->player.pos = go_vector(cub->player.pos, cub->player.front, -10);
-	if (key == KEY_A)
-	{
-		ortogonal = rotate_vector(cub->player.front, 90);
-		cub->player.pos = go_vector(cub->player.pos, ortogonal, 10);
-	}
-	if (key == KEY_D)
-	{
-		ortogonal = rotate_vector(cub->player.front, -90);
-		cub->player.pos = go_vector(cub->player.pos, ortogonal, 10);
-	}
-	
+	if (key == KEY_W || key == KEY_UP || key == KEY_S
+		|| key == KEY_DOWN || key == KEY_D || key == KEY_A)
+		moove_player(cub, key);
+	if (key == KEY_LEFT || key == KEY_RIGHT)
+		turn_player(cub, key);
 	return (EXIT_SUCCESS);
 }
 

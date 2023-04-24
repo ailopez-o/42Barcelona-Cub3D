@@ -57,6 +57,23 @@ t_colision get_colision(t_line wall, t_point pos, t_vector ray_vect)
 	return (colision);
 }
 
+/**
+ * get_closest_colision - finds the closest collision between a ray and WALL objects
+ *
+ * This function takes a pointer to the first `WALL` object in a 3D scene, the
+ * starting position of a ray, and the direction of the ray as input. It then
+ * iterates over each `WALL` object in the scene and checks for collisions between
+ * the ray and each side of the object's polygon. If a collision is found, the
+ * function calculates the distance between the collision point and the starting
+ * position of the ray. The function then returns the closest collision that was found.
+ *
+ * @objet: A pointer to the first `WALL` object in the scene
+ * @pos: The starting position of the ray
+ * @ray_vect: The direction of the ray
+ *
+ * Return: The closest collision found between the ray and a `WALL` object's polygon
+ */
+
 t_colision get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect)
 {
 	t_colision	closest_colision;

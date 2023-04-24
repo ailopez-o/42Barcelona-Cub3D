@@ -53,7 +53,7 @@ bool	init_cub(t_cub *cub)
 	cub->map.objets[2].polygon.p4.x = WIN2D - 1;
 	cub->map.objets[2].polygon.p4.y = 1;
 
-	cub->player.pos.x = 100;
+	cub->player.pos.x = 700;
 	cub->player.pos.y = 400;
 	cub->player.pos.color = VERDE;
 	cub->player.front.dir[X] = 0;

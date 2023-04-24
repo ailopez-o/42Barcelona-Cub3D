@@ -6,7 +6,7 @@
 #    By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/04/20 17:06:35 by ailopez-         ###   ########.fr        #
+#    Updated: 2023/04/21 18:50:44 by bmoll            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ FILES =		main.c \
 			startup/parser.c \
 			mlx_window/hooks.c \
 			mlx_window/key_events.c \
+			mlx_window/key_events_utils.c \
 			mlx_window/mouse_events.c \
 			mlx_window/window_init.c \
 			geometry/vectors.c \

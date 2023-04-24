@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/19 22:25:03 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:52:44 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define WINY 		800
 # define WINX WIN2D * 2
 # define FOV		60
+
+# define PLYSPEED	7
 
 # define X 0
 # define Y 1
@@ -55,7 +57,6 @@
 #define		WE
 #define		EA
 
-
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;
 typedef struct s_point		t_point;
@@ -68,7 +69,6 @@ typedef struct s_objet		t_objet;
 typedef struct s_polygon	t_polygon;
 typedef struct s_map		t_map;
 typedef struct s_texture	t_texture;
-
 
 struct s_mlx
 {

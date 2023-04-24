@@ -24,7 +24,7 @@
 # define WIN2D 		1000
 # define WINY 		800
 # define WINX WIN2D * 2
-# define FOV		60
+# define FOV		90
 
 # define PLYSPEED	7
 
@@ -126,6 +126,7 @@ struct s_objet
 	t_polygon	polygon;
 	int			type;
 	bool		is_collider;
+	bool		valid;
 };
 
 struct s_player
@@ -158,6 +159,7 @@ struct s_map
 {	
 	t_objet		*objets;
 	t_texture	*textures;
+	int			scale;
 	int			bottom_color;
 	int			top_color;
 };

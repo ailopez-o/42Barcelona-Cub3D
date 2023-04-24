@@ -96,7 +96,7 @@ MLX_DIR =	lib/mlx
 GCC =		gcc
 
 # Flags for the gcc compilation
-FLAGS =		-MMD -MP
+FLAGS =		-g -MMD -MP
 # FLAGS =		-Wall -Werror -Wextra -MMD -MP
 
 MINILIBXCC := -I mlx -L $(DIR_MLX) -lmlx

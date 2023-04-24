@@ -20,6 +20,14 @@ bool	init_cub(t_cub *cub, char *path)
 {
 	if (load_map(path, &cub->map) != EXIT_SUCCESS)
 		return(EXIT_FAILURE);
+	cub->player.pos.x = 700;
+	cub->player.pos.y = 400;
+	cub->player.pos.color = VERDE;
+	cub->player.front.dir[X] = 0;
+	cub->player.front.dir[Y] = 1;
+	cub->player.cam.dir[X] = 0;
+	cub->player.cam.dir[Y] = 1;
+	return(EXIT_SUCCESS);
 	cub->map.objets = ft_calloc (sizeof(t_objet), 10);
 	if (!cub->map.objets)
 		return (fprintf(stderr, "Cube error: %s\n", strerror(errno)));

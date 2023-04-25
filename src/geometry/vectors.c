@@ -127,3 +127,32 @@ t_vector get_unit_vector(t_point p1, t_point p2)
     vect.dir[Y] = point.y / magnitude;
     return (vect);
 }
+
+t_vector get_geo_vector(char geo)
+{
+	t_vector	vect;
+
+	if (geo == 'N')
+	{
+		vect.dir[X] = 0;
+		vect.dir[Y] = -1;
+	}
+	if (geo == 'S')
+	{
+		vect.dir[X] = 0;
+		vect.dir[Y] = 1;
+	}
+
+	if (geo == 'E')
+	{
+		vect.dir[X] = 1;
+		vect.dir[Y] = 0;
+	}
+
+	if (geo == 'W')
+	{
+		vect.dir[X] = -1;
+		vect.dir[Y] = 0;
+	}
+	return (vect);
+}

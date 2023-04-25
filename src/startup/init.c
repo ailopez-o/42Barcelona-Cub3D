@@ -18,15 +18,15 @@
 
 bool	init_cub(t_cub *cub, char *path)
 {
-	if (load_map(path, &cub->map, &cub->screen) != EXIT_SUCCESS)
-		return(EXIT_FAILURE);
 	cub->player.pos.x = 700;
 	cub->player.pos.y = 700;
-	cub->player.pos.color = VERDE;
 	cub->player.front.dir[X] = 0;
 	cub->player.front.dir[Y] = 1;
 	cub->player.cam.dir[X] = 0;
 	cub->player.cam.dir[Y] = 1;
+	cub->player.pos.color = VERDE;
+	if (load_map(path, cub) != EXIT_SUCCESS)
+		return(EXIT_FAILURE);
 	cub->player.ray_colider = ft_calloc(sizeof(t_colision), (WIN2D + 1));
 	return(EXIT_SUCCESS);
 }

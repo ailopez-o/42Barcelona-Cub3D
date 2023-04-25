@@ -7,27 +7,25 @@ t_colision	get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect);
 float 		get_distance(t_point p1, t_point p2);
 float 		angle_between_lines(t_line l1, t_line l2);
 
-t_colision *get_dir_ray_collider(t_point pos, t_vector dir, int wide, t_objet *objets)
+int		get_dir_ray_collider(t_player *player, int wide, t_objet *objets)
 {
 	t_vector	scan_vector;
 	t_colision	colision;
-	t_colision 	*ray_colider;
 	float		ang;
 	int			num_colision;
 
 	ang = 0;
 	num_colision = 0;
-	scan_vector = rotate_vector(dir, - wide/2);
-	ray_colider = malloc(sizeof(t_colision) * (WIN2D + 1));
+	scan_vector = rotate_vector(player->cam, - wide/2);
 	while (ang < (float)wide)
 	{
-		colision = get_closest_colision(objets, pos, scan_vector);
+		colision = get_closest_colision(objets, player->pos, scan_vector);
 		if (colision.valid)
-			ray_colider[num_colision++] = colision;
+			player->ray_colider[num_colision++] = colision;
 		ang += ((float) wide / WIN2D);
 		scan_vector = rotate_vector(scan_vector, ((float) wide / WIN2D));
 	}
-	return (ray_colider);
+	return (EXIT_SUCCESS);
 }
 
 t_colision get_colision(t_line wall, t_point pos, t_vector ray_vect)
@@ -104,23 +102,6 @@ t_colision get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect)
 	}
 	return (closest_colision);
 }
-
-
-// t_line	*get_polygon_lines(t_polygon polygon)
-// {
-// 	t_line *line;
-
-// 	line = malloc(sizeof(t_line) * 4);
-// 	line[0].p1 = polygon.p1;
-// 	line[0].p2 = polygon.p2;
-// 	line[1].p1 = polygon.p2;
-// 	line[1].p2 = polygon.p3;
-// 	line[2].p1 = polygon.p3;
-// 	line[2].p2 = polygon.p4;
-// 	line[3].p1 = polygon.p4;
-// 	line[3].p2 = polygon.p1;
-// 	return (line);
-// }
 
 float get_distance(t_point p1, t_point p2)
 {

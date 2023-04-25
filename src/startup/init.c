@@ -27,5 +27,6 @@ bool	init_cub(t_cub *cub, char *path)
 	cub->player.front.dir[Y] = 1;
 	cub->player.cam.dir[X] = 0;
 	cub->player.cam.dir[Y] = 1;
+	cub->player.ray_colider = ft_calloc(sizeof(t_colision), (WIN2D + 1));
 	return(EXIT_SUCCESS);
 }

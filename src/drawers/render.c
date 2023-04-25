@@ -39,7 +39,7 @@ int	render(void *param)
 	}
 	clear_screen(&cub->screen);
 	//free(cub->player.ray_colider);
-	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, FOV, cub->map.objets);
+	get_dir_ray_collider(&cub->player, FOV, cub->map.objets);
 	draw_player(&cub->screen, cub->player, MINIMAPSCALE);
 	draw_objets(&cub->screen, cub->map.objets, MINIMAPSCALE);
 	render_3D(&cub->screen, cub->player, cub->player.ray_colider);

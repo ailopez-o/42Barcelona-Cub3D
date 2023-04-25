@@ -17,7 +17,7 @@ int	load_map(char *path, t_map *map, t_mlx *screen)
 	int		num_line;
 	int		num_textures;
 
-	map->objets = ft_calloc(1, sizeof(t_objet) * 100);
+	map->objets = ft_calloc(1, sizeof(t_objet) * 300);
 	map->textures = ft_calloc(1, sizeof(t_texture) * 100);
 
 	/////////////////// HARDCODER
@@ -44,7 +44,7 @@ int	load_map(char *path, t_map *map, t_mlx *screen)
 	{
 		if (line[0] && (line[0] == '0' || line[0] == '1' || line[0] == ' ' || line[0] == '\t'))
 		{
-			printf("%s", line);
+			//printf("%s", line);
 			int_map[num_line++] = get_int_array(line);
 			line = get_next_line(fd);
 			int_map = ft_realloc(int_map, sizeof(char **) * (num_line + 1));
@@ -52,7 +52,7 @@ int	load_map(char *path, t_map *map, t_mlx *screen)
 		else
 		{
 			//DATA
-			printf("data >> %s", line);
+			//printf("data >> %s", line);
 			free(line);
 			line = get_next_line(fd);
 		}
@@ -99,11 +99,12 @@ int	get_polygons(int **int_map, int scale, t_objet *objets, t_texture *texture)
 	{
 		while(int_map[row][col] != 255)
 		{
-			if ((int_map[row][col] == 1 && int_map[row][col - 1] == 0) || (int_map[row][col] == 1 && col == 0))
+			if ( (int_map[row][col] == 1 && col == 0) || (int_map[row][col] == 1 && col != 0 && int_map[row][col - 1] == 0))
 			{
 				objets[num_obj].valid = 1;
 				objets[num_obj].is_collider = 1;
 				objets[num_obj].type = WALL;
+				objets[num_obj].polygon.color = SUPERAZUL;
 				objets[num_obj].polygon.line[0].texture = texture;
 				objets[num_obj].polygon.line[1].texture = texture;
 				objets[num_obj].polygon.line[2].texture = texture;
@@ -113,12 +114,9 @@ int	get_polygons(int **int_map, int scale, t_objet *objets, t_texture *texture)
 				objets[num_obj].polygon.line[3].p1.x = scaner.x;
 				objets[num_obj].polygon.line[3].p1.y = scaner.y + scale;
 				objets[num_obj].polygon.line[3].p2 = objets[num_obj].polygon.line[0].p1;
-
-				objets[num_obj].polygon.color = SUPERAZUL;
 			}
-			if ((int_map[row][col] == 0 && int_map[row][col - 1] == 1) || (int_map[row][col + 1] == 1 && int_map[row][col + 1] == 255))
+			if ((int_map[row][col] == 0 && col > 0 && int_map[row][col - 1] == 1) || (int_map[row][col + 1] == 1 && int_map[row][col + 1] == 255))
 			{
-
 				objets[num_obj].polygon.line[0].p2.x = scaner.x;
 				objets[num_obj].polygon.line[0].p2.y = scaner.y;
 				objets[num_obj].polygon.line[1].p1 = objets[num_obj].polygon.line[0].p2;
@@ -128,7 +126,6 @@ int	get_polygons(int **int_map, int scale, t_objet *objets, t_texture *texture)
 				objets[num_obj].polygon.line[2].p2.x = objets[num_obj].polygon.line[0].p1.x;
 				objets[num_obj].polygon.line[2].p2.y = scaner.y + scale;
 				num_obj++;
-				//objets = ft_realloc(objets, sizeof(t_objet) * num_obj);
 				objets[num_obj].valid = false;
 			}
 			scaner.x += scale;

@@ -1,4 +1,4 @@
-t_colision 	*get_dir_ray_collider(t_point pos, t_vector dir, int wide, t_objet *objets);
+int			get_dir_ray_collider(t_player *player, int wide, t_objet *objets);
 t_vector	rotate_vector(t_vector vector, float ang);
 t_point		go_vector(t_point init, t_vector vector, int steps);
 t_point 	move_player_vector(t_cub *cub, t_vector vector, int steps);

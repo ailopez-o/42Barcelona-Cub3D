@@ -87,7 +87,7 @@ void clear_screen(t_mlx *screen)
 
 	cleaner.x = 0;
 	cleaner.y = 0;
-	cleaner.color = BLACK;
+	cleaner.color = BGCOLOR;
 	while (cleaner.y < WINY)
 	{
 		while (cleaner.x < WINX)

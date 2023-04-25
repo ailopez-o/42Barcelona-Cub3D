@@ -6,7 +6,7 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/21 18:52:44 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/04/25 13:02:16 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define WIN2D 			1000
+# define WIN2D 			850
 # define WINY 			800
-# define WINX WIN2D * 2
+# define WINX			1250
 # define FOV			90
 # define MAPSCALE		100
 # define MINIMAPSCALE	0.1
 
 
 # define PLYSPEED	7
+# define PLYVIEW	15000
+# define PLYCOLLIDE	11
 
 # define X 0
 # define Y 1
@@ -48,7 +50,10 @@
 # define JAFFA		0xEF8633
 # define SAFFRON	0xF3AF3D
 # define BLACK		0x151515
-# define BGCOLOR	0x000000
+# define BGCOLOR	0x151515
+# define SKYCOLOR	0x171717
+# define WALLCOLOR	ROJO
+# define DARKWALL	DARK_RED
 
 # define	NULL_OBJET	0
 # define	WALL		1

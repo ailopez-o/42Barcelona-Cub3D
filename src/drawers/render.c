@@ -82,21 +82,27 @@ void	render_3D(t_mlx *screen, t_player play, t_colision *colision)
 		line_height = (int)(WINY / (colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) * 100);
 		start.x = WINX - iter;
 		start.y = (-line_height / 2 + WINY / 2);
-		start.color = color_fade(ROJO, colision->distance);
+		start.color = color_fade(WALLCOLOR, colision->distance);
 		if (is_horizontal(colision->line))
-			start.color = color_fade(DARK_RED, colision->distance);
+			start.color = color_fade(DARKWALL, colision->distance);
 		end.x = WINX - iter;
 		end.y = (line_height / 2 + WINY / 2);
-		if (colision->distance > 900)
+		if (colision->distance > PLYVIEW)
 			end.y = WINY;
 		end.color = start.color;
 		draw_line(screen, start, end);
+		if (end.y < WINY)
+		{
+			start.y = end.y;
+			end.y = WINY;
+			start.color = SKYCOLOR;
+			end.color = SKYCOLOR;
+			draw_line(screen, start, end);
+		}
 		colision++;
 		iter++;
 	}
 }
-
-
 
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions)
 {
@@ -105,7 +111,7 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
 	while (colisions->valid)
 	{
 		pos.color = WHITE;
-		colisions->point.color = ROJO;
+		colisions->point.color = WALLCOLOR;
 		draw_line(screen, pos, colisions->point);
 		colisions++;
 		iter++;

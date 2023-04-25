@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_utils.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:48 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/20 01:50:47 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/25 12:35:00 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,36 +56,36 @@ int	ft_round(double num)
 
 int color_fade(int color_hex, int iteraciones)
 {
-	if (iteraciones > 900)
+	if (iteraciones > PLYVIEW)
 		return (BGCOLOR);
-    int r = (color_hex >> 16) & 0xFF;
-    int g = (color_hex >> 8) & 0xFF;
-    int b = color_hex & 0xFF;
+	int r = (color_hex >> 16) & 0xFF;
+	int g = (color_hex >> 8) & 0xFF;
+	int b = color_hex & 0xFF;
 
-    // Escalar el número de iteraciones de 0-300
-    float escala = (float)iteraciones / 920.0;
-    if (escala > 1.0) escala = 1.0;
+	// Escalar el número de iteraciones de 0-300
+	float escala = (float)iteraciones / PLYVIEW;
+	if (escala > 1.0) escala = 1.0;
 
-    // Calcular el decremento en función de la escala
-    int decremento = (int)(escala * 255.0);
+	// Calcular el decremento en función de la escala
+	int decremento = (int)(escala * 255.0);
 
-    r -= decremento;
-    g -= decremento;
-    b -= decremento;
+	r -= decremento;
+	g -= decremento;
+	b -= decremento;
 
-    // Si la escala es mayor que 1, establecer el color a negro
-    if (escala >= 1.0) {
-        r = 0;
-        g = 0;
-        b = 0;
-    }
+	// Si la escala es mayor que 1, establecer el color a negro
+	if (escala >= 1.0) {
+		r = 0;
+		g = 0;
+		b = 0;
+	}
 
-    // Asegurarse de que los componentes RGB no sean menores que 0
-    r = (r < 0) ? 0 : r;
-    g = (g < 0) ? 0 : g;
-    b = (b < 0) ? 0 : b;
-    
-    return (r << 16) | (g << 8) | b;
+	// Asegurarse de que los componentes RGB no sean menores que 0
+	r = (r < 0) ? 0 : r;
+	g = (g < 0) ? 0 : g;
+	b = (b < 0) ? 0 : b;
+	
+	return (r << 16) | (g << 8) | b;
 }
 
 float	norm_distancia(int dist)

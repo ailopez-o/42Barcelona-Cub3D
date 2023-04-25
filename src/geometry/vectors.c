@@ -6,14 +6,12 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:44 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/21 21:30:03 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/04/25 12:40:47 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 #include <math.h>
-
-#define PLYCOLLIDE 8
 
 t_colision get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect);
 

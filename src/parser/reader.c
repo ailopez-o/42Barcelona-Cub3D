@@ -1,27 +1,37 @@
 #include "defines.h"
 #include "utils.h"
+#include "mlx.h"
 #include <fcntl.h>
 
 void	*ft_realloc(void *ptr, size_t size);
 int		*get_int_array(char *line);
-int		get_polygons(int **int_map, int scale, t_objet *objets);
+int		get_polygons(int **int_map, int scale, t_objet *objets, t_texture *texture);
 
-int	load_map(char *path, t_map *map)
+int	load_map(char *path, t_map *map, t_mlx *screen)
 {
 	int		fd;
 	char	*line;
 	int		**int_map;
 	int		num_line;
+	int		num_textures;
 
-	path = ft_strdup("/Users/bmoll/Documents/42Barcelona-Cub3D/maps/testing.cub");
+	map->objets = ft_calloc(1, sizeof(t_objet) * 100);
+	map->textures = ft_calloc(1, sizeof(t_texture) * 100);
+
+	path = ft_strdup("././maps/testing.cub");
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (EXIT_FAILURE);
 
-	map->objets = ft_calloc(1, sizeof(t_objet) * 100);
+	// HARDCODER
+	map->textures[0].img.ptr = mlx_xpm_file_to_image(screen->handler, "././textures/bluestone.xpm", &map->textures[0].width, &map->textures[0].height);
+	map->textures[0].valid = true;
+	map->textures[0].type = WALL;
+
 	int_map = malloc(sizeof(char **));
 	num_line = 0;
+	num_textures = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -41,7 +51,7 @@ int	load_map(char *path, t_map *map)
 		}
 	}
 	int_map[num_line] = NULL;
-	get_polygons(int_map, MAPSCALE, map->objets);
+	get_polygons(int_map, MAPSCALE, map->objets, &map->textures[0]);
 	return(EXIT_SUCCESS);
 }
 
@@ -64,7 +74,7 @@ int	*get_int_array(char *line)
 }
 
 
-int	get_polygons(int **int_map, int scale, t_objet *objets)
+int	get_polygons(int **int_map, int scale, t_objet *objets, t_texture *texture)
 {
 	int			num_obj;
 	int			row;
@@ -87,18 +97,28 @@ int	get_polygons(int **int_map, int scale, t_objet *objets)
 				objets[num_obj].valid = 1;
 				objets[num_obj].is_collider = 1;
 				objets[num_obj].type = WALL;
-				objets[num_obj].polygon.p1.x = scaner.x;
-				objets[num_obj].polygon.p1.y = scaner.y;
-				objets[num_obj].polygon.p4.x = scaner.x;
-				objets[num_obj].polygon.p4.y = scaner.y + scale;
+				objets[num_obj].polygon.line[0].texture = texture;
+				objets[num_obj].polygon.line[1].texture = texture;
+				objets[num_obj].polygon.line[2].texture = texture;
+				objets[num_obj].polygon.line[3].texture = texture;
+				objets[num_obj].polygon.line[0].p1.x = scaner.x;
+				objets[num_obj].polygon.line[0].p1.y = scaner.y;
+				objets[num_obj].polygon.line[3].p1.x = scaner.x;
+				objets[num_obj].polygon.line[3].p1.y = scaner.y + scale;
+				objets[num_obj].polygon.line[3].p2 = objets[num_obj].polygon.line[0].p1;
+
 				objets[num_obj].polygon.color = SUPERAZUL;
 			}
 			if ((int_map[row][col] == 0 && int_map[row][col - 1] == 1) || (int_map[row][col + 1] == 1 && int_map[row][col + 1] == 255))
 			{
-				objets[num_obj].polygon.p2.x = scaner.x;
-				objets[num_obj].polygon.p2.y = scaner.y;
-				objets[num_obj].polygon.p3.x = scaner.x;
-				objets[num_obj].polygon.p3.y = scaner.y + scale;
+
+				objets[num_obj].polygon.line[0].p2.x = scaner.x;
+				objets[num_obj].polygon.line[0].p2.y = scaner.y;
+				objets[num_obj].polygon.line[1].p1 = objets[num_obj].polygon.line[0].p2;
+				objets[num_obj].polygon.line[1].p2.x = scaner.x;
+				objets[num_obj].polygon.line[1].p2.y = scaner.y + scale;
+				objets[num_obj].polygon.line[2].p1 = objets[num_obj].polygon.line[1].p2;
+				objets[num_obj].polygon.line[2].p2 = objets[num_obj].polygon.line[3].p1;
 				num_obj++;
 				//objets = ft_realloc(objets, sizeof(t_objet) * num_obj);
 				objets[num_obj].valid = false;

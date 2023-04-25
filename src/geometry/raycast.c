@@ -4,7 +4,6 @@
 
 t_colision	get_colision(t_line wall, t_point pos, t_vector ray_vect);
 t_colision	get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect);
-t_line		*get_polygon_lines(t_polygon polygon);
 float 		get_distance(t_point p1, t_point p2);
 float 		angle_between_lines(t_line l1, t_line l2);
 
@@ -81,17 +80,15 @@ t_colision get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect)
 	float		dist;
 	float		closest_dist;
 	int			side;
-	t_line		*lines;
 
 	closest_dist = 10000000;
 	closest_colision.valid = false;
 	while (objet->type == WALL)
 	{
 		side = 0;
-		lines = get_polygon_lines(objet->polygon);
 		while(side < 4)
 		{
-			colision = get_colision(lines[side], pos, ray_vect);
+			colision = get_colision(objet->polygon.line[side], pos, ray_vect);
 			if (colision.valid)
 			{
 				dist = get_distance(pos, colision.point);
@@ -103,28 +100,27 @@ t_colision get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect)
 			}
 			side++;
 		}
-		free(lines);
 		objet++;
 	}
 	return (closest_colision);
 }
 
 
-t_line	*get_polygon_lines(t_polygon polygon)
-{
-	t_line *line;
+// t_line	*get_polygon_lines(t_polygon polygon)
+// {
+// 	t_line *line;
 
-	line = malloc(sizeof(t_line) * 4);
-	line[0].p1 = polygon.p1;
-	line[0].p2 = polygon.p2;
-	line[1].p1 = polygon.p2;
-	line[1].p2 = polygon.p3;
-	line[2].p1 = polygon.p3;
-	line[2].p2 = polygon.p4;
-	line[3].p1 = polygon.p4;
-	line[3].p2 = polygon.p1;
-	return (line);
-}
+// 	line = malloc(sizeof(t_line) * 4);
+// 	line[0].p1 = polygon.p1;
+// 	line[0].p2 = polygon.p2;
+// 	line[1].p1 = polygon.p2;
+// 	line[1].p2 = polygon.p3;
+// 	line[2].p1 = polygon.p3;
+// 	line[2].p2 = polygon.p4;
+// 	line[3].p1 = polygon.p4;
+// 	line[3].p2 = polygon.p1;
+// 	return (line);
+// }
 
 float get_distance(t_point p1, t_point p2)
 {

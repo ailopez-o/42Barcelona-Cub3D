@@ -102,22 +102,19 @@ void clear_screen(t_mlx *screen)
 
 void draw_polygon(t_mlx *screen, t_polygon polygon, float scale)
 {
-	polygon.p1.color = polygon.color;
-	polygon.p2.color = polygon.color;
-	polygon.p3.color = polygon.color;
-	polygon.p4.color = polygon.color;
-	polygon.p1.x = polygon.p1.x * scale;
-	polygon.p1.y = polygon.p1.y * scale;
-	polygon.p2.x = polygon.p2.x * scale;
-	polygon.p2.y = polygon.p2.y * scale;
-	polygon.p3.x = polygon.p3.x * scale;
-	polygon.p3.y = polygon.p3.y * scale;
-	polygon.p4.x = polygon.p4.x * scale;
-	polygon.p4.y = polygon.p4.y * scale;
-	draw_line(screen, polygon.p1, polygon.p2);
-	draw_line(screen, polygon.p2, polygon.p3);
-	draw_line(screen, polygon.p3, polygon.p4);
-	draw_line(screen, polygon.p4, polygon.p1);
+	int	side;
+
+	side = -1;
+	while (++side < 4)
+	{
+		polygon.line[side].p1.color = polygon.color;
+		polygon.line[side].p2.color = polygon.color;
+		polygon.line[side].p1.x = polygon.line[side].p1.x * scale;
+		polygon.line[side].p1.y = polygon.line[side].p1.y * scale;
+		polygon.line[side].p2.x = polygon.line[side].p2.x * scale;
+		polygon.line[side].p2.y = polygon.line[side].p2.y * scale;
+		draw_line(screen, polygon.line[side].p1, polygon.line[side].p2);
+	}
 }
 
 

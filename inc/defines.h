@@ -31,7 +31,7 @@
 
 # define PLYSPEED	7
 # define PLYVIEW	15000
-# define PLYCOLLIDE	11
+# define PLYCOLLIDE	100
 
 # define X 0
 # define Y 1
@@ -121,12 +121,13 @@ struct s_colision
 
 struct s_polygon
 {
-	t_point	p1;
-	t_point	p2;
-	t_point	p3;
-	t_point	p4;
-	void	*texture;
-	int		color;
+	// t_point		p1;
+	// t_point		p2;
+	// t_point		p3;
+	// t_point		p4;
+	t_line		line[4];
+	//t_texture	*texture;
+	int			color;
 };
 
 struct s_objet
@@ -161,6 +162,9 @@ struct s_texture
 	int		type;
 	char	*path;
 	t_img	img;
+	int		width;
+	int		height;
+	bool	valid;
 };
 
 struct s_map

@@ -10,9 +10,9 @@ void	my_pixel_put(t_mlx *screen, t_point pixel)
 {
 	size_t	calc;
 
-	if ((int)pixel.x > WINX || (int)pixel.x < 0)
+	if ((int)pixel.x >= WINX || (int)pixel.x < 0)
 		return ;
-	if ((int)pixel.y > WINY || (int)pixel.y < 0)
+	if ((int)pixel.y >= WINY || (int)pixel.y < 0)
 		return ;
 	pixel.y = WINY - pixel.y;
 	calc = (WINX * 4 * ((int)pixel.y - 1)) + ((int)pixel.x * 4);

@@ -18,16 +18,20 @@ int	load_map(char *path, t_map *map, t_mlx *screen)
 	map->objets = ft_calloc(1, sizeof(t_objet) * 100);
 	map->textures = ft_calloc(1, sizeof(t_texture) * 100);
 
-	path = ft_strdup("././maps/testing.cub");
+	/////////////////// HARDCODER
+	path = ft_strdup("maps/testing.cub");
+	/////////////////////////////
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (EXIT_FAILURE);
 
-	// HARDCODER
-	map->textures[0].img.ptr = mlx_xpm_file_to_image(screen->handler, "././textures/bluestone.xpm", &map->textures[0].width, &map->textures[0].height);
+	/////////////////// HARDCODER
+	map->textures[0].path = ft_strdup("textures/bluestone.xpm");
+	map->textures[0].img.ptr = mlx_xpm_file_to_image(screen->handler, map->textures[0].path, &map->textures[0].width, &map->textures[0].height);
 	map->textures[0].valid = true;
 	map->textures[0].type = WALL;
+	/////////////////////////////
 
 	int_map = malloc(sizeof(char **));
 	num_line = 0;
@@ -118,7 +122,8 @@ int	get_polygons(int **int_map, int scale, t_objet *objets, t_texture *texture)
 				objets[num_obj].polygon.line[1].p2.x = scaner.x;
 				objets[num_obj].polygon.line[1].p2.y = scaner.y + scale;
 				objets[num_obj].polygon.line[2].p1 = objets[num_obj].polygon.line[1].p2;
-				objets[num_obj].polygon.line[2].p2 = objets[num_obj].polygon.line[3].p1;
+				objets[num_obj].polygon.line[2].p2.x = objets[num_obj].polygon.line[0].p1.x;
+				objets[num_obj].polygon.line[2].p2.y = scaner.y + scale;
 				num_obj++;
 				//objets = ft_realloc(objets, sizeof(t_objet) * num_obj);
 				objets[num_obj].valid = false;

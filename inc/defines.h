@@ -21,10 +21,13 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define WIN2D 		1000
-# define WINY 		800
+# define WIN2D 			1000
+# define WINY 			800
 # define WINX WIN2D * 2
-# define FOV		90
+# define FOV			90
+# define MAPSCALE		100
+# define MINIMAPSCALE	0.1
+
 
 # define PLYSPEED	7
 

@@ -13,7 +13,7 @@ int	load_map(char *path, t_map *map)
 	int		**int_map;
 	int		num_line;
 
-	path = ft_strdup("/Users/ailopez-/42Barcelona/cursus/42Barcelona-Cub3D/maps/subjet.cub");
+	path = ft_strdup("/Users/aitoraudicana/42Barcelona/cursus/cube3D/maps/testing.cub");
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
@@ -41,7 +41,7 @@ int	load_map(char *path, t_map *map)
 		}
 	}
 	int_map[num_line] = NULL;
-	get_polygons(int_map, 30, map->objets);
+	get_polygons(int_map, MAPSCALE, map->objets);
 	return(EXIT_SUCCESS);
 }
 

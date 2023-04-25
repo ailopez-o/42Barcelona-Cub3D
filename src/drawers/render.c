@@ -5,8 +5,7 @@
 #include <sys/time.h>
 
 void	render_3D(t_mlx *screen, t_player play, t_colision *colision);
-void 	draw_objets(t_mlx *screen, t_objet *objets);
-void	draw_player(t_mlx *screen, t_player player);
+
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions);
 
 /**
@@ -41,21 +40,26 @@ int	render(void *param)
 	clear_screen(&cub->screen);
 	//free(cub->player.ray_colider);
 	cub->player.ray_colider = get_dir_ray_collider(cub->player.pos, cub->player.cam, FOV, cub->map.objets);
-	draw_player(&cub->screen, cub->player);
-	draw_objets(&cub->screen, cub->map.objets);
+	draw_player(&cub->screen, cub->player, MINIMAPSCALE);
+	draw_objets(&cub->screen, cub->map.objets, MINIMAPSCALE);
 	render_3D(&cub->screen, cub->player, cub->player.ray_colider);
-	draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
+	//draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	num_frames++;
 	return (EXIT_SUCCESS);
 }
 
-void	draw_player(t_mlx *screen, t_player player)
+void	draw_player(t_mlx *screen, t_player player, float scale)
 {
-	draw_circle(screen, player.pos, 5, VERDE);
-	draw_vector(screen, player.front, player.pos, VERDE);
-	draw_vector(screen, player.cam, player.pos, ROJO);
+	t_point	scaled_pos;
+
+	scaled_pos = player.pos;
+	scaled_pos.x *= scale;
+	scaled_pos.y *= scale;
+	draw_circle(screen, scaled_pos, 5, VERDE);
+	draw_vector(screen, player.front, scaled_pos, VERDE);
+	draw_vector(screen, player.cam, scaled_pos, ROJO);
 }
 
 
@@ -111,11 +115,11 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
 
 }
 
-void draw_objets(t_mlx *screen, t_objet *objets)
+void draw_objets(t_mlx *screen, t_objet *objets, float scale)
 {
 	while(objets->type == WALL)
 	{
-		draw_polygon(screen, &objets->polygon);
+		draw_polygon(screen, objets->polygon, scale);
 		objets++;
 	}
 }

@@ -21,7 +21,7 @@ bool	init_cub(t_cub *cub, char *path)
 	if (load_map(path, &cub->map) != EXIT_SUCCESS)
 		return(EXIT_FAILURE);
 	cub->player.pos.x = 700;
-	cub->player.pos.y = 400;
+	cub->player.pos.y = 700;
 	cub->player.pos.color = VERDE;
 	cub->player.front.dir[X] = 0;
 	cub->player.front.dir[Y] = 1;
@@ -65,7 +65,7 @@ bool	init_cub(t_cub *cub, char *path)
 	cub->map.objets[2].polygon.p4.y = 1;
 
 	cub->player.pos.x = 700;
-	cub->player.pos.y = 400;
+	cub->player.pos.y = 600;
 	cub->player.pos.color = VERDE;
 	cub->player.front.dir[X] = 0;
 	cub->player.front.dir[Y] = 1;

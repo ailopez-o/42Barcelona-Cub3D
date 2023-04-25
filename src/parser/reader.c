@@ -1,3 +1,4 @@
+
 #include "defines.h"
 #include "utils.h"
 #include "mlx.h"
@@ -6,6 +7,7 @@
 void	*ft_realloc(void *ptr, size_t size);
 int		*get_int_array(char *line);
 int		get_polygons(int **int_map, int scale, t_objet *objets, t_texture *texture);
+char	**get_image_matrix(char *data, int width, int height);
 
 int	load_map(char *path, t_map *map, t_mlx *screen)
 {
@@ -31,6 +33,7 @@ int	load_map(char *path, t_map *map, t_mlx *screen)
 	map->textures[0].img.ptr = mlx_xpm_file_to_image(screen->handler, map->textures[0].path, &map->textures[0].width, &map->textures[0].height);
 	map->textures[0].valid = true;
 	map->textures[0].type = WALL;
+	map->textures[0].img.matrix = get_image_matrix(map->textures[0].img.ptr, map->textures[0].width, map->textures[0].height);
 	/////////////////////////////
 
 	int_map = malloc(sizeof(char **));

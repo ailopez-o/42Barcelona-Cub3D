@@ -6,7 +6,7 @@
 #    By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/04/21 18:50:44 by bmoll            ###   ########.fr        #
+#    Updated: 2023/04/25 21:40:26 by bmoll            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ FILES =		main.c \
 			drawers/utils.c \
 			drawers/render.c \
 			parser/reader.c \
+			parser/utils.c \
 			parser/gnl.c \
 
 # Root folders
@@ -142,7 +143,7 @@ reall:
 
 $(NAME) :: $(OBJS)
 		@printf "$(DEL_LINE)\r Compiling $@"
-		@$(GCC) $(FLAGS) $^ $(LIBFT) $(MINILIBXCC) $(OPENGL) -o $@
+		@$(GCC) -v $(FLAGS) $^ $(LIBFT) $(MLX) $(MINILIBXCC) $(OPENGL) -o $@
 
 $(NAME) ::
 		@printf "$(DEL_LINE)$(GREEN)\rCUB3D COMPILED ✅$(DEF_COLOR)\n"

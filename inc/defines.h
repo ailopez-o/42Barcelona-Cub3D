@@ -145,12 +145,14 @@ struct s_img
 {
 	void			*ptr;
 	char			*addr;
+	char			**matrix;
 	int				bpp;
 	int				linesize;
 	int				endian;
 	int				width;
 	int				height;
 };
+
 
 struct s_texture
 {

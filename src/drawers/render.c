@@ -7,6 +7,9 @@
 void	render_3D(t_mlx *screen, t_player play, t_colision *colision);
 
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions);
+void	draw_texture_line(t_mlx *screen, t_point start, t_point end, char *column);
+double	distance_between_points(t_point p1, t_point p2);
+char	*adjust_column(char *column, double distance);
 
 /**
  * render - Renders the game on the screen
@@ -90,7 +93,8 @@ void	render_3D(t_mlx *screen, t_player play, t_colision *colision)
 		if (colision->distance > PLYVIEW)
 			end.y = WINY;
 		end.color = start.color;
-		draw_line(screen, start, end);
+		// draw_line(screen, start, end);
+		draw_texture_line(screen, start, end, adjust_column(colision->line_texture, distance_between_points(start, end)));
 		if (end.y < WINY)
 		{
 			start.y = end.y;

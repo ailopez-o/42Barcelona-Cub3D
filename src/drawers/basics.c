@@ -2,10 +2,6 @@
 #include "drawers.h"
 #include "geometry.h"
 
-
-
-
-
 void	my_pixel_put(t_mlx *screen, t_point pixel)
 {
 	size_t	calc;
@@ -59,6 +55,43 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 		pixel.x += delta.x;
 		pixel.y += delta.y;
 		pixels = pixels - 1;
+	}
+}
+
+void	draw_texture_line(t_mlx *screen, t_point start, t_point end, char *column)
+{
+	t_point	delta;
+	t_point	pixel;
+	int		pixels;
+	int		len;
+	int		i = 0;
+
+	if (start.y < 0)
+		start.y = 0;
+	if (start.y > WINY)
+		start.y = WINY;
+	if (end.y < 0)
+		end.y = 0;
+	if (end.y > WINY)
+		end.y = WINY;
+
+	delta.x = end.x - start.x;
+	delta.y = end.y - start.y;
+	pixels = sqrt((delta.x * delta.x) + \
+			(delta.y * delta.y));
+	len = pixels;
+	delta.x /= pixels;
+	delta.y /= pixels;
+	pixel.x = start.x;
+	pixel.y = start.y;
+	while (pixels > 0)
+	{
+		pixel.color = column[i];
+		my_pixel_put(screen, pixel);
+		pixel.x += delta.x;
+		pixel.y += delta.y;
+		pixels = pixels - 1;
+		i++;
 	}
 }
 

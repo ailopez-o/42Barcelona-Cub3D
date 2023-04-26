@@ -9,6 +9,7 @@ void	*ft_realloc(void *ptr, size_t size);
 int		*get_int_array(char *line);
 int		map_builder(int **int_map, int scale, t_map *map, t_player *player);
 char	**get_image_matrix(char *data, int width, int height);
+void	matrix_printer(char **matrix, int width, int height);
 
 int	load_map(char *path, t_cub *cub)
 {
@@ -30,11 +31,13 @@ int	load_map(char *path, t_cub *cub)
 		return (EXIT_FAILURE);
 
 	/////////////////// HARDCODER
-	cub->map.textures[0].path = ft_strdup("textures/bluestone.xpm");
+	cub->map.textures[0].path = ft_strdup("textures/wall.xpm");
 	cub->map.textures[0].img.ptr = mlx_xpm_file_to_image(cub->screen.handler, cub->map.textures[0].path, &cub->map.textures[0].width, &cub->map.textures[0].height);
+	cub->map.textures[0].img.addr = mlx_get_data_addr(cub->map.textures[0].img.ptr, NULL, NULL, NULL);
 	cub->map.textures[0].valid = true;
 	cub->map.textures[0].type = WALL;
-	cub->map.textures[0].img.matrix = get_image_matrix(cub->map.textures[0].img.ptr, cub->map.textures[0].width, cub->map.textures[0].height);
+	cub->map.textures[0].img.matrix = get_image_matrix(cub->map.textures[0].img.addr, cub->map.textures[0].width, cub->map.textures[0].height);
+	// matrix_printer(cub->map.textures[0].img.matrix, cub->map.textures[0].width, cub->map.textures[0].height);exit(0);
 	/////////////////////////////
 
 	int_map = malloc(sizeof(char **));

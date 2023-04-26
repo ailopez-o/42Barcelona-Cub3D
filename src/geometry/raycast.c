@@ -6,6 +6,7 @@ t_colision	get_colision(t_line wall, t_point pos, t_vector ray_vect);
 t_colision	get_closest_colision(t_objet *objet, t_point pos, t_vector ray_vect);
 float 		get_distance(t_point p1, t_point p2);
 float 		angle_between_lines(t_line l1, t_line l2);
+char		*get_texture_column(t_line *wall, t_point point);
 
 int		get_dir_ray_collider(t_player *player, int wide, t_objet *objets)
 {
@@ -48,6 +49,7 @@ t_colision get_colision(t_line wall, t_point pos, t_vector ray_vect)
 		colision.point.x = wall.p1.x + t * (wall.p2.x - wall.p1.x);
 		colision.point.y = wall.p1.y + t * (wall.p2.y - wall.p1.y);
 		colision.line = wall;
+		colision.line_texture = get_texture_column(&wall, colision.point);
 		colision.distance = get_distance(pos, colision.point);
 		colision.valid = true;
 	}

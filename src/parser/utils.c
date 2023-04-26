@@ -6,12 +6,14 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 21:35:03 by bmoll             #+#    #+#             */
-/*   Updated: 2023/04/25 21:49:41 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/04/26 14:12:25 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 #include "mlx.h"
+
+double	distance_between_points(t_point p1, t_point p2);
 
 void	matrix_printer(char **matrix, int width, int height)
 {
@@ -61,6 +63,18 @@ char	**get_image_matrix(char *data, int width, int height)
 		while (++j < height)
 			matrix[i][j] = data[(j * width + i) * 4];
 	}
-	//matrix_printer(matrix, width, height);exit(0);
+	// matrix_printer(matrix, width, height);exit(0);
 	return (matrix);
+}
+
+char	*get_texture_column(t_line *wall, t_point point)
+{
+	double	line_length = distance_between_points(wall->p1, wall->p2);
+	double	texture_repeats = line_length / wall->texture->width;
+	double	point_distance = distance_between_points(wall->p1, point);
+	double	point_position = point_distance / line_length;
+	// printf("%f * %d * %f %% %d\n", point_position, wall->texture->width, texture_repeats, wall->texture->width);
+	int		column_index = (int)(point_position * wall->texture->width * texture_repeats) % wall->texture->width;
+
+	return (wall->texture->img.matrix[column_index]);
 }

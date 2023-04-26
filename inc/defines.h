@@ -6,7 +6,7 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/25 13:02:16 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/04/26 14:13:35 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 # define PLYSPEED	7
 # define PLYVIEW	15000
-# define PLYCOLLIDE	100
+# define PLYCOLLIDE	20
 
 # define X 0
 # define Y 1
@@ -114,6 +114,7 @@ struct s_colision
 {
 	t_point	point;
 	t_line	line;
+	char	*line_texture;
 	float	distance;
 	bool	valid;
 };
@@ -151,7 +152,6 @@ struct s_img
 	int				width;
 	int				height;
 };
-
 
 struct s_texture
 {

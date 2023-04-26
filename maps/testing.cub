@@ -42,10 +42,10 @@
 
 
 
-NO ./ruta_a_la_textura_norte
-SO ./ruta_a_la_textura_sur
-WE ./ruta_a_la_textura_oeste
-EA ./ruta_a_la_textura_este
+NO ./textures/wall.xpm    
+SO ./textures/wall.xpm
+WE ./textures/wall.xpm    
+EA ./textures/wall.xpm
 F 220,100,0
 C 225,30,0
 SC 50

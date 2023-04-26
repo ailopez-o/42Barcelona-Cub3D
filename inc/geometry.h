@@ -9,4 +9,6 @@ float		vector_to_angle(t_vector vector);
 t_vector	get_geo_vector(char geo);
 bool		is_horizontal(t_line line);
 bool		is_horizontal(t_line line);
+float		angle_between_lines(t_line l1, t_line l2);
+double		distance_between_points(t_point p1, t_point p2);
 

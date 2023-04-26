@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "mlx.h"
 #include "geometry.h"
+#include "parser.h"
 #include <fcntl.h>
 
 void	*ft_realloc(void *ptr, size_t size);
@@ -10,6 +11,9 @@ int		*get_int_array(char *line);
 int		map_builder(int **int_map, int scale, t_map *map, t_player *player);
 char	**get_image_matrix(char *data, int width, int height);
 void	matrix_printer(char **matrix, int width, int height);
+int		get_data_type(char *line);
+int		add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
+void	print_map_resume(t_map *map);
 
 int	load_map(char *path, t_cub *cub)
 {
@@ -18,6 +22,7 @@ int	load_map(char *path, t_cub *cub)
 	int		**int_map;
 	int		num_line;
 	int		num_textures;
+	int		data_type;
 
 	cub->map.objets = ft_calloc(1, sizeof(t_objet) * 300);
 	cub->map.textures = ft_calloc(1, sizeof(t_texture) * 100);
@@ -29,17 +34,6 @@ int	load_map(char *path, t_cub *cub)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (EXIT_FAILURE);
-
-	/////////////////// HARDCODER
-	cub->map.textures[0].path = ft_strdup("textures/wall.xpm");
-	cub->map.textures[0].img.ptr = mlx_xpm_file_to_image(cub->screen.handler, cub->map.textures[0].path, &cub->map.textures[0].width, &cub->map.textures[0].height);
-	cub->map.textures[0].img.addr = mlx_get_data_addr(cub->map.textures[0].img.ptr, NULL, NULL, NULL);
-	cub->map.textures[0].valid = true;
-	cub->map.textures[0].type = WALL;
-	cub->map.textures[0].img.matrix = get_image_matrix(cub->map.textures[0].img.addr, cub->map.textures[0].width, cub->map.textures[0].height);
-	// matrix_printer(cub->map.textures[0].img.matrix, cub->map.textures[0].width, cub->map.textures[0].height);exit(0);
-	/////////////////////////////
-
 	int_map = malloc(sizeof(char **));
 	num_line = 0;
 	num_textures = 0;
@@ -54,17 +48,76 @@ int	load_map(char *path, t_cub *cub)
 		}
 		else
 		{
-			
-			//DATA
-			//printf("data >> %s", line);
+			data_type = get_data_type(line);
+			if (data_type == NO || data_type == SO || data_type == WE || data_type == EA)
+			{
+				if (add_texture(line, cub->map.textures, &cub->screen, data_type) == EXIT_FAILURE)
+				{
+					free(line);
+					return (EXIT_FAILURE);
+				}
+			}
 			free(line);
 			line = get_next_line(fd);
 		}
 	}
 	int_map[num_line] = NULL;
-	//get_polygons(int_map, MAPSCALE, map->objets, &map->textures[0]);
 	map_builder(int_map, MAPSCALE, &cub->map, &cub->player);
+	print_map_resume(&cub->map);
 	return(EXIT_SUCCESS);
+}
+
+void	print_map_resume(t_map *map)
+{
+	int num;
+
+	num = 0;
+	while (map->textures[num].valid)
+		num++;
+	printf("Num textures \t [%d]\n", num);
+	num = 0;
+	while (map->objets[num].valid)
+		num++;
+	printf("Num objets \t [%d]\n", num);
+}
+
+int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
+{
+	char	*str_trimed;
+
+	while(textures->valid)
+		textures++;
+	str_trimed = ft_str_trim(path + 3);
+	textures->path = ft_substr(str_trimed, 0, ft_strlen(path) - 1);
+	free (str_trimed);
+	textures->img.ptr = mlx_xpm_file_to_image(screen->handler, textures->path, &textures->width, &textures->height);
+	if (textures->img.ptr == NULL)
+		return (EXIT_FAILURE);
+	textures->img.addr = mlx_get_data_addr(textures->img.ptr, NULL, NULL, NULL);
+	textures->valid = true;
+	textures->type = type;
+	textures->img.matrix = get_image_matrix(textures->img.addr, textures->width, textures->height);
+	return (EXIT_SUCCESS);
+	//Mirar si hace falta realloc
+}
+
+int	get_data_type(char *line)
+{
+	if (line[0] && line[0] == 'N' && line[1] && line[1] == 'O' && line[2] && line[2] == ' ')
+		return (NO);
+	if (line[0] && line[0] == 'S' && line[1] && line[1] == 'O' && line[2] && line[2] == ' ')
+		return (SO);
+	if (line[0] && line[0] == 'W' && line[1] && line[1] == 'E' && line[2] && line[2] == ' ')
+		return (WE);
+	if (line[0] && line[0] == 'E' && line[1] && line[1] == 'A' && line[2] && line[2] == ' ')
+		return (EA);
+	if (line[0] && line[0] == 'S' && line[1] && line[1] == 'C' && line[2] && line[2] == ' ')
+		return (SC);
+	if (line[0] && line[0] == 'C' && line[1] && line[1] == ' ')
+		return (C);
+	if (line[0] && line[0] == 'F' && line[1] && line[1] == ' ')
+		return (F);
+	return (0);
 }
 
 int	*get_int_array(char *line)
@@ -93,7 +146,6 @@ int	*get_int_array(char *line)
 	return (line_int);
 }
 
-//int	get_polygons(int **int_map, int scale, t_objet *objets, t_texture *texture)
 int	map_builder(int **int_map, int scale, t_map *map, t_player *player)
 {
 	int			num_obj;

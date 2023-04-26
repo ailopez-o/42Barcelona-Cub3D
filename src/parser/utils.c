@@ -78,3 +78,23 @@ char	*get_texture_column(t_line *wall, t_point point)
 
 	return (wall->texture->img.matrix[column_index]);
 }
+
+
+char	*ft_str_trim(char *str) 
+
+{
+	int		start;
+	int		end;
+	char	*new_str;
+	
+	end = ft_strlen(str) - 1;
+	start = 0;
+	while (str[start] == ' ')
+		start++;
+	while (str[end] == ' ' || str[end] == '\n')
+		end--;
+	if (end < start)
+		return (ft_strdup(""));
+	new_str = ft_substr(str, start, end - start +  1);
+	return (new_str);
+}

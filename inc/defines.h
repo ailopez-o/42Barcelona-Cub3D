@@ -32,6 +32,14 @@
 # define PLYVIEW	15000
 # define PLYCOLLIDE	20
 
+# define	NO	1
+# define	SO	2
+# define	WE	3
+# define	EA	4
+# define	F	5
+# define	C	6
+# define	SC	7
+
 # define X 0
 # define Y 1
 
@@ -58,11 +66,6 @@
 # define	WALL		1
 # define	DOOR		2
 # define	SPRITE		3
-
-#define		NO
-#define		SO
-#define		WE
-#define		EA
 
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;

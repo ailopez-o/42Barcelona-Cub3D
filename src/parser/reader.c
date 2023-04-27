@@ -14,6 +14,7 @@ void	matrix_printer(char **matrix, int width, int height);
 int		get_data_type(char *line);
 int		add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
 void	print_map_resume(t_map *map);
+int		color_parser(char *line);
 
 int	load_map(char *path, t_cub *cub)
 {
@@ -57,15 +58,41 @@ int	load_map(char *path, t_cub *cub)
 					return (EXIT_FAILURE);
 				}
 			}
+			if (data_type == F)
+				cub->map.bottom_color = color_parser(line);
+			if (data_type == C)
+				cub->map.top_color = color_parser(line);
 			free(line);
 			line = get_next_line(fd);
 		}
 	}
 	int_map[num_line] = NULL;
 	map_builder(int_map, MAPSCALE, &cub->map, &cub->player);
-	print_map_resume(&cub->map);
+	//print_map_resume(&cub->map);
 	return(EXIT_SUCCESS);
 }
+
+int	color_parser(char *line)
+{
+	char	*trim_line;
+	char	**splitted;
+	int		color[3];
+	int		hex;
+
+	trim_line = ft_str_trim(line + 1);
+	splitted = ft_split(trim_line, ',');
+	color[0] = ft_atoi(splitted[0]);
+	color[1] = ft_atoi(splitted[1]);
+	color[2] = ft_atoi(splitted[2]);
+	hex = color[0] << 16 | color[1] << 8 | color[2];
+	free(trim_line);
+	free (splitted[0]);
+	free (splitted[1]);
+	free (splitted[2]);
+	free (splitted);
+	return (hex);
+}
+
 
 void	print_map_resume(t_map *map)
 {

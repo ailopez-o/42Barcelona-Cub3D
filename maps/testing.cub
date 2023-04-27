@@ -47,5 +47,5 @@ SO ./textures/wall.xpm
 WE ./textures/wall.xpm    
 EA ./textures/wall.xpm
 F 220,100,0
-C 225,30,0
+C 50,10,150
 SC 50

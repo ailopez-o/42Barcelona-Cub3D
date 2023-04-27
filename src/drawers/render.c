@@ -4,8 +4,7 @@
 #include "geometry.h"
 #include <sys/time.h>
 
-void	render_3D(t_mlx *screen, t_player play, t_colision *colision);
-
+void	render_3D(t_cub *cub);
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions);
 void	draw_texture_line(t_mlx *screen, t_point start, t_point end, char *column);
 double	distance_between_points(t_point p1, t_point p2);
@@ -44,9 +43,9 @@ int	render(void *param)
 	//free(cub->player.ray_colider);
 	get_dir_ray_collider(&cub->player, FOV, cub->map.objets);
 	draw_player(&cub->screen, cub->player, MINIMAPSCALE);
+	draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
 	draw_objets(&cub->screen, cub->map.objets, MINIMAPSCALE);
-	render_3D(&cub->screen, cub->player, cub->player.ray_colider);
-	//draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
+	render_3D(cub);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	num_frames++;
@@ -66,21 +65,23 @@ void	draw_player(t_mlx *screen, t_player player, float scale)
 }
 
 
-void	render_3D(t_mlx *screen, t_player play, t_colision *colision)
+void	render_3D(t_cub *cub)
 {
 	t_point		start;
 	t_point		end;
 	t_vector	vector_ray;
-	t_vector	vector_playr = play.front;
-	float		angulo_player = vector_to_angle(play.front);
+	float		angulo_player = vector_to_angle(cub->player.front);
 	float		angulo_ray;
 	int			iter;
 	int			line_height;
+	t_colision	*colision;
+
+	colision = cub->player.ray_colider;
 
 	iter = 0;
 	while (colision->valid)
 	{
-		vector_ray = get_unit_vector(play.pos, colision->point),
+		vector_ray = get_unit_vector(cub->player.pos, colision->point),
 		angulo_ray = vector_to_angle(vector_ray);
 		line_height = (int)(WINY / (colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) * 100);
 		start.x = WINX - iter;
@@ -94,14 +95,14 @@ void	render_3D(t_mlx *screen, t_player play, t_colision *colision)
 			end.y = WINY;
 		end.color = start.color;
 		// draw_line(screen, start, end);
-		draw_texture_line(screen, start, end, adjust_column(colision->line_texture, distance_between_points(start, end)));
+		draw_texture_line(&cub->screen, start, end, adjust_column(colision->line_texture, distance_between_points(start, end)));
 		if (end.y < WINY)
 		{
 			start.y = end.y;
 			end.y = WINY;
-			start.color = SKYCOLOR;
-			end.color = SKYCOLOR;
-			draw_line(screen, start, end);
+			start.color = cub->map.top_color;
+			end.color = cub->map.top_color;
+			draw_line(&cub->screen, start, end);
 		}
 		colision++;
 		iter++;
@@ -111,16 +112,19 @@ void	render_3D(t_mlx *screen, t_player play, t_colision *colision)
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions)
 {
 	static int	iter = 0;
+	t_point		point;
 
+	pos.x *= MINIMAPSCALE;
+	pos.y *= MINIMAPSCALE;
 	while (colisions->valid)
 	{
 		pos.color = WHITE;
 		colisions->point.color = WALLCOLOR;
-		draw_line(screen, pos, colisions->point);
+		point = colisions->point;
+		point.x *= MINIMAPSCALE;
+		point.y *= MINIMAPSCALE;
+		draw_line(screen, pos, point);
 		colisions++;
-		iter++;
-		if (iter > WIN2D)
-			iter = 0;
 	}
 
 }

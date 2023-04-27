@@ -32,7 +32,7 @@ SRCS =		ft_atoi.c		ft_memmove.c	ft_strlcpy.c	\
 
 OBJS =		$(SRCS:.c=.o)
 
-FLAGS =		-Werror -Wextra -Wall -c
+FLAGS =		-g -Werror -Wextra -Wall -c
 
 CC = 		gcc
 

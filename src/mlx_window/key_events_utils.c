@@ -22,31 +22,19 @@ void	move_player(t_cub *cub, int key)
 	t_vector	ortogonal;
 
 	if (key == KEY_W || key == KEY_UP)
-		cub->player.pos = move_player_vector(cub, cub->player.front, PLYSPEED);
+		cub->player.move = GO_FRONT;
 	if (key == KEY_S || key == KEY_DOWN)
-		cub->player.pos = move_player_vector(cub, rotate_vector(cub->player.front, 180), PLYSPEED);
+		cub->player.move = GO_BACK;
 	if (key == KEY_A)
-	{
-		ortogonal = rotate_vector(cub->player.front, 90);
-		cub->player.pos = move_player_vector(cub, ortogonal, PLYSPEED);
-	}
+		cub->player.move = GO_LEFT;
 	if (key == KEY_D)
-	{
-		ortogonal = rotate_vector(cub->player.front, -90);
-		cub->player.pos = move_player_vector(cub, ortogonal, PLYSPEED);
-	}
+		cub->player.move = GO_RIGHT;
 }
 
 void	turn_player(t_cub *cub, int key)
 {
 	if (key == KEY_LEFT)
-	{
-		cub->player.front = rotate_vector(cub->player.front, PLYSPEED);
-		cub->player.cam = cub->player.front;
-	}
+		cub->player.rotate = ROTATE_L;
 	if (key == KEY_RIGHT)
-	{
-		cub->player.front = rotate_vector(cub->player.front, -PLYSPEED);
-		cub->player.cam = cub->player.front;
-	}
+		cub->player.rotate = ROTATE_R;
 }

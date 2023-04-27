@@ -9,6 +9,7 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
 void	draw_texture_line(t_mlx *screen, t_point start, t_point end, char *column);
 double	distance_between_points(t_point p1, t_point p2);
 char	*adjust_column(char *column, double distance);
+void	player_position(t_cub *cub);
 
 /**
  * render - Renders the game on the screen
@@ -40,7 +41,7 @@ int	render(void *param)
 		num_frames = 0;
 	}
 	clear_screen(&cub->screen);
-	//free(cub->player.ray_colider);
+	player_position(cub);
 	get_dir_ray_collider(&cub->player, FOV, cub->map.objets);
 	draw_player(&cub->screen, cub->player, MINIMAPSCALE);
 	draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
@@ -50,6 +51,38 @@ int	render(void *param)
 	cub->screen.img, 0, 0);
 	num_frames++;
 	return (EXIT_SUCCESS);
+}
+
+void	player_position(t_cub *cub)
+{
+	t_vector	ortogonal;
+
+	if (cub->player.move == GO_FRONT)
+		cub->player.pos = move_player_vector(cub, cub->player.front, PLYSPEED);
+	if (cub->player.move == GO_BACK)
+		cub->player.pos = move_player_vector(cub, rotate_vector(cub->player.front, 180), PLYSPEED);
+	if (cub->player.move == GO_RIGHT)
+	{
+		ortogonal = rotate_vector(cub->player.front, -90);
+		cub->player.pos = move_player_vector(cub, ortogonal, PLYSPEED);
+	}
+	if (cub->player.move == GO_LEFT)
+	{
+		ortogonal = rotate_vector(cub->player.front, 90);
+		cub->player.pos = move_player_vector(cub, ortogonal, PLYSPEED);
+	}
+	if (cub->player.rotate == ROTATE_R)
+	{
+		cub->player.front = rotate_vector(cub->player.front, -PLYROTSPEED);
+		cub->player.cam = cub->player.front;
+	}
+	if (cub->player.rotate == ROTATE_L)
+	{
+		cub->player.front = rotate_vector(cub->player.front, PLYROTSPEED);
+		cub->player.cam = cub->player.front;
+	}
+
+
 }
 
 void	draw_player(t_mlx *screen, t_player player, float scale)

@@ -28,9 +28,20 @@
 # define MAPSCALE		70
 # define MINIMAPSCALE	0.1
 
-# define PLYSPEED	7
-# define PLYVIEW	15000
-# define PLYCOLLIDE	20
+# define PLYSPEED		15
+# define PLYROTSPEED	10
+# define PLYVIEW		15000
+# define PLYCOLLIDE		20
+# define STOP			0
+# define GO_FRONT		1
+# define GO_BACK		2
+# define GO_LEFT		3
+# define GO_RIGHT		4
+# define ROTATE_L		1
+# define ROTATE_R		2
+
+
+
 
 # define	NO	1
 # define	SO	2
@@ -142,6 +153,8 @@ struct s_player
 	t_vector	front;
 	t_vector	cam;
 	t_colision	*ray_colider;
+	int			move;
+	int			rotate;
 };
 
 struct s_img

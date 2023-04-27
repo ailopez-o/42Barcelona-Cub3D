@@ -43,6 +43,10 @@ int	key_release(int key, void *param)
 
 	(void) key;
 	cub = (t_cub *)param;
+	if (key == KEY_W || key == KEY_UP || key == KEY_S || key == KEY_DOWN || key == KEY_A || key == KEY_D)
+		cub->player.move = STOP;
+	if (key == KEY_LEFT || key == KEY_RIGHT)
+		cub->player.rotate = STOP;
 	return (EXIT_SUCCESS);
 
 }

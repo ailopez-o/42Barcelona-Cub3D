@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-	<img src="https://github.com/ChewyToast/03_minishell/blob/main/.img/home.jpg?raw=true" />
+	<img src="https://github.com/ailopez-o/42Barcelona-Cub3D/blob/main/.img/wolfenstein3d1.jpeg" />
 </p>
 
 

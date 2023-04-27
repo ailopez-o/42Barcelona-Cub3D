@@ -25,6 +25,8 @@ bool	init_cub(t_cub *cub, char *path)
 	cub->player.cam.dir[X] = 0;
 	cub->player.cam.dir[Y] = 1;
 	cub->player.pos.color = VERDE;
+	cub->player.move = STOP;
+	cub->player.rotate = STOP;
 	if (load_map(path, cub) != EXIT_SUCCESS)
 		return(EXIT_FAILURE);
 	mlx_mouse_hide();

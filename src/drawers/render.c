@@ -81,8 +81,6 @@ void	player_position(t_cub *cub)
 		cub->player.front = rotate_vector(cub->player.front, PLYROTSPEED);
 		cub->player.cam = cub->player.front;
 	}
-
-
 }
 
 void	draw_player(t_mlx *screen, t_player player, float scale)

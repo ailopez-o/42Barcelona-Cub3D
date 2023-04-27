@@ -29,7 +29,7 @@
 # define MINIMAPSCALE	0.1
 
 # define PLYSPEED		15
-# define PLYROTSPEED	10
+# define PLYROTSPEED	3
 # define PLYVIEW		15000
 # define PLYCOLLIDE		20
 # define STOP			0

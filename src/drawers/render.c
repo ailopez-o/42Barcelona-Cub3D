@@ -70,14 +70,13 @@ void	render_3D(t_cub *cub)
 	t_point		start;
 	t_point		end;
 	t_vector	vector_ray;
-	float		angulo_player = vector_to_angle(cub->player.front);
+	float		angulo_player = vector_to_angle(cub->player.cam);
 	float		angulo_ray;
 	int			iter;
 	int			line_height;
 	t_colision	*colision;
 
 	colision = cub->player.ray_colider;
-
 	iter = 0;
 	while (colision->valid)
 	{

@@ -17,7 +17,7 @@
 #include "geometry.h"
 #include <sys/time.h>
 
-void	moove_player(t_cub *cub, int key)
+void	move_player(t_cub *cub, int key)
 {
 	t_vector	ortogonal;
 

@@ -7,7 +7,7 @@
 
 
 int		terminate_program(void *param);
-void	moove_player(t_cub *cub, int key);
+void	move_player(t_cub *cub, int key);
 void	turn_player(t_cub *cub, int key);
 
 /* 
@@ -25,9 +25,11 @@ int	key_press(int key, void *param)
 		clear_screen(&cub->screen);
 	if (key == KEY_W || key == KEY_UP || key == KEY_S
 		|| key == KEY_DOWN || key == KEY_D || key == KEY_A)
-		moove_player(cub, key);
+		move_player(cub, key);
 	if (key == KEY_LEFT || key == KEY_RIGHT)
 		turn_player(cub, key);
+	if (key == KEY_R)
+		cub->player.cam = rotate_vector(cub->player.cam, 180);
 	return (EXIT_SUCCESS);
 }
 

@@ -58,7 +58,7 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 	}
 }
 
-void	draw_texture_line(t_mlx *screen, t_point start, t_point end, char *column)
+void	draw_texture_line(t_mlx *screen, t_point start, t_point end, int *column)
 {
 	t_point	delta;
 	t_point	pixel;

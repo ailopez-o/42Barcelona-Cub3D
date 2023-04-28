@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:48 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/26 14:11:11 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/04/28 17:25:44 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,14 @@ float	norm_distancia(int dist)
 	return (dist / 675);
 }
 
-char	*adjust_column(char *column, double distance)
+int	*adjust_column(int *column, double distance)
 {
 	int texture_height = ft_strlen(column);
 
     if (distance < texture_height)
     {
         int new_height = (int)(texture_height * distance / (double)texture_height);
-        char *new_column = malloc(new_height * sizeof(char));
+        int *new_column = malloc(new_height * sizeof(int));
         if (!new_column)
             return NULL;
         for (int i = 0; i < new_height; i++)
@@ -110,7 +110,7 @@ char	*adjust_column(char *column, double distance)
     else
     {
         int new_height = (int)distance;
-        char *new_column = malloc(new_height * sizeof(char));
+        int *new_column = malloc(new_height * sizeof(int));
         if (!new_column)
             return NULL;
         for (int i = 0; i < new_height; i++)

@@ -6,9 +6,9 @@
 
 void	render_3D(t_cub *cub);
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions);
-void	draw_texture_line(t_mlx *screen, t_point start, t_point end, char *column);
+void	draw_texture_line(t_mlx *screen, t_point start, t_point end, int *column);
 double	distance_between_points(t_point p1, t_point p2);
-char	*adjust_column(char *column, double distance);
+int		*adjust_column(int *column, double distance);
 void	player_position(t_cub *cub);
 
 /**

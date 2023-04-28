@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 21:35:03 by bmoll             #+#    #+#             */
-/*   Updated: 2023/04/26 14:12:25 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/04/28 17:26:12 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 double	distance_between_points(t_point p1, t_point p2);
 
-void	matrix_printer(char **matrix, int width, int height)
+void	matrix_printer(int **matrix, int width, int height)
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -44,19 +44,19 @@ void	matrix_printer(char **matrix, int width, int height)
 	mlx_loop(mlx_ptr);
 }
 
-char	**get_image_matrix(char *data, int width, int height)
+int	**get_image_matrix(char *data, int width, int height)
 {
-	char		**matrix;
+	int		**matrix;
 	ssize_t		i;
 	ssize_t		j;
 
 	i = -1;
-	matrix = malloc(sizeof(char *) * width);
+	matrix = malloc(sizeof(int *) * width);
 	if (!matrix)
 		return (NULL);
 	while (++i < width)
 	{
-		matrix[i] = malloc(sizeof(char) * height);
+		matrix[i] = malloc(sizeof(int) * height);
 		if (!matrix[i])
 			return (NULL);
 		j = -1;
@@ -67,7 +67,7 @@ char	**get_image_matrix(char *data, int width, int height)
 	return (matrix);
 }
 
-char	*get_texture_column(t_line *wall, t_point point)
+int	*get_texture_column(t_line *wall, t_point point)
 {
 	double	line_length = distance_between_points(wall->p1, wall->p2);
 	double	texture_repeats = line_length / wall->texture->width;

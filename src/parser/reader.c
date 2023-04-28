@@ -9,8 +9,8 @@
 void	*ft_realloc(void *ptr, size_t size);
 int		*get_int_array(char *line);
 int		map_builder(int **int_map, int scale, t_map *map, t_player *player);
-char	**get_image_matrix(char *data, int width, int height);
-void	matrix_printer(char **matrix, int width, int height);
+int		**get_image_matrix(char *data, int width, int height);
+void	matrix_printer(int **matrix, int width, int height);
 int		get_data_type(char *line);
 int		add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
 void	print_map_resume(t_map *map);

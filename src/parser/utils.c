@@ -6,7 +6,7 @@
 /*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 21:35:03 by bmoll             #+#    #+#             */
-/*   Updated: 2023/04/28 17:26:12 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:55:05 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,18 @@ void	matrix_printer(int **matrix, int width, int height)
 	{
 		for (j = 0; j < height; j++)
 		{
-			img_data[(j * width + i) * 4] = matrix[i][j];
-			img_data[(j * width + i) * 4 + 1] = matrix[i][j];
-			img_data[(j * width + i) * 4 + 2] = matrix[i][j];
-			img_data[(j * width + i) * 4 + 3] = 0;
+			mlx_pixel_put(mlx_ptr, win_ptr, i, j, matrix[i][j]);
 		}
 	}
-
-	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
+	// mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
 	mlx_loop(mlx_ptr);
 }
 
 int	**get_image_matrix(char *data, int width, int height)
 {
 	int		**matrix;
-	ssize_t		i;
-	ssize_t		j;
+	int		i;
+	int		j;
 
 	i = -1;
 	matrix = malloc(sizeof(int *) * width);
@@ -61,9 +57,17 @@ int	**get_image_matrix(char *data, int width, int height)
 			return (NULL);
 		j = -1;
 		while (++j < height)
-			matrix[i][j] = data[(j * width + i) * 4];
+		{
+			printf("%d %d | %d %d ==== data[%ld]\n", i, j, width, height, ((j * width + (i * sizeof(int)))));
+			// matrix[i][j] = 0;
+			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int)))] << 24;//			1110 0000
+			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 1] << 16;//	 OR 0000 1001
+			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 2] << 8;//		---------
+			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 3];//			1110 1001
+			matrix[i][j] = ((int *)data)[(j * width + (i))];
+		}
 	}
-	// matrix_printer(matrix, width, height);exit(0);
+	matrix_printer(matrix, width, height);
 	return (matrix);
 }
 
@@ -73,15 +77,12 @@ int	*get_texture_column(t_line *wall, t_point point)
 	double	texture_repeats = line_length / wall->texture->width;
 	double	point_distance = distance_between_points(wall->p1, point);
 	double	point_position = point_distance / line_length;
-	// printf("%f * %d * %f %% %d\n", point_position, wall->texture->width, texture_repeats, wall->texture->width);
 	int		column_index = (int)(point_position * wall->texture->width * texture_repeats) % wall->texture->width;
 
 	return (wall->texture->img.matrix[column_index]);
 }
 
-
 char	*ft_str_trim(char *str) 
-
 {
 	int		start;
 	int		end;

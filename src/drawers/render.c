@@ -127,7 +127,7 @@ void	render_3D(t_cub *cub)
 			end.y = WINY;
 		end.color = start.color;
 		// draw_line(screen, start, end);
-		draw_texture_line(&cub->screen, start, end, adjust_column(colision->line_texture, distance_between_points(start, end)));
+		draw_texture_line(&cub->screen, start, end, colision->line_texture);
 		if (end.y < WINY)
 		{
 			start.y = end.y;

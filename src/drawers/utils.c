@@ -6,7 +6,7 @@
 /*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:48 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/28 17:25:44 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/28 19:00:48 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,8 @@ float	norm_distancia(int dist)
 	return (dist / 675);
 }
 
-int	*adjust_column(int *column, double distance)
+int	*adjust_column(int *column, int texture_height, double distance)
 {
-	int texture_height = ft_strlen(column);
-
     if (distance < texture_height)
     {
         int new_height = (int)(texture_height * distance / (double)texture_height);

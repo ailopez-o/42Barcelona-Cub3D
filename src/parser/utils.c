@@ -6,7 +6,7 @@
 /*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 21:35:03 by bmoll             #+#    #+#             */
-/*   Updated: 2023/04/28 18:55:05 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:57:42 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	**get_image_matrix(char *data, int width, int height)
 			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 1] << 16;//	 OR 0000 1001
 			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 2] << 8;//		---------
 			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 3];//			1110 1001
-			matrix[i][j] = ((int *)data)[(j * width + (i))];
+			matrix[i][j] = ((int *)data)[(j * width + i)];
 		}
 	}
-	matrix_printer(matrix, width, height);
+	// matrix_printer(matrix, width, height);
 	return (matrix);
 }
 

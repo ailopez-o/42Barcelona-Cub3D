@@ -30,6 +30,20 @@ int	key_press(int key, void *param)
 		turn_player(cub, key);
 	if (key == KEY_R)
 		cub->player.cam = rotate_vector(cub->player.cam, 180);
+	if (key == KEY_SUM || key == KEY_SUM2)
+	{
+		cub->player.player_speed++;
+		cub->player.player_rot_speed += 0.2;
+
+	}
+	if (key == KEY_RES || key == KEY_RES2)
+	{
+		if (cub->player.player_speed > 1)		
+			cub->player.player_speed--;
+		if (cub->player.player_rot_speed > 1)
+			cub->player.player_rot_speed -= 0.2;
+	}
+	
 	return (EXIT_SUCCESS);
 }
 

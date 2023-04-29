@@ -57,27 +57,27 @@ void	player_position(t_cub *cub)
 	t_vector	ortogonal;
 
 	if ((cub->player.move & 0x01) == GO_FRONT)
-		cub->player.pos = move_player_vector(cub, cub->player.front, PLYSPEED);
+		cub->player.pos = move_player_vector(cub, cub->player.front, cub->player.player_speed);
 	if ((cub->player.move & 0x02) == GO_BACK)
-		cub->player.pos = move_player_vector(cub, rotate_vector(cub->player.front, 180), PLYSPEED);
+		cub->player.pos = move_player_vector(cub, rotate_vector(cub->player.front, 180), cub->player.player_speed);
 	if ((cub->player.move & 0x04) == GO_RIGHT)
 	{
 		ortogonal = rotate_vector(cub->player.front, -90);
-		cub->player.pos = move_player_vector(cub, ortogonal, PLYSPEED);
+		cub->player.pos = move_player_vector(cub, ortogonal, cub->player.player_speed);
 	}
 	if ((cub->player.move & 0x08) == GO_LEFT)
 	{
 		ortogonal = rotate_vector(cub->player.front, 90);
-		cub->player.pos = move_player_vector(cub, ortogonal, PLYSPEED);
+		cub->player.pos = move_player_vector(cub, ortogonal, cub->player.player_speed);
 	}
 	if (cub->player.rotate == ROTATE_R)
 	{
-		cub->player.front = rotate_vector(cub->player.front, -PLYROTSPEED);
+		cub->player.front = rotate_vector(cub->player.front, -cub->player.player_rot_speed);
 		cub->player.cam = cub->player.front;
 	}
 	if (cub->player.rotate == ROTATE_L)
 	{
-		cub->player.front = rotate_vector(cub->player.front, PLYROTSPEED);
+		cub->player.front = rotate_vector(cub->player.front, cub->player.player_rot_speed);
 		cub->player.cam = cub->player.front;
 	}
 }

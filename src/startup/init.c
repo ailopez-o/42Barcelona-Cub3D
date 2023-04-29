@@ -24,6 +24,8 @@ bool	init_cub(t_cub *cub, char *path)
 	cub->player.front.dir[Y] = 1;
 	cub->player.cam.dir[X] = 0;
 	cub->player.cam.dir[Y] = 1;
+	cub->player.player_speed = PLYSPEED;
+	cub->player.player_rot_speed = PLYROTSPEED;
 	cub->player.pos.color = VERDE;
 	cub->player.move = STOP;
 	cub->player.rotate = STOP;

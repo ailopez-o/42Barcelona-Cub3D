@@ -28,7 +28,7 @@
 # define MAPSCALE		70
 # define MINIMAPSCALE	0.1
 
-# define PLYSPEED		15
+# define PLYSPEED		3
 # define PLYROTSPEED	3
 # define PLYVIEW		15000
 # define PLYCOLLIDE		20
@@ -152,6 +152,8 @@ struct s_player
 	t_colision	*ray_colider;
 	int			move;
 	int			rotate;
+	float		player_speed;
+	float		player_rot_speed;
 };
 
 struct s_img

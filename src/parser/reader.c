@@ -115,7 +115,7 @@ int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 	str_trimed = ft_str_trim(path + 3);
 	textures->path = ft_substr(str_trimed, 0, ft_strlen(path) - 1);
 	free (str_trimed);
-	textures->img.ptr = mlx_xpm_file_to_image(screen->handler, "./textures/bluestone.xpm", &textures->width, &textures->height);
+	textures->img.ptr = mlx_xpm_file_to_image(screen->handler, textures->path, &textures->width, &textures->height);
 	if (textures->img.ptr == NULL)
 		return (EXIT_FAILURE);
 	textures->img.addr = mlx_get_data_addr(textures->img.ptr, NULL, NULL, NULL);

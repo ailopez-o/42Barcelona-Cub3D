@@ -42,7 +42,7 @@
 
 
 
-NO ./textures/wall.xpm    
+NO ./textures/bluestone.xpm    
 SO ./textures/wall.xpm
 WE ./textures/wall.xpm    
 EA ./textures/wall.xpm

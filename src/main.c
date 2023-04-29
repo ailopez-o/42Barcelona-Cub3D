@@ -41,6 +41,7 @@ int	main(int argv, char **argc)
 {
 	t_cub		cub;
 
+	ft_bzero(&cub, sizeof(t_cub));
 	if (argv > 2)
 		return(EXIT_FAILURE);
 	if (window_init(&cub.screen))

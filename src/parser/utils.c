@@ -58,7 +58,7 @@ int	**get_image_matrix(char *data, int width, int height)
 		j = -1;
 		while (++j < height)
 		{
-			printf("%d %d | %d %d ==== data[%ld]\n", i, j, width, height, ((j * width + (i * sizeof(int)))));
+			//printf("%d %d | %d %d ==== data[%ld]\n", i, j, width, height, ((j * width + (i * sizeof(int)))));
 			// matrix[i][j] = 0;
 			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int)))] << 24;//			1110 0000
 			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 1] << 16;//	 OR 0000 1001

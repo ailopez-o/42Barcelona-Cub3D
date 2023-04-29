@@ -22,13 +22,13 @@ void	move_player(t_cub *cub, int key)
 	t_vector	ortogonal;
 
 	if (key == KEY_W || key == KEY_UP)
-		cub->player.move = GO_FRONT;
+		cub->player.move = cub->player.move | GO_FRONT;
 	if (key == KEY_S || key == KEY_DOWN)
-		cub->player.move = GO_BACK;
+		cub->player.move = cub->player.move | GO_BACK;
 	if (key == KEY_A)
-		cub->player.move = GO_LEFT;
+		cub->player.move = cub->player.move | GO_LEFT;
 	if (key == KEY_D)
-		cub->player.move = GO_RIGHT;
+		cub->player.move = cub->player.move | GO_RIGHT;
 }
 
 void	turn_player(t_cub *cub, int key)

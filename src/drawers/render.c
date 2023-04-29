@@ -57,16 +57,16 @@ void	player_position(t_cub *cub)
 {
 	t_vector	ortogonal;
 
-	if (cub->player.move == GO_FRONT)
+	if ((cub->player.move & 0x01) == GO_FRONT)
 		cub->player.pos = move_player_vector(cub, cub->player.front, PLYSPEED);
-	if (cub->player.move == GO_BACK)
+	if ((cub->player.move & 0x02) == GO_BACK)
 		cub->player.pos = move_player_vector(cub, rotate_vector(cub->player.front, 180), PLYSPEED);
-	if (cub->player.move == GO_RIGHT)
+	if ((cub->player.move & 0x04) == GO_RIGHT)
 	{
 		ortogonal = rotate_vector(cub->player.front, -90);
 		cub->player.pos = move_player_vector(cub, ortogonal, PLYSPEED);
 	}
-	if (cub->player.move == GO_LEFT)
+	if ((cub->player.move & 0x08) == GO_LEFT)
 	{
 		ortogonal = rotate_vector(cub->player.front, 90);
 		cub->player.pos = move_player_vector(cub, ortogonal, PLYSPEED);

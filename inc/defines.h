@@ -35,13 +35,10 @@
 # define STOP			0
 # define GO_FRONT		1
 # define GO_BACK		2
-# define GO_LEFT		3
 # define GO_RIGHT		4
+# define GO_LEFT		8
 # define ROTATE_L		1
 # define ROTATE_R		2
-
-
-
 
 # define	NO	1
 # define	SO	2

@@ -8,4 +8,6 @@ void 	draw_polygon(t_mlx *screen, t_polygon polygon, float scale);
 void	draw_objets(t_mlx *screen, t_objet *objets, float scale);
 int		render(void *param);
 int		gradient(int startcolor, int endcolor, int len, int pix);
-int		color_fade(int color_hex, int iteraciones);
+int		color_fade(int color_hex, int value);
+void	draw_texture_line(t_mlx *screen, t_line stripe, int *column, bool b_shadow);
+

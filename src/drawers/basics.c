@@ -58,7 +58,7 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 	}
 }
 
-void	draw_texture_line(t_mlx *screen, t_point start, t_point end, int *column)
+void	draw_texture_line(t_mlx *screen, t_line stripe, int *column, bool b_shadow)
 {
 	t_point	delta;
 	t_point	pixel;
@@ -66,27 +66,29 @@ void	draw_texture_line(t_mlx *screen, t_point start, t_point end, int *column)
 	int		len;
 	int		i = 0;
 
-	if (start.y < 0)
-		start.y = 0;
-	if (start.y > WINY)
-		start.y = WINY;
-	if (end.y < 0)
-		end.y = 0;
-	if (end.y > WINY)
-		end.y = WINY;
+	if (stripe.p1.y < 0)
+		stripe.p1.y = 0;
+	if (stripe.p1.y > WINY)
+		stripe.p1.y = WINY;
+	if (stripe.p2.y < 0)
+		stripe.p2.y = 0;
+	if (stripe.p2.y > WINY)
+		stripe.p2.y = WINY;
 
-	delta.x = end.x - start.x;
-	delta.y = end.y - start.y;
+	delta.x = stripe.p2.x - stripe.p1.x;
+	delta.y = stripe.p2.y - stripe.p1.y;
 	pixels = sqrt((delta.x * delta.x) + \
 			(delta.y * delta.y));
 	len = pixels;
 	delta.x /= pixels;
 	delta.y /= pixels;
-	pixel.x = start.x;
-	pixel.y = start.y;
+	pixel.x = stripe.p1.x;
+	pixel.y = stripe.p1.y;
 	while (pixels > 0)
 	{
 		pixel.color = column[i];
+		if (b_shadow)
+			pixel.color = color_fade(pixel.color, 40);
 		my_pixel_put(screen, pixel);
 		pixel.x += delta.x;
 		pixel.y += delta.y;

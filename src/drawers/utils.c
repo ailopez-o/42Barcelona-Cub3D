@@ -54,31 +54,31 @@ int	ft_round(double num)
 
 
 
-int color_fade(int color_hex, int iteraciones)
+int color_fade(int color_hex, int value)
 {
-	if (iteraciones > PLYVIEW)
-		return (BGCOLOR);
+	// if (iteraciones > PLYVIEW)
+	// 	return (BGCOLOR);
 	int r = (color_hex >> 16) & 0xFF;
 	int g = (color_hex >> 8) & 0xFF;
 	int b = color_hex & 0xFF;
 
-	// Escalar el número de iteraciones de 0-300
-	float escala = (float)iteraciones / PLYVIEW;
-	if (escala > 1.0) escala = 1.0;
+	// // Escalar el número de iteraciones de 0-300
+	// float escala = (float)iteraciones / PLYVIEW;
+	// if (escala > 1.0) escala = 1.0;
 
 	// Calcular el decremento en función de la escala
-	int decremento = (int)(escala * 255.0);
+	//int decremento = (int)(escala * 255.0);
 
-	r -= decremento;
-	g -= decremento;
-	b -= decremento;
+	r -= value;
+	g -= value;
+	b -= value;
 
-	// Si la escala es mayor que 1, establecer el color a negro
-	if (escala >= 1.0) {
-		r = 0;
-		g = 0;
-		b = 0;
-	}
+	// // Si la escala es mayor que 1, establecer el color a negro
+	// if (escala >= 1.0) {
+	// 	r = 0;
+	// 	g = 0;
+	// 	b = 0;
+	// }
 
 	// Asegurarse de que los componentes RGB no sean menores que 0
 	r = (r < 0) ? 0 : r;

@@ -25,8 +25,8 @@
 # define WIN2D 			850
 # define WINX			1350
 # define FOV			90
-# define MAPSCALE		70
-# define MINIMAPSCALE	0.1
+# define MAPSCALE		150
+# define MINIMAPSCALE	0.05
 
 # define PLYSPEED		3
 # define PLYROTSPEED	3

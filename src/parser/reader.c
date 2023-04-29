@@ -9,8 +9,8 @@
 void	*ft_realloc(void *ptr, size_t size);
 int		*get_int_array(char *line);
 int		map_builder(int **int_map, int scale, t_map *map, t_player *player);
-char	**get_image_matrix(char *data, int width, int height);
-void	matrix_printer(char **matrix, int width, int height);
+int		**get_image_matrix(char *data, int width, int height);
+void	matrix_printer(int **matrix, int width, int height);
 int		get_data_type(char *line);
 int		add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
 void	print_map_resume(t_map *map);
@@ -68,7 +68,6 @@ int	load_map(char *path, t_cub *cub)
 	}
 	int_map[num_line] = NULL;
 	map_builder(int_map, MAPSCALE, &cub->map, &cub->player);
-	//print_map_resume(&cub->map);
 	return(EXIT_SUCCESS);
 }
 
@@ -93,7 +92,6 @@ int	color_parser(char *line)
 	return (hex);
 }
 
-
 void	print_map_resume(t_map *map)
 {
 	int num;
@@ -117,10 +115,12 @@ int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 	str_trimed = ft_str_trim(path + 3);
 	textures->path = ft_substr(str_trimed, 0, ft_strlen(path) - 1);
 	free (str_trimed);
-	textures->img.ptr = mlx_xpm_file_to_image(screen->handler, textures->path, &textures->width, &textures->height);
+	textures->img.ptr = mlx_xpm_file_to_image(screen->handler, "./textures/bluestone.xpm", &textures->width, &textures->height);
 	if (textures->img.ptr == NULL)
 		return (EXIT_FAILURE);
 	textures->img.addr = mlx_get_data_addr(textures->img.ptr, NULL, NULL, NULL);
+	if (textures->img.addr == NULL)
+		return (EXIT_FAILURE);
 	textures->valid = true;
 	textures->type = type;
 	textures->img.matrix = get_image_matrix(textures->img.addr, textures->width, textures->height);

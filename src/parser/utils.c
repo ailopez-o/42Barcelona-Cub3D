@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 21:35:03 by bmoll             #+#    #+#             */
-/*   Updated: 2023/04/26 14:12:25 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/04/28 18:57:42 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 double	distance_between_points(t_point p1, t_point p2);
 
-void	matrix_printer(char **matrix, int width, int height)
+void	matrix_printer(int **matrix, int width, int height)
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -33,55 +33,56 @@ void	matrix_printer(char **matrix, int width, int height)
 	{
 		for (j = 0; j < height; j++)
 		{
-			img_data[(j * width + i) * 4] = matrix[i][j];
-			img_data[(j * width + i) * 4 + 1] = matrix[i][j];
-			img_data[(j * width + i) * 4 + 2] = matrix[i][j];
-			img_data[(j * width + i) * 4 + 3] = 0;
+			mlx_pixel_put(mlx_ptr, win_ptr, i, j, matrix[i][j]);
 		}
 	}
-
-	mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
+	// mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
 	mlx_loop(mlx_ptr);
 }
 
-char	**get_image_matrix(char *data, int width, int height)
+int	**get_image_matrix(char *data, int width, int height)
 {
-	char		**matrix;
-	ssize_t		i;
-	ssize_t		j;
+	int		**matrix;
+	int		i;
+	int		j;
 
 	i = -1;
-	matrix = malloc(sizeof(char *) * width);
+	matrix = malloc(sizeof(int *) * width);
 	if (!matrix)
 		return (NULL);
 	while (++i < width)
 	{
-		matrix[i] = malloc(sizeof(char) * height);
+		matrix[i] = malloc(sizeof(int) * height);
 		if (!matrix[i])
 			return (NULL);
 		j = -1;
 		while (++j < height)
-			matrix[i][j] = data[(j * width + i) * 4];
+		{
+			printf("%d %d | %d %d ==== data[%ld]\n", i, j, width, height, ((j * width + (i * sizeof(int)))));
+			// matrix[i][j] = 0;
+			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int)))] << 24;//			1110 0000
+			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 1] << 16;//	 OR 0000 1001
+			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 2] << 8;//		---------
+			// matrix[i][j] = matrix[i][j] | data[(j * width + (i * sizeof(int))) + 3];//			1110 1001
+			matrix[i][j] = ((int *)data)[(j * width + i)];
+		}
 	}
-	// matrix_printer(matrix, width, height);exit(0);
+	// matrix_printer(matrix, width, height);
 	return (matrix);
 }
 
-char	*get_texture_column(t_line *wall, t_point point)
+int	*get_texture_column(t_line *wall, t_point point)
 {
 	double	line_length = distance_between_points(wall->p1, wall->p2);
 	double	texture_repeats = line_length / wall->texture->width;
 	double	point_distance = distance_between_points(wall->p1, point);
 	double	point_position = point_distance / line_length;
-	// printf("%f * %d * %f %% %d\n", point_position, wall->texture->width, texture_repeats, wall->texture->width);
 	int		column_index = (int)(point_position * wall->texture->width * texture_repeats) % wall->texture->width;
 
 	return (wall->texture->img.matrix[column_index]);
 }
 
-
 char	*ft_str_trim(char *str) 
-
 {
 	int		start;
 	int		end;

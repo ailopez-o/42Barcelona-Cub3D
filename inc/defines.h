@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/26 14:13:35 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/04/28 17:24:43 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ struct s_colision
 {
 	t_point	point;
 	t_line	line;
-	char	*line_texture;
+	int		*line_texture;
 	float	distance;
 	bool	valid;
 };
@@ -161,7 +161,7 @@ struct s_img
 {
 	void			*ptr;
 	char			*addr;
-	char			**matrix;
+	int				**matrix;
 	int				bpp;
 	int				linesize;
 	int				endian;

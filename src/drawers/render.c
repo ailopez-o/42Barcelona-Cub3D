@@ -7,7 +7,7 @@
 void	render_3D(t_cub *cub);
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions);
 double	distance_between_points(t_point p1, t_point p2);
-int		*adjust_column(int *column, int texture_height, double distance);
+int		*adjust_column(t_colision *colision, double distance);
 void	player_position(t_cub *cub);
 
 /**
@@ -125,7 +125,7 @@ void	render_3D(t_cub *cub)
 			stripe.p2.y = WINY;
 		stripe.p2.color = stripe.p1.color;
 		// draw_line(screen, start, end);
-		draw_texture_line(&cub->screen, stripe, adjust_column(colision->line_texture, colision->line.texture->height, distance_between_points(stripe.p1, stripe.p2)), b_shadow);
+		draw_texture_line(&cub->screen, stripe, adjust_column(colision, distance_between_points(stripe.p1, stripe.p2)), b_shadow);
 		if (stripe.p2.y < WINY)
 		{
 			stripe.p1.y = stripe.p2.y;

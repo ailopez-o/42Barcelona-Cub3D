@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:48 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/28 19:00:48 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/04/30 17:11:21 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,20 @@ float	norm_distancia(int dist)
 	return (dist / 675);
 }
 
-int	*adjust_column(int *column, int texture_height, double distance)
+// E DE MIRAR QUAN SA PARET ES MES GROSSA NO BASTA AMB POSARILI UN TOPE
+// PERQUE QUEDA COM SI FOS UNA PARET RECTE, E DE RETALLAR DE DALT I DE BAIX
+int		*adjust_column(t_colision *colision, double distance)
 {
-    if (distance < texture_height)
+	if (distance > WINY)
+		{distance = WINY;}
+    if (distance < colision->line.texture->height)
     {
-        int new_height = (int)(texture_height * distance / (double)texture_height);
+        int new_height = (int)(colision->line.texture->height * distance / (double)colision->line.texture->height);
         int *new_column = malloc(new_height * sizeof(int));
         if (!new_column)
             return NULL;
         for (int i = 0; i < new_height; i++)
-            new_column[i] = column[i * texture_height / new_height];
+            new_column[i] = colision->line_texture[i * colision->line.texture->height / new_height];
         return new_column;
     }
     else
@@ -112,7 +116,7 @@ int	*adjust_column(int *column, int texture_height, double distance)
         if (!new_column)
             return NULL;
         for (int i = 0; i < new_height; i++)
-            new_column[i] = column[i * texture_height / new_height % texture_height];
+            new_column[i] = colision->line_texture[i * colision->line.texture->height / new_height % colision->line.texture->height];
         return new_column;
     }
 }

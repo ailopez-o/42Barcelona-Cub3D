@@ -234,9 +234,9 @@ int	map_builder(int **int_map, int scale, t_map *map, t_player *player)
 				map->objets[num_obj].type = WALL;
 				map->objets[num_obj].polygon.color = SUPERAZUL;
 				map->objets[num_obj].polygon.line[0].texture = get_texture(map->textures, NO);
-				map->objets[num_obj].polygon.line[1].texture = get_texture(map->textures, WE);
+				map->objets[num_obj].polygon.line[1].texture = get_texture(map->textures, EA);
 				map->objets[num_obj].polygon.line[2].texture = get_texture(map->textures, SO);
-				map->objets[num_obj].polygon.line[3].texture = get_texture(map->textures, EA);
+				map->objets[num_obj].polygon.line[3].texture = get_texture(map->textures, WE);
 				map->objets[num_obj].polygon.line[0].p1.x = scaner.x;
 				map->objets[num_obj].polygon.line[0].p1.y = scaner.y;
 				map->objets[num_obj].polygon.line[3].p1.x = scaner.x;

@@ -6,15 +6,17 @@
 #include "parser.h"
 #include <fcntl.h>
 
-void	*ft_realloc(void *ptr, size_t size);
-int		*get_int_array(char *line);
-int		map_builder(int **int_map, int scale, t_map *map, t_player *player);
-int		**get_image_matrix(char *data, int width, int height);
-void	matrix_printer(int **matrix, int width, int height);
-int		get_data_type(char *line);
-int		add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
-void	print_map_resume(t_map *map);
-int		color_parser(char *line);
+void		*ft_realloc(void *ptr, size_t size);
+int			*get_int_array(char *line);
+int			map_builder(int **int_map, int scale, t_map *map, t_player *player);
+int			**get_image_matrix(char *data, int width, int height);
+void		matrix_printer(int **matrix, int width, int height);
+int			get_data_type(char *line);
+int			add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
+void		print_map_resume(t_map *map);
+int			color_parser(char *line);
+int 		check_map(int **int_map, t_map *map);
+t_texture	*get_texture(t_texture *textures, int type);
 
 int	load_map(char *path, t_cub *cub)
 {
@@ -67,8 +69,24 @@ int	load_map(char *path, t_cub *cub)
 		}
 	}
 	int_map[num_line] = NULL;
+	if (check_map(int_map, &cub->map))
+		return(EXIT_FAILURE);
 	map_builder(int_map, MAPSCALE, &cub->map, &cub->player);
 	return(EXIT_SUCCESS);
+}
+
+int check_map(int **int_map, t_map *map)
+{
+
+	if (!get_texture(map->textures, NO))
+		return(EXIT_FAILURE);
+	if (!get_texture(map->textures, SO))
+		return(EXIT_FAILURE);
+	if (!get_texture(map->textures, WE))
+		return(EXIT_FAILURE);
+	if (!get_texture(map->textures, EA))
+		return(EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	color_parser(char *line)
@@ -104,6 +122,17 @@ void	print_map_resume(t_map *map)
 	while (map->objets[num].valid)
 		num++;
 	printf("Num objets \t [%d]\n", num);
+}
+
+t_texture	*get_texture(t_texture *textures, int type)
+{
+	while(textures->valid)
+	{
+		if (textures->type == type)
+			return textures;
+		textures++;
+	}
+	return (NULL);
 }
 
 int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
@@ -204,10 +233,10 @@ int	map_builder(int **int_map, int scale, t_map *map, t_player *player)
 				map->objets[num_obj].is_collider = 1;
 				map->objets[num_obj].type = WALL;
 				map->objets[num_obj].polygon.color = SUPERAZUL;
-				map->objets[num_obj].polygon.line[0].texture = &map->textures[0];
-				map->objets[num_obj].polygon.line[1].texture = &map->textures[0];
-				map->objets[num_obj].polygon.line[2].texture = &map->textures[0];
-				map->objets[num_obj].polygon.line[3].texture = &map->textures[0];
+				map->objets[num_obj].polygon.line[0].texture = get_texture(map->textures, NO);
+				map->objets[num_obj].polygon.line[1].texture = get_texture(map->textures, WE);
+				map->objets[num_obj].polygon.line[2].texture = get_texture(map->textures, SO);
+				map->objets[num_obj].polygon.line[3].texture = get_texture(map->textures, EA);
 				map->objets[num_obj].polygon.line[0].p1.x = scaner.x;
 				map->objets[num_obj].polygon.line[0].p1.y = scaner.y;
 				map->objets[num_obj].polygon.line[3].p1.x = scaner.x;

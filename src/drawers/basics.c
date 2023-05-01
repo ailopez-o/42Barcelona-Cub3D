@@ -95,6 +95,7 @@ void	draw_texture_line(t_mlx *screen, t_line stripe, int *column, bool b_shadow)
 		pixels = pixels - 1;
 		i++;
 	}
+	free(column);
 }
 
 void draw_circle(t_mlx *screen, t_point center, int radius, int color)

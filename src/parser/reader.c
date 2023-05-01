@@ -17,6 +17,7 @@ void		print_map_resume(t_map *map);
 int			color_parser(char *line);
 int 		check_map(int **int_map, t_map *map);
 t_texture	*get_texture(t_texture *textures, int type);
+int 		**resize_matrix(int **matrix, int *width);
 
 int	load_map(char *path, t_cub *cub)
 {
@@ -152,7 +153,7 @@ int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 		return (EXIT_FAILURE);
 	textures->valid = true;
 	textures->type = type;
-	textures->img.matrix = get_image_matrix(textures->img.addr, textures->width, textures->height);
+	textures->img.matrix = resize_matrix(get_image_matrix(textures->img.addr, textures->width, textures->height), &textures->width);
 	return (EXIT_SUCCESS);
 	//Mirar si hace falta realloc
 }

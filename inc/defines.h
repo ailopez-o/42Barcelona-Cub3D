@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/28 17:24:43 by bmoll-pe         ###   ########.fr       */
+/*   Updated: 2023/05/01 12:19:20 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # define MAPSCALE		150
 # define MINIMAPSCALE	0.05
 
-# define PLYSPEED		3
-# define PLYROTSPEED	3
+# define PLYSPEED		8
+# define PLYROTSPEED	5
 # define PLYVIEW		15000
 # define PLYCOLLIDE		20
 # define STOP			0

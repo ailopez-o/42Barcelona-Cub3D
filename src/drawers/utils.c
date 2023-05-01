@@ -6,7 +6,7 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:48 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/30 17:11:21 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/05/01 13:32:47 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,30 +93,77 @@ float	norm_distancia(int dist)
 	return (dist / 675);
 }
 
-// E DE MIRAR QUAN SA PARET ES MES GROSSA NO BASTA AMB POSARILI UN TOPE
-// PERQUE QUEDA COM SI FOS UNA PARET RECTE, E DE RETALLAR DE DALT I DE BAIX
+void	*ft_intmemcpy(void *dest, const void *src, size_t n)
+{
+	size_t				i;
+	unsigned int		*str_dest;
+	const unsigned int	*str_src;
+
+	str_dest = dest;
+	str_src = src;
+	i = 0;
+	if (dest == src)
+		return (dest);
+	while (n > i)
+	{
+		str_dest[i] = str_src[i];
+		i++;
+	}
+	return (dest);
+}
+
+void	rotate_texture(int *column, int height)
+{
+	int i;
+	int j;
+	int tmp;
+
+	i = 0;
+	j = height - 1;
+	while (i < j)
+	{
+		tmp = column[i];
+		column[i] = column[j];
+		column[j] = tmp;
+		i++;
+		j--;
+	}
+}
+
 int		*adjust_column(t_colision *colision, double distance)
 {
-	if (distance > WINY)
-		{distance = WINY;}
+	int *new_column;
+	int *cuted;
+	int new_height;
+
     if (distance < colision->line.texture->height)
     {
-        int new_height = (int)(colision->line.texture->height * distance / (double)colision->line.texture->height);
-        int *new_column = malloc(new_height * sizeof(int));
+        new_height = (int)(colision->line.texture->height * distance / (double)colision->line.texture->height);
+        new_column = malloc(new_height * sizeof(int));
         if (!new_column)
             return NULL;
         for (int i = 0; i < new_height; i++)
             new_column[i] = colision->line_texture[i * colision->line.texture->height / new_height];
-        return new_column;
     }
     else
     {
-        int new_height = (int)distance;
-        int *new_column = malloc(new_height * sizeof(int));
+        new_height = (int)distance;
+        new_column = malloc(new_height * sizeof(int));
         if (!new_column)
             return NULL;
         for (int i = 0; i < new_height; i++)
             new_column[i] = colision->line_texture[i * colision->line.texture->height / new_height % colision->line.texture->height];
-        return new_column;
     }
+	if (distance > WINY)
+	{
+		cuted = ft_calloc(sizeof(int), distance - (distance - WINY));
+		ft_intmemcpy(cuted, new_column + (int)((distance - WINY) / 2), distance - (distance - WINY));
+		free(new_column);
+		new_column = cuted;
+		new_height = WINY;
+		cuted = NULL;
+	}
+	if (new_column)
+		rotate_texture(new_column, new_height);
+	return (new_column);
 }

@@ -124,7 +124,6 @@ void	render_3D(t_cub *cub)
 		if (colision->distance > PLYVIEW)
 			stripe.p2.y = WINY;
 		stripe.p2.color = stripe.p1.color;
-		// draw_line(screen, start, end);
 		draw_texture_line(&cub->screen, stripe, adjust_column(colision, distance_between_points(stripe.p1, stripe.p2)), b_shadow);
 		if (stripe.p2.y < WINY)
 		{

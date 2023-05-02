@@ -33,7 +33,7 @@ int	key_press(int key, void *param)
 	if (key == KEY_SUM || key == KEY_SUM2)
 	{
 		cub->player.player_speed++;
-		cub->player.player_rot_speed += 0.2;
+		cub->player.player_rot_speed += 0.05;
 
 	}
 	if (key == KEY_RES || key == KEY_RES2)
@@ -41,7 +41,7 @@ int	key_press(int key, void *param)
 		if (cub->player.player_speed > 1)		
 			cub->player.player_speed--;
 		if (cub->player.player_rot_speed > 1)
-			cub->player.player_rot_speed -= 0.2;
+			cub->player.player_rot_speed -= 0.05;
 	}
 	
 	return (EXIT_SUCCESS);

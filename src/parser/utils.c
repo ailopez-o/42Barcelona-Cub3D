@@ -66,7 +66,10 @@ int **resize_matrix(int **matrix, int *width)
 {
 	int **scaled_columns = ft_calloc(sizeof(int *), MAPSCALE);
 	for (int i = 0; i < MAPSCALE; i++)
-		{scaled_columns[i] = matrix[i * *width / MAPSCALE];printf("pos: %d\n", i * *width / MAPSCALE);}
+		{
+		scaled_columns[i] = matrix[i * *width / MAPSCALE];
+		//printf("pos: %d\n", i * *width / MAPSCALE)
+		}
 	free(matrix);
 	*width = MAPSCALE;
 	return(scaled_columns);

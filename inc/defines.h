@@ -23,13 +23,13 @@
 
 # define WINY 			800
 # define WIN2D 			900
-# define WINX			1350
+# define WINX			1450
 # define FOV			60
-# define MAPSCALE		100
-# define MINIMAPSCALE	0.05
+# define MAPSCALE		200
+# define MINIMAPSCALE	0.03
 
-# define PLYSPEED		8
-# define PLYROTSPEED	5
+# define PLYSPEED		40
+# define PLYROTSPEED	2
 # define PLYVIEW		15000
 # define PLYCOLLIDE		20
 # define STOP			0

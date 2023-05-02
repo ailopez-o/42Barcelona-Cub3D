@@ -28,6 +28,7 @@ int	render(void *param)
 	unsigned long			current_time;
 	struct timeval			time;
 	t_point					polygon[4];
+	static char				*frame_str = "null";
 
 	cub = (t_cub *)param;
 	gettimeofday(&time, NULL);
@@ -37,6 +38,8 @@ int	render(void *param)
 		last_time = (time.tv_sec * 1000);
 		ft_putstr_fd("\rFPS >> ", 1);
 		ft_putnbr_fd(num_frames, 1);
+		frame_str = ft_itoa(num_frames);
+		frame_str = ft_strjoin(frame_str, " FPS");
 		num_frames = 0;
 	}
 	clear_screen(&cub->screen);
@@ -48,6 +51,7 @@ int	render(void *param)
 	render_3D(cub);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
+	mlx_string_put(cub->screen.handler,cub->screen.win, 100, 100, ROJO, frame_str);
 	num_frames++;
 	return (EXIT_SUCCESS);
 }
@@ -154,8 +158,8 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
 		point = colisions->point;
 		point.x *= MINIMAPSCALE;
 		point.y *= MINIMAPSCALE;
-		if (iter % 50 == 0)
-			draw_line(screen, pos, point);
+		//if (iter % 50 == 0)
+		draw_line(screen, pos, point);
 		iter++;
 		colisions++;
 	}

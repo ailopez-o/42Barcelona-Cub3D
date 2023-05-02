@@ -113,9 +113,8 @@ void	render_3D(t_cub *cub)
 	{
 		vector_ray = get_unit_vector(cub->player.pos, colision->point),
 		angulo_ray = vector_to_angle(vector_ray);
-		orto_dist = colision->distance * cos((angulo_player - angulo_ray) * (float)M_PI / (float)180);
-		line_height = (float)MAPSCALE * ((float)WINY / orto_dist);
-		line_height = line_height / ((float)FOV/(float)60);
+		orto_dist = colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180);
+		line_height = (int) (MAPSCALE * (WINY / orto_dist));
 		stripe.p1.x = WINX - iter;
 		stripe.p1.y = (-line_height / 2 + WINY / 2);
 		stripe.p1.color = color_fade(WALLCOLOR, colision->distance);
@@ -143,7 +142,7 @@ void	render_3D(t_cub *cub)
 
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions)
 {
-	static int	iter = 0;
+	int	iter = 0;
 	t_point		point;
 
 	pos.x *= MINIMAPSCALE;
@@ -155,7 +154,9 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
 		point = colisions->point;
 		point.x *= MINIMAPSCALE;
 		point.y *= MINIMAPSCALE;
-		draw_line(screen, pos, point);
+		if (iter % 50 == 0)
+			draw_line(screen, pos, point);
+		iter++;
 		colisions++;
 	}
 

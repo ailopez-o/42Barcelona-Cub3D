@@ -78,7 +78,8 @@ int	*get_texture_column(t_line *wall, t_point point)
 	double	texture_repeats = line_length / wall->texture->width;
 	double	point_distance = distance_between_points(wall->p1, point);
 	double	point_position = point_distance / line_length;
-	int		column_index = (int)(point_position * wall->texture->width * texture_repeats) % wall->texture->width;
+	int		column_index = (int)(point_position * MAPSCALE * texture_repeats) % MAPSCALE;
+	//int		column_index = (int)(point_position * wall->texture->width * texture_repeats) % wall->texture->width;
 
 	return (wall->texture->img.matrix[column_index]);
 }

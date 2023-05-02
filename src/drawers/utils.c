@@ -135,6 +135,13 @@ int		*adjust_column(t_colision *colision, double distance)
 	int *new_column;
 	int *cuted;
 	int new_height;
+	float	line_len;
+	float	colision_len;
+
+
+	line_len = distance_between_points(colision->line.p1, colision->line.p1);
+	colision_len = distance_between_points(colision->point, colision->line.p1);
+	printf("line_len [%f] - colision_len[%f] - dpix[%f]\n", line_len, colision_len, line_len - colision_len);
 
     if (distance < colision->line.texture->height)
     {
@@ -143,7 +150,7 @@ int		*adjust_column(t_colision *colision, double distance)
         if (!new_column)
             return NULL;
         for (int i = 0; i < new_height; i++)
-            new_column[i] = colision->line_texture[i * colision->line.texture->height / new_height];
+            new_column[i] = colision->line.texture->img.addr[i * colision->line.texture->height / new_height];
     }
     else
     {
@@ -152,7 +159,9 @@ int		*adjust_column(t_colision *colision, double distance)
         if (!new_column)
             return NULL;
         for (int i = 0; i < new_height; i++)
-            new_column[i] = colision->line_texture[i * colision->line.texture->height / new_height % colision->line.texture->height];
+            new_column[i] = colision->line.texture->img.addr[i * colision->line.texture->height / new_height % colision->line.texture->height];
+            
+			//new_column[i] = colision->line.texture[i * colision->line.texture->height / new_height % colision->line.texture->height];
     }
 	if (distance > WINY)
 	{

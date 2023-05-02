@@ -26,7 +26,7 @@
 # define WINX			1350
 # define FOV			90
 # define MAPSCALE		150
-# define MINIMAPSCALE	0.05
+# define MINIMAPSCALE	0.1
 
 # define PLYSPEED		8
 # define PLYROTSPEED	5
@@ -125,7 +125,6 @@ struct s_colision
 {
 	t_point	point;
 	t_line	line;
-	int		*line_texture;
 	float	distance;
 	bool	valid;
 };
@@ -173,7 +172,6 @@ struct s_texture
 	int		type;
 	char	*path;
 	t_img	img;
-	int		**stripes;
 	int		width;
 	int		height;
 	bool	valid;

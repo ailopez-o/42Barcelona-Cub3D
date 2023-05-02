@@ -15,6 +15,7 @@ int		get_dir_ray_collider(t_player *player, int wide, t_objet *objets)
 	float		ang;
 	int			num_colision;
 
+
 	ang = 0;
 	num_colision = 0;
 	scan_vector = rotate_vector(player->cam, - wide/2);
@@ -49,7 +50,6 @@ t_colision get_colision(t_line wall, t_point pos, t_vector ray_vect)
 		colision.point.x = wall.p1.x + t * (wall.p2.x - wall.p1.x);
 		colision.point.y = wall.p1.y + t * (wall.p2.y - wall.p1.y);
 		colision.line = wall;
-		colision.line_texture = get_texture_column(&wall, colision.point);
 		colision.distance = get_distance(pos, colision.point);
 		colision.valid = true;
 	}

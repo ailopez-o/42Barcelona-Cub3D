@@ -102,8 +102,9 @@ void	render_3D(t_cub *cub)
 	float		angulo_player = vector_to_angle(cub->player.cam);
 	float		angulo_ray;
 	int			iter;
-	int			line_height;
+	float		line_height;
 	bool		b_shadow;
+	float		orto_dist;
 	t_colision	*colision;
 
 	colision = cub->player.ray_colider;
@@ -112,7 +113,9 @@ void	render_3D(t_cub *cub)
 	{
 		vector_ray = get_unit_vector(cub->player.pos, colision->point),
 		angulo_ray = vector_to_angle(vector_ray);
-		line_height = (int)(WINY / (colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180)) * 100);
+		orto_dist = colision->distance * cos((angulo_player - angulo_ray) * (float)M_PI / (float)180);
+		line_height = (float)MAPSCALE * ((float)WINY / orto_dist);
+		line_height = line_height / ((float)FOV/(float)60);
 		stripe.p1.x = WINX - iter;
 		stripe.p1.y = (-line_height / 2 + WINY / 2);
 		stripe.p1.color = color_fade(WALLCOLOR, colision->distance);

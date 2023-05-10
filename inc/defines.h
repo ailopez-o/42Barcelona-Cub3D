@@ -21,12 +21,12 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define WINY 			800
-# define WIN2D 			900
-# define WINX			1450
 # define FOV			60
-# define MAPSCALE		200
-# define MINIMAPSCALE	0.03
+# define WINY 			800
+# define WIN2D 			1200
+# define WINX			(WIN2D + 400)
+# define MAPSCALE		60
+# define MINIMAPSCALE	0.1
 
 # define PLYSPEED		40
 # define PLYROTSPEED	2
@@ -191,6 +191,8 @@ struct s_cub
 	t_mlx		screen;
 	t_player	player;
 	t_map		map;
+	float		fov_dist;
+	int			fov;
 };
 
 #endif

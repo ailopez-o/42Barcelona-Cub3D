@@ -6,7 +6,7 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:44 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/04/25 12:40:47 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/05/21 21:29:00 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,24 @@ t_point move_player_vector(t_cub *cub, t_vector vector, int steps)
 	uint16_t	iter;
 	t_point		new_point;
 	t_colision	colision;
-	int			value;
+	t_vector	tmp_vector;
+	float			value;
 
-	colision = get_closest_colision(cub->map.objets, cub->player.pos, vector);
 	iter = 0;
 	new_point.x = cub->player.pos.x;
 	new_point.y = cub->player.pos.y;
 	while (iter <= steps)
 	{
+		tmp_vector.dir[X] = vector.dir[X];
+		tmp_vector.dir[Y] = 0.0;
+		colision = get_closest_colision(cub->map.objets, new_point, tmp_vector);
 		value = new_point.x + vector.dir[X];
 		if (fabs(value - colision.point.x) > PLYCOLLIDE)
 			new_point.x += vector.dir[X];
+
+		tmp_vector.dir[X] = 0;
+		tmp_vector.dir[Y] = vector.dir[Y];
+		colision = get_closest_colision(cub->map.objets, new_point, tmp_vector);
 		value = new_point.y + vector.dir[Y];
 		if (fabs(value - colision.point.y) > PLYCOLLIDE)
 			new_point.y += vector.dir[Y];
@@ -73,25 +80,38 @@ t_point move_player_vector(t_cub *cub, t_vector vector, int steps)
  * Return: the normalized vector
  */
 
-t_vector normalize_vector(t_vector vector)
-{
-	float 	factor;
-	t_point	abs_point;
-
-	abs_point.x = vector.dir[X];
-	if (vector.dir[X] < 0)
-		abs_point.x = - vector.dir[X];
-	abs_point.y = vector.dir[Y];
-	if (vector.dir[Y] < 0)
-		abs_point.y = - vector.dir[Y];
-	factor = abs_point.y;
-	if (abs_point.x > abs_point.y)
-		factor = abs_point.x;
-	vector.dir[X] = vector.dir[X]/factor;
-	vector.dir[Y] = vector.dir[Y]/factor;
-	return (vector);
+t_vector normalize_vector(t_vector vector) {
+    float magnitude = sqrt(vector.dir[X] * vector.dir[X] + vector.dir[Y] * vector.dir[Y]);
+    vector.dir[X] /= magnitude;
+    vector.dir[Y] /= magnitude;
+    
+    float sum = vector.dir[0] + vector.dir[1];
+    if (sum > 1.0) {
+        vector.dir[X] /= sum;
+        vector.dir[Y] /= sum;
+    }
+    
+    return vector;
 }
 
+// t_vector normalize_vector(t_vector vector)
+// {
+// 	float 	factor;
+// 	t_point	abs_point;
+
+// 	abs_point.x = vector.dir[X];
+// 	if (vector.dir[X] < 0)
+// 		abs_point.x = - vector.dir[X];
+// 	abs_point.y = vector.dir[Y];
+// 	if (vector.dir[Y] < 0)
+// 		abs_point.y = - vector.dir[Y];
+// 	factor = abs_point.y;
+// 	if (abs_point.x > abs_point.y)
+// 		factor = abs_point.x;
+// 	vector.dir[X] = vector.dir[X]/factor;
+// 	vector.dir[Y] = vector.dir[Y]/factor;
+// 	return (vector);
+// }
 
 t_line vector_to_line(t_vector vector, t_point pos, int steps)
 {

@@ -29,9 +29,10 @@ bool	init_cub(t_cub *cub, char *path)
 	cub->player.pos.color = VERDE;
 	cub->player.move = STOP;
 	cub->player.rotate = STOP;
+	cub->fov = FOV;
 	if (load_map(path, cub) != EXIT_SUCCESS)
 		return(EXIT_FAILURE);
-	mlx_mouse_hide();
+	//mlx_mouse_hide();
 	cub->player.ray_colider = ft_calloc(sizeof(t_colision), (WIN2D + 1));
 	return(EXIT_SUCCESS);
 }

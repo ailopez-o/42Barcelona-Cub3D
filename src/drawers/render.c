@@ -1,6 +1,7 @@
 #include "defines.h"
 #include "mlx.h"
 #include "drawers.h"
+#include "math.h"
 #include "geometry.h"
 #include <sys/time.h>
 
@@ -36,15 +37,17 @@ int	render(void *param)
 	if (current_time != last_time)
 	{
 		last_time = (time.tv_sec * 1000);
-		ft_putstr_fd("\rFPS >> ", 1);
+		ft_putstr_fd("\rFPS | ", 1);
 		ft_putnbr_fd(num_frames, 1);
 		frame_str = ft_itoa(num_frames);
-		frame_str = ft_strjoin(frame_str, " FPS");
+		frame_str = ft_strjoin(frame_str, " FPS ");
 		num_frames = 0;
 	}
+	cub->fov_dist = tan((cub->fov / 2) * (M_PI / 180));
+	cub->fov_dist =(WIN2D / 2) / tan((cub->fov / 2) * (M_PI / 180));
 	clear_screen(&cub->screen);
 	player_position(cub);
-	get_dir_ray_collider(&cub->player, FOV, cub->map.objets);
+	get_dir_ray_collider(&cub->player, cub->fov, cub->map.objets);
 	draw_player(&cub->screen, cub->player, MINIMAPSCALE);
 	draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
 	draw_objets(&cub->screen, cub->map.objets, MINIMAPSCALE);
@@ -52,7 +55,10 @@ int	render(void *param)
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
 	mlx_string_put(cub->screen.handler,cub->screen.win, 100, 100, ROJO, frame_str);
+	mlx_string_put(cub->screen.handler,cub->screen.win, 200, 100, ROJO, ft_strjoin("FOV | ", ft_itoa(cub->fov)));
+	mlx_string_put(cub->screen.handler,cub->screen.win, 100, 200, ROJO, ft_strjoin("FOV DIST | ", ft_itoa(cub->fov_dist)));
 	num_frames++;
+
 	return (EXIT_SUCCESS);
 }
 
@@ -117,8 +123,14 @@ void	render_3D(t_cub *cub)
 	{
 		vector_ray = get_unit_vector(cub->player.pos, colision->point),
 		angulo_ray = vector_to_angle(vector_ray);
-		orto_dist = colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180);
-		line_height = (int) (MAPSCALE * (WINY / orto_dist));
+		//orto_dist = colision->distance * cos((angulo_player - angulo_ray) * M_PI / 180);
+		//line_height = (int) (MAPSCALE * (WINY / orto_dist));
+
+		///////////////////// PROYECTION PLANE /////////////////////
+		orto_dist = colision->distance  * cos((angulo_player - angulo_ray) * M_PI / 180);
+		line_height = (int)((MAPSCALE / orto_dist) * cub->fov_dist);
+		///////////////////////////////////////////
+
 		stripe.p1.x = WINX - iter;
 		stripe.p1.y = (-line_height / 2 + WINY / 2);
 		stripe.p1.color = color_fade(WALLCOLOR, colision->distance);

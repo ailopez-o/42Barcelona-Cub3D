@@ -29,6 +29,8 @@ int	load_map(char *path, t_cub *cub)
 	int		data_type;
 
 	cub->map.objets = ft_calloc(1, sizeof(t_objet) * 300);
+	cub->map.max_x = 0;
+	cub->map.max_y = 0;
 	cub->map.textures = ft_calloc(1, sizeof(t_texture) * 100);
 
 	/////////////////// HARDCODER
@@ -46,8 +48,10 @@ int	load_map(char *path, t_cub *cub)
 	{
 		if (line[0] && (line[0] == '0' || line[0] == '1' || line[0] == ' ' || line[0] == '\t'))
 		{
+			cub->map.max_y += 1;
+			if (ft_strlen(line) > cub->map.max_x)
+				cub->map.max_x = ft_strlen(line);
 			int_map[num_line++] = get_int_array(line);
-			line = get_next_line(fd);
 			int_map = ft_realloc(int_map, sizeof(char **) * (num_line + 1));
 		}
 		else
@@ -66,9 +70,10 @@ int	load_map(char *path, t_cub *cub)
 			if (data_type == C)
 				cub->map.top_color = color_parser(line);
 			free(line);
-			line = get_next_line(fd);
 		}
+		line = get_next_line(fd);
 	}
+	printf("size: %d %d\n", cub->map.max_x, cub->map.max_y);
 	int_map[num_line] = NULL;
 	if (check_map(int_map, &cub->map))
 		return(EXIT_FAILURE);

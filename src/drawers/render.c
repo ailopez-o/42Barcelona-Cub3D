@@ -10,6 +10,7 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
 double	distance_between_points(t_point p1, t_point p2);
 int		*adjust_column(t_colision *colision, double distance);
 void	player_position(t_cub *cub);
+void	render_map(t_cub *cub);
 
 /**
  * render - Renders the game on the screen
@@ -48,15 +49,16 @@ int	render(void *param)
 	clear_screen(&cub->screen);
 	player_position(cub);
 	get_dir_ray_collider(&cub->player, cub->fov, cub->map.objets);
-	draw_player(&cub->screen, cub->player, MINIMAPSCALE);
-	draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
-	draw_objets(&cub->screen, cub->map.objets, MINIMAPSCALE);
+	// draw_player(&cub->screen, cub->player, MINIMAPSCALE);
+	// draw_ray_collider(cub, &cub->screen, cub->player.pos, cub->player.ray_colider);
+	// draw_objets(&cub->screen, cub->map.objets, MINIMAPSCALE);
 	render_3D(cub);
+	render_map(cub);
 	mlx_put_image_to_window(cub->screen.handler,cub->screen.win, \
 	cub->screen.img, 0, 0);
-	mlx_string_put(cub->screen.handler,cub->screen.win, 100, 100, ROJO, frame_str);
-	mlx_string_put(cub->screen.handler,cub->screen.win, 200, 100, ROJO, ft_strjoin("FOV | ", ft_itoa(cub->fov)));
-	mlx_string_put(cub->screen.handler,cub->screen.win, 100, 200, ROJO, ft_strjoin("FOV DIST | ", ft_itoa(cub->fov_dist)));
+	// mlx_string_put(cub->screen.handler,cub->screen.win, 100, 100, ROJO, frame_str);
+	// mlx_string_put(cub->screen.handler,cub->screen.win, 200, 100, ROJO, ft_strjoin("FOV | ", ft_itoa(cub->fov)));
+	// mlx_string_put(cub->screen.handler,cub->screen.win, 100, 200, ROJO, ft_strjoin("FOV DIST | ", ft_itoa(cub->fov_dist)));
 	num_frames++;
 
 	return (EXIT_SUCCESS);
@@ -87,13 +89,12 @@ void	draw_player(t_mlx *screen, t_player player, float scale)
 	t_point	scaled_pos;
 
 	scaled_pos = player.pos;
-	scaled_pos.x *= scale;
+	scaled_pos.x *= scale + 10;
 	scaled_pos.y *= scale;
-	draw_circle(screen, scaled_pos, 5, VERDE);
-	draw_vector(screen, player.front, scaled_pos, VERDE);
-	draw_vector(screen, player.cam, scaled_pos, ROJO);
+	draw_circle(screen, scaled_pos, 3, VERDE);
+	// draw_vector(screen, player.front, scaled_pos, VERDE);
+	// draw_vector(screen, player.cam, scaled_pos, ROJO);
 }
-
 
 void	render_3D(t_cub *cub)
 {
@@ -146,6 +147,50 @@ void	render_3D(t_cub *cub)
 	}
 }
 
+void render_map(t_cub *cub)
+{
+    size_t iter;
+    t_objet *objects;
+    t_polygon poly;
+    int side;
+
+    float mapWidth = cub->map.max_x;
+    float mapHeight = cub->map.max_y;
+
+    float scale;
+    if (mapWidth > mapHeight) {
+        scale = MINIMAPSCALE / mapWidth;
+    } else {
+        scale = MINIMAPSCALE / mapHeight;
+    }
+
+    iter = 0;
+    objects = cub->map.objets;
+    while (objects[iter].type == WALL)
+    {
+        side = -1;
+        poly = objects[iter].polygon;
+        while (++side < 4)
+        {
+            poly.line[side].p1.color = poly.color;
+            poly.line[side].p2.color = poly.color;
+            poly.line[side].p1.x = poly.line[side].p1.x * scale + 10;
+            poly.line[side].p1.y = poly.line[side].p1.y * scale + 10;
+            poly.line[side].p2.x = poly.line[side].p2.x * scale + 10;
+            poly.line[side].p2.y = poly.line[side].p2.y * scale + 10;
+            draw_line(&(cub->screen), poly.line[side].p1, poly.line[side].p2);
+        }
+        iter++;
+    }
+	t_point	scaled_pos;
+
+	scaled_pos = cub->player.pos;
+	scaled_pos.x = scaled_pos.x * scale + 10;
+	scaled_pos.y = scaled_pos.y * scale + 10;
+	draw_circle(&(cub->screen), scaled_pos, 3, VERDE);
+}
+
+
 void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions)
 {
 	int	iter = 0;
@@ -168,7 +213,7 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
 
 }
 
-void draw_objets(t_mlx *screen, t_objet *objets, float scale)
+void	draw_objets(t_mlx *screen, t_objet *objets, float scale)
 {
 	while(objets->type == WALL)
 	{

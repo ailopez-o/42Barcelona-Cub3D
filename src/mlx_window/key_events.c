@@ -30,6 +30,10 @@ int	key_press(int key, void *param)
 		turn_player(cub, key);
 	if (key == KEY_R)
 		cub->player.cam = rotate_vector(cub->player.cam, 180);
+	if (key == KEY_X && cub->fov > 2)
+		cub->fov--;
+	if (key == KEY_Z)
+		cub->fov++;
 	if (key == KEY_SUM || key == KEY_SUM2)
 	{
 		cub->player.player_speed++;

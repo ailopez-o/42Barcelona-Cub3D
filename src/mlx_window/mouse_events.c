@@ -46,18 +46,18 @@ int	mouse_move(int x, int y, void *param)
 	float			step;
 
 	cub = (t_cub *)param;
-	if (x < WINX/2)
-	{
-		mlx_mouse_move(cub->screen.win, 3 * (WINX / 4), y);
-		last_point.x = 3 * (WINX / 4);
-		return(EXIT_SUCCESS);
-	}
-	if (x > WINX)
-	{
-		last_point.x = 3 * (WINX / 4);
-		mlx_mouse_move(cub->screen.win, 3 * (WINX / 4), y);
-		return(EXIT_SUCCESS);
-	}
+	// if (x < WINX/2)
+	// {
+	// 	mlx_mouse_move(cub->screen.win, 3 * (WINX / 4), y);
+	// 	last_point.x = 3 * (WINX / 4);
+	// 	return(EXIT_SUCCESS);
+	// }
+	// if (x > WINX)
+	// {
+	// 	last_point.x = 3 * (WINX / 4);
+	// 	mlx_mouse_move(cub->screen.win, 3 * (WINX / 4), y);
+	// 	return(EXIT_SUCCESS);
+	// }
 	diff = last_point.x - x;
 	step = diff / 10;
 	if (diff > 0)

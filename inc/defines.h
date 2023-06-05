@@ -6,7 +6,7 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/05/01 12:19:20 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/05/21 21:29:41 by bmoll            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@
 # include "keycodes.h"
 # include "libft.h"
 
+# define FOV			80
 # define WINY 			800
-# define WIN2D 			900
-# define WINX			1450
-# define FOV			60
-# define MAPSCALE		200
-# define MINIMAPSCALE	0.03
+# define WIN2D 			1200
+# define WINX			(WIN2D + 400)
+# define MAPSCALE		60
+# define MINIMAPSCALE	0.1
 
-# define PLYSPEED		40
-# define PLYROTSPEED	2
+# define PLYSPEED		10
+# define PLYROTSPEED	4
 # define PLYVIEW		15000
-# define PLYCOLLIDE		20
+# define PLYCOLLIDE		10
 # define STOP			0
 # define GO_FRONT		1
 # define GO_BACK		2
@@ -191,6 +191,8 @@ struct s_cub
 	t_mlx		screen;
 	t_player	player;
 	t_map		map;
+	float		fov_dist;
+	int			fov;
 };
 
 #endif

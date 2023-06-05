@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+         #
+#    By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/04/25 21:40:26 by bmoll            ###   ########.fr        #
+#    Updated: 2023/05/19 18:42:22 by bmoll-pe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,7 @@ MLX_DIR =	lib/mlx
 GCC =		gcc
 
 # Flags for the gcc compilation
-FLAGS =		-g -MMD -MP
+FLAGS =		-g -MMD -MP -O3
 # FLAGS =		-Wall -Werror -Wextra -MMD -MP
 
 MINILIBXCC := -I mlx -L $(DIR_MLX) -lmlx

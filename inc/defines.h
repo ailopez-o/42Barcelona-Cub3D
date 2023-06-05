@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/05/23 21:03:21 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/06/05 17:33:08 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # define WIN2D 				1200
 # define WINX				1200
 # define MAPSCALE			60
-# define MINIMAPSCALE		5
+# define MINIMAPSCALE		4
 
 # define PLYSPEED			10
 # define PLYROTSPEED		4

@@ -42,8 +42,8 @@ int	main(int argv, char **argc)
 	t_cub	cub;
 	char	**map;
 
-	// if (parse_map(argv, argc, map))// &map
-	// 	exit(EXIT_FAILURE);
+	if (parse_map(argv, argc, map, &cub))// &map
+		exit(EXIT_FAILURE);
 	if (init_cub(&cub, argc[0]))
 		exit(EXIT_FAILURE);
 	if (window_init(&cub.screen))

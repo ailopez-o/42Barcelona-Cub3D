@@ -50,6 +50,7 @@ FILES =		main.c \
 			parser/reader.c \
 			parser/utils.c \
 			parser/gnl.c \
+			parser/validator.c \
 
 # Root folders
 SRC_ROOT := src/

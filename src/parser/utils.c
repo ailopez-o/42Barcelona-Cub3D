@@ -104,3 +104,19 @@ char	*ft_str_trim(char *str)
 	new_str = ft_substr(str, start, end - start +  1);
 	return (new_str);
 }
+
+void	*ft_realloc(void *ptr, size_t size)
+{
+	void	*new_ptr;
+
+	if (ptr == NULL)
+		return (ft_calloc(size, 1));
+	if (!size)
+		return (ptr);
+	new_ptr = ft_calloc(size, 1);
+	if (!new_ptr)
+		return (NULL);
+	ft_memcpy(new_ptr, ptr, size);
+	free(ptr);
+	return (new_ptr);
+}

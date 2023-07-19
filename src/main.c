@@ -39,22 +39,17 @@
 
 int	main(int argv, char **argc)
 {
-	t_cub		cub;
+	t_cub	cub;
+	char	**map;
 
-	ft_bzero(&cub, sizeof(t_cub));
-	if (argv > 2)
-		return(EXIT_FAILURE);
-	if (window_init(&cub.screen))
-	{
-		ft_putstr_fd("MLX error\n", 1);
-		exit (EXIT_FAILURE);
-	}
+	// if (parse_map(argv, argc, map))// &map
+	// 	exit(EXIT_FAILURE);
 	if (init_cub(&cub, argc[0]))
-	{
-		ft_putstr_fd("MAP error\n", 1);
-		exit (EXIT_FAILURE);
-	}
-	executor(&cub);
+		exit(EXIT_FAILURE);
+	if (window_init(&cub.screen))
+		exit(EXIT_FAILURE);
+	if (executor(&cub))
+		exit(EXIT_FAILURE);
 	exit (EXIT_SUCCESS);
 }
 

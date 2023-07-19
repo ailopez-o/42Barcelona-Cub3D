@@ -13,7 +13,7 @@
  * and program termination, and then starts the main event loop.
  */
 
-void	executor(t_cub *cub)
+bool	executor(t_cub *cub)
 {
 	mlx_hook(cub->screen.win, 2, 0, key_press, cub);
 	mlx_hook(cub->screen.win, 3, 0, key_release, cub);
@@ -23,4 +23,5 @@ void	executor(t_cub *cub)
 	mlx_hook(cub->screen.win, 17, 0, terminate_program, cub);
 	mlx_loop_hook(cub->screen.handler, render, cub);
 	mlx_loop(cub->screen.handler);
+	return EXIT_SUCCESS;
 }

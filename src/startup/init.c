@@ -18,6 +18,7 @@
 
 bool	init_cub(t_cub *cub, char *path)
 {
+	ft_bzero(cub, sizeof(t_cub));
 	cub->player.pos.x = 700;
 	cub->player.pos.y = 700;
 	cub->player.front.dir[X] = 0;

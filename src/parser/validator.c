@@ -28,6 +28,7 @@ int			map_builder(char **int_map, int scale, t_map *map, t_player *player);
 int 		**resize_matrix(int **matrix, int *width);
 int			**get_image_matrix(char *data, int width, int height);
 t_texture	*get_texture(t_texture *textures, int type);
+bool		valid_map_from_player(int x, int y, char **map, int max_x, int max_y);
 
 
 
@@ -44,6 +45,25 @@ bool	parse_map(int argv, char **argc, char **map, t_cub *cub)
 	return EXIT_SUCCESS;
 }
 
+int is_player(char *line)
+{
+	int	pos;
+
+	pos = 0;
+	while(line[pos])
+	{
+		if (line[pos] == 'N')
+			return pos;
+		if (line[pos] == 'S')
+			return pos;
+		if (line[pos] == 'E')
+			return pos;
+		if (line[pos] == 'W')
+			return pos;
+		pos++;
+	}
+	return 0;
+}
 
 bool	validate_map(char *path, t_cub *cub)
 {
@@ -71,6 +91,11 @@ bool	validate_map(char *path, t_cub *cub)
 			if (ft_strlen(line) > cub->map.max_x)
 				cub->map.max_x = ft_strlen(line);
 			map[num_line++] = get_int_array(line);
+			if (is_player(line))
+			{
+				cub->player.matrix_pos.x = is_player(line);
+				cub->player.matrix_pos.y = num_line;
+			}
 			map = ft_realloc(map, sizeof(char **) * (num_line + 1));
 		}
 		else
@@ -96,18 +121,21 @@ bool	validate_map(char *path, t_cub *cub)
 	map[num_line] = NULL;
 	if (check_map(&cub->map))
 		return(EXIT_FAILURE);
-	map_builder(map, MAPSCALE, &cub->map, &cub->player);
+	if (valid_map_from_player((int)cub->player.matrix_pos.x, (int)cub->player.matrix_pos.y, map, cub->map.max_y, cub->map.max_x))
+		map_builder(map, MAPSCALE, &cub->map, &cub->player);
 	return(EXIT_SUCCESS);
 }
 
 
-bool	valid_map_from_player(int x, int y, char map[11][8], int max_height, int max_width)
+bool	valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
 {
 	int 			its = 0;
 	static int		**checker = NULL;
+	static int		recursive_deep = 0;
 	
+	recursive_deep ++;
 	if (checker == NULL)
-		checker = empty_map(max_width, max_height);	
+		checker = empty_map(max_x, max_y);	
 
 	if (checker[y][x] == '1')
 		return 0;
@@ -115,16 +143,16 @@ bool	valid_map_from_player(int x, int y, char map[11][8], int max_height, int ma
 	if (map[y][x] == '1')
 		return 0;
 	if (x > 0)
-		its += valid_map_from_player(x - 1, y, map, max_height, max_width);
-	if (x < max_width)
-		its += valid_map_from_player(x + 1, y, map,  max_height, max_width);
+		its += valid_map_from_player(x - 1, y, map, max_x, max_y);
+	if (x < max_x)
+		its += valid_map_from_player(x + 1, y, map,  max_x, max_y);
 	if (y > 0)
-		its += valid_map_from_player(x, y - 1, map,  max_height, max_width);
-	if (y < max_height)
-		its += valid_map_from_player(x, y + 1, map,  max_height, max_width);
-	if ((x == 0 || x == max_width) && map[y][x] == '0')
+		its += valid_map_from_player(x, y - 1, map,  max_x, max_y);
+	if (y < max_y)
+		its += valid_map_from_player(x, y + 1, map,  max_x, max_y);
+	if ((x == 0 || x == max_x) && map[y][x] == '0')
 		return 1;
-	if ((y == 0 || y == max_height) && map[y][x] == '0')
+	if ((y == 0 || y == max_y) && map[y][x] == '0')
 		return 1;
 	if (its)
 		return 1;
@@ -132,20 +160,20 @@ bool	valid_map_from_player(int x, int y, char map[11][8], int max_height, int ma
 }
 
 
-int		**empty_map(int width, int height)
+int		**empty_map(int max_x, int max_y)
 {
    	int i;
 	int j;
     int	**array;
 	
-	array = (int**)malloc(height * sizeof(int*));
+	array = (int**)malloc(max_x * sizeof(int*));
     if(array == NULL) 
         return NULL;
 
 	i = -1;
-	while (i++ < height)
+	while (i++ < max_x)
 	{
-        array[i] = (int*)malloc(width * sizeof(int));
+        array[i] = (int*)malloc(max_y * sizeof(int));
         if(array[i] == NULL) 
 		{
 			j = -1;

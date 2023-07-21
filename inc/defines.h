@@ -146,6 +146,7 @@ struct s_objet
 struct s_player
 {
 	t_point		pos;
+	t_point		matrix_pos;
 	t_vector	front;
 	t_vector	cam;
 	t_colision	*ray_colider;

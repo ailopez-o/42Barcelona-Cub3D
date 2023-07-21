@@ -42,11 +42,10 @@ int	main(int argv, char **argc)
 	t_cub	cub;
 	char	**map;
 
-	if (parse_map(argv, argc, map, &cub))// &map
-		exit(EXIT_FAILURE);
-	if (init_cub(&cub, argc[0]))
-		exit(EXIT_FAILURE);
+	ft_bzero(&cub, sizeof(t_cub));
 	if (window_init(&cub.screen))
+		exit(EXIT_FAILURE);
+	if (parse_map(argv, argc, map, &cub))// &map
 		exit(EXIT_FAILURE);
 	if (executor(&cub))
 		exit(EXIT_FAILURE);

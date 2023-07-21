@@ -13,6 +13,7 @@
 #include "defines.h"
 #include "utils.h"
 #include "parser.h"
+#include "init.h"
 #include "mlx.h"
 #include <fcntl.h>
 
@@ -38,7 +39,7 @@ bool	parse_map(int argv, char **argc, char **map, t_cub *cub)
 	if (ft_strlen(argc[1]) < 4
 		|| ft_strncmp(argc[1] + (ft_strlen(argc[1]) - 4), ".cub", 5))
 		return EXIT_FAILURE;
-	if (!validate_map(argc[1], cub))
+	if (validate_map(argc[1], cub))
 		return EXIT_FAILURE;
 	return EXIT_SUCCESS;
 }
@@ -53,14 +54,7 @@ bool	validate_map(char *path, t_cub *cub)
 	int		num_textures;
 	int		data_type;
 
-	cub->map.objets = ft_calloc(1, sizeof(t_objet) * 300);
-	cub->map.max_x = 0;
-	cub->map.max_y = 0;
-	cub->map.textures = ft_calloc(1, sizeof(t_texture) * 100);
-
-	/////////////////// HARDCODER
-	path = ft_strdup("maps/testing.cub");
-	/////////////////////////////
+	init_cub(cub);	
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
@@ -167,29 +161,29 @@ int		**empty_map(int width, int height)
 
 char	*get_int_array(char *line)
 {
-	char	*line_int;
-	int		num_row;
+	char	*char_line;
+	int		num_col;
 
-	line = ft_calloc(sizeof(char), ft_strlen(line) + 1);
+	char_line = ft_calloc(sizeof(char), ft_strlen(line) + 1);
 
-	num_row = 0;
-	while(line[num_row])
+	num_col = 0;
+	while(line[num_col])
 	{
-		if (line[num_row] == '1')
-			line[num_row] = '1';
-		if (line[num_row] == 'N')
-			line[num_row] = 'N';
-		if (line[num_row] == 'S')
-			line[num_row] = 'S';
-		if (line[num_row] == 'E')
-			line[num_row] = 'E';
-		if (line[num_row] == 'W')
-			line[num_row] = 'W';
+		if (line[num_col] == '1')
+			char_line[num_col] = '1';
+		else if (line[num_col] == 'N')
+			char_line[num_col] = 'N';
+		else if (line[num_col] == 'S')
+			char_line[num_col] = 'S';
+		else if (line[num_col] == 'E')
+			char_line[num_col] = 'E';
+		else if (line[num_col] == 'W')
+			char_line[num_col] = 'W';
 		else
-			line[num_row] = '0';
-		num_row++;
+			char_line[num_col] = '0';
+		num_col++;
 	}
-	return (line);
+	return (char_line);
 }
 
 int	get_data_type(char *line)
@@ -215,7 +209,7 @@ int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 {
 	char	*str_trimed;
 
-	while(textures->valid)
+	while(textures->valid == true)
 		textures++;
 	str_trimed = ft_str_trim(path + 3);
 	textures->path = ft_substr(str_trimed, 0, ft_strlen(path) - 1);

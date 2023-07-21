@@ -169,12 +169,12 @@ struct s_img
 
 struct s_texture
 {
+	int		valid;
 	int		type;
 	char	*path;
 	t_img	img;
 	int		width;
 	int		height;
-	bool	valid;
 };
 
 struct s_map

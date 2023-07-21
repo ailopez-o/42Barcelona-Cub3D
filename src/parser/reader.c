@@ -68,14 +68,14 @@ int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 	{
 		while(map_arr[row][col] != 0)
 		{
-			if (map_arr[row][col] > 1)
+			if (map_arr[row][col] == 'N' || map_arr[row][col] == 'S' || map_arr[row][col] == 'W' || map_arr[row][col] == 'E')
 			{
 				player->pos.x = scaner.x;
 				player->pos.y = scaner.y;
 				player->front = get_geo_vector((char)map_arr[row][col]);
 				player->cam = player->front;
 			}
-			if ( (map_arr[row][col] == '1' && col == '0') || (map_arr[row][col] == '1' && col != '0' && map_arr[row][col - 1] == '0'))
+			if ( (map_arr[row][col] == '1' && col == 0) || (map_arr[row][col] == '1' && col != 0 && map_arr[row][col - 1] == '0'))
 			{
 				map->objets[num_obj].valid = 1;
 				map->objets[num_obj].is_collider = 1;
@@ -91,7 +91,7 @@ int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 				map->objets[num_obj].polygon.line[3].p1.y = scaner.y + scale;
 				map->objets[num_obj].polygon.line[3].p2 = map->objets[num_obj].polygon.line[0].p1;
 			}
-			if ((map_arr[row][col] == '0' && col > 0 && map_arr[row][col - 1] == '1') || (map_arr[row][col + 1] == '1' && map_arr[row][col + 1] == 0))
+			if ((map_arr[row][col] == '0' && col > 0 && map_arr[row][col - 1] == '1') || (map_arr[row][col + 1] == '1' && map_arr[row][col + 1] == '0'))
 			{
 				map->objets[num_obj].polygon.line[0].p2.x = scaner.x;
 				map->objets[num_obj].polygon.line[0].p2.y = scaner.y;

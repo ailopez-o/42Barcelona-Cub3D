@@ -16,9 +16,8 @@
  * Return: true if initialization succeeds, false otherwise
  */
 
-bool	init_cub(t_cub *cub, char *path)
+bool	init_cub(t_cub *cub)
 {
-	ft_bzero(cub, sizeof(t_cub));
 	cub->player.pos.x = 700;
 	cub->player.pos.y = 700;
 	cub->player.front.dir[X] = 0;
@@ -35,5 +34,9 @@ bool	init_cub(t_cub *cub, char *path)
 	// 	return(EXIT_FAILURE);
 	//mlx_mouse_hide();
 	cub->player.ray_colider = ft_calloc(sizeof(t_colision), (WIN2D + 1));
+	cub->map.objets = ft_calloc(1, sizeof(t_objet) * 300);
+	cub->map.max_x = 0;
+	cub->map.max_y = 0;
+	cub->map.textures = ft_calloc(1, sizeof(t_texture) * 100);
 	return(EXIT_SUCCESS);
 }

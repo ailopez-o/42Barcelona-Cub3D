@@ -21,12 +21,12 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define FOV				80
+# define FOV				90
 # define WINY 				800
 # define WIN2D 				1200
 # define WINX				1200
 # define MAPSCALE			60
-# define MINIMAPSCALE		4
+# define MINIMAPSCALE		10
 
 # define PLYSPEED			10
 # define PLYROTSPEED		4

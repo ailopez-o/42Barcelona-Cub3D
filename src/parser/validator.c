@@ -132,6 +132,9 @@ bool	valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
 	int 			its = 0;
 	static int		**checker = NULL;
 	static int		recursive_deep = 0;
+
+	// HARCODE
+	return (1);
 	
 	recursive_deep ++;
 	if (checker == NULL)

@@ -133,7 +133,7 @@ void	render_3D(t_cub *cub)
 			stripe.p2.y = WINY;
 			stripe.p1.color = cub->map.top_color;
 			stripe.p2.color = cub->map.top_color;
-			draw_line(&cub->screen, stripe.p1, stripe.p2);
+			 draw_line(&cub->screen, stripe.p1, stripe.p2);
 		}
 		colision++;
 		iter++;
@@ -146,16 +146,16 @@ void render_map(t_cub *cub)
     t_objet *objects;
     t_polygon poly;
     int side;
-	float plusScale = (cub->map.max_x > 70 || cub->map.max_y > 70) ? 0.1 : ((cub->map.max_x < 40 && cub->map.max_y < 40) ? 1.2 : 0.8);
+	//float plusScale = (cub->map.max_x > 70 || cub->map.max_y > 70) ? 0.1 : ((cub->map.max_x < 40 && cub->map.max_y < 40) ? 1.2 : 0.8);
 
     float mapWidth = cub->map.max_x;
     float mapHeight = cub->map.max_y;
 
     float scale;
     if (mapWidth > mapHeight) {
-        scale = (MINIMAPSCALE + plusScale) / mapWidth;
+        scale = (MINIMAPSCALE) / mapWidth;
     } else {
-        scale = (MINIMAPSCALE + plusScale) / mapHeight;
+        scale = (MINIMAPSCALE) / mapHeight;
     }
 
     iter = 0;
@@ -181,32 +181,41 @@ void render_map(t_cub *cub)
 	scaled_pos = cub->player.pos;
 	scaled_pos.x = scaled_pos.x * scale + 10;
 	scaled_pos.y = scaled_pos.y * scale + 10;
-	draw_circle(&(cub->screen), scaled_pos, 3, VERDE);
-	// draw_ray_collider(cub, &(cub->screen), cub->player.pos, cub->player.ray_colider);
+	draw_circle(&(cub->screen), scaled_pos, 3, FUCSIA);
+	draw_ray_collider(cub, &(cub->screen), scaled_pos, cub->player.ray_colider);
 }
 
 
-// void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions)
-// {
-// 	int	iter = 0;
-// 	t_point		point;
-// 	// float plusScale = (cub->map.max_x > 70 || cub->map.max_y > 70) ? 0.1 : ((cub->map.max_x < 40 && cub->map.max_y < 40) ? 1.2 : 0.8);
+void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colisions)
+{
+	int	iter = 0;
+	t_point		point;
+	
+	float scale;
+	float mapWidth = cub->map.max_x;
+    float mapHeight = cub->map.max_y;
+	//float plusScale = (cub->map.max_x > 70 || cub->map.max_y > 70) ? 0.1 : ((cub->map.max_x < 40 && cub->map.max_y < 40) ? 1.2 : 0.8);
 
-// 	pos.x *= MINIMAPSCALE;
-// 	pos.y *= MINIMAPSCALE;
-// 	while (colisions->valid)
-// 	{
-// 		pos.color = WHITE;
-// 		colisions->point.color = WALLCOLOR;
-// 		point = colisions->point;
-// 		point.x *= MINIMAPSCALE;
-// 		point.y *= MINIMAPSCALE;
-// 		draw_line(screen, pos, point);
-// 		iter++;
-// 		colisions++;
-// 	}
+    if (mapWidth > mapHeight) {
+        scale = (MINIMAPSCALE) / mapWidth;
+    } else {
+        scale = (MINIMAPSCALE) / mapHeight;
+    }
 
-// }
+	//pos.x *= MINIMAPSCALE;
+	//pos.y *= MINIMAPSCALE;
+	while (colisions->valid)
+	{
+		pos.color = WHITE;
+		colisions->point.color = WALLCOLOR;
+		point = colisions->point;
+		point.x = point.x * scale + 10;
+		point.y = point.y * scale + 10;
+		draw_line(screen, pos, point);
+		iter++;
+		colisions++;
+	}
+}
 
 void	draw_objets(t_mlx *screen, t_objet *objets, float scale)
 {

@@ -146,7 +146,6 @@ void render_map(t_cub *cub)
     t_objet *objects;
     t_polygon poly;
     int side;
-	//float plusScale = (cub->map.max_x > 70 || cub->map.max_y > 70) ? 0.1 : ((cub->map.max_x < 40 && cub->map.max_y < 40) ? 1.2 : 0.8);
 
     float mapWidth = cub->map.max_x;
     float mapHeight = cub->map.max_y;
@@ -181,7 +180,7 @@ void render_map(t_cub *cub)
 	scaled_pos = cub->player.pos;
 	scaled_pos.x = scaled_pos.x * scale + 10;
 	scaled_pos.y = scaled_pos.y * scale + 10;
-	draw_circle(&(cub->screen), scaled_pos, 3, FUCSIA);
+	draw_circle(&(cub->screen), scaled_pos, 3, PLAYER_COLOR);
 	draw_ray_collider(cub, &(cub->screen), scaled_pos, cub->player.ray_colider);
 }
 
@@ -194,7 +193,6 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
 	float scale;
 	float mapWidth = cub->map.max_x;
     float mapHeight = cub->map.max_y;
-	//float plusScale = (cub->map.max_x > 70 || cub->map.max_y > 70) ? 0.1 : ((cub->map.max_x < 40 && cub->map.max_y < 40) ? 1.2 : 0.8);
 
     if (mapWidth > mapHeight) {
         scale = (MINIMAPSCALE) / mapWidth;
@@ -202,12 +200,10 @@ void	draw_ray_collider(t_cub *cub, t_mlx *screen, t_point pos, t_colision *colis
         scale = (MINIMAPSCALE) / mapHeight;
     }
 
-	//pos.x *= MINIMAPSCALE;
-	//pos.y *= MINIMAPSCALE;
 	while (colisions->valid)
 	{
-		pos.color = WHITE;
-		colisions->point.color = WALLCOLOR;
+		pos.color = RAY_COLOR_START;
+		colisions->point.color = RAY_COLOR_END;
 		point = colisions->point;
 		point.x = point.x * scale + 10;
 		point.y = point.y * scale + 10;

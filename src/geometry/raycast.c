@@ -14,7 +14,10 @@ int		get_dir_ray_collider(t_player *player, int wide, t_objet *objets)
 	t_colision	colision;
 	float		ang;
 	int			num_colision;
-	
+	float		line_height;
+	float		orto_dist;
+
+
 	ang = 0;
 	num_colision = 0;
 	scan_vector = rotate_vector(player->cam, - wide/2);

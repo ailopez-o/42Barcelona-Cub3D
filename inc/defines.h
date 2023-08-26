@@ -26,7 +26,7 @@
 # define WIN2D 				1200
 # define WINX				1200
 # define MAPSCALE			60
-# define MINIMAPSCALE		10
+# define MINIMAPSCALE		4
 
 # define PLYSPEED			10
 # define PLYROTSPEED		4
@@ -67,13 +67,20 @@
 # define BLACK		0x151515
 # define BGCOLOR	0x151515
 # define SKYCOLOR	0x171717
-# define WALLCOLOR	ROJO
-# define DARKWALL	DARK_RED
+# define AMARILLO	0xFFFEA1
 
-# define	NULL_OBJET	0
-# define	WALL		1
-# define	DOOR		2
-# define	SPRITE		3
+# define WALLCOLOR			ROJO
+# define DARKWALL			DARK_RED
+# define PLAYER_COLOR		VERDE
+# define RAY_COLOR_START 	WHITE
+# define RAY_COLOR_END		AMARILLO
+
+typedef enum{
+	NULL_OBJET,
+	WALL,
+	DOOR,
+	SPRITE,
+};
 
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;
@@ -88,7 +95,6 @@ typedef struct s_polygon	t_polygon;
 typedef struct s_map		t_map;
 typedef struct s_img		t_img;
 typedef struct s_texture	t_texture;
-
 
 struct s_mlx
 {

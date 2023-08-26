@@ -47,9 +47,6 @@ t_texture	*get_texture(t_texture *textures, int type)
 }
 
 
-
-
-
 int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 {
 	int			num_obj;

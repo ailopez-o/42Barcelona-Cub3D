@@ -126,41 +126,95 @@ bool	validate_map(char *path, t_cub *cub)
 	return(EXIT_SUCCESS);
 }
 
+void dfs(char **map, int x, int y, int max_x, int max_y, bool **visited) {
+    if (x < 0 || y < 0 || x >= max_x || y >= max_y || map[y][x] == '1' || visited[y][x]) {
+        return;
+    }
 
-bool	valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
-{
-	int 			its = 0;
-	static int		**checker = NULL;
-	static int		recursive_deep = 0;
+    visited[y][x] = true;
 
-	// HARCODE
-	return (1);
-	
-	recursive_deep ++;
-	if (checker == NULL)
-		checker = empty_map(max_x, max_y);	
-
-	if (checker[y][x] == '1')
-		return 0;
-	checker[y][x] = '1';
-	if (map[y][x] == '1')
-		return 0;
-	if (x > 0)
-		its += valid_map_from_player(x - 1, y, map, max_x, max_y);
-	if (x < max_x)
-		its += valid_map_from_player(x + 1, y, map,  max_x, max_y);
-	if (y > 0)
-		its += valid_map_from_player(x, y - 1, map,  max_x, max_y);
-	if (y < max_y)
-		its += valid_map_from_player(x, y + 1, map,  max_x, max_y);
-	if ((x == 0 || x == max_x) && map[y][x] == '0')
-		return 1;
-	if ((y == 0 || y == max_y) && map[y][x] == '0')
-		return 1;
-	if (its)
-		return 1;
-	return 0;
+    dfs(map, x + 1, y, max_x, max_y, visited);
+    dfs(map, x - 1, y, max_x, max_y, visited);
+    dfs(map, x, y + 1, max_x, max_y, visited);
+    dfs(map, x, y - 1, max_x, max_y, visited);
 }
+
+bool is_surrounded_by_walls_or_accessible(char **map, bool **visited, int x, int y, int max_x, int max_y) {
+    int dx[] = {-1, -1, -1, 0, 1, 1, 1, 0};
+    int dy[] = {-1, 0, 1, 1, 1, 0, -1, -1};
+
+    for (int i = 0; i < 8; i++) {
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+
+        if (nx >= 0 && nx < max_x && ny >= 0 && ny < max_y) {
+            if (map[ny][nx] != '1' && !visited[ny][nx]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y) {
+
+	return 1;
+
+    if (map[y][x] == '1') {
+        return false;
+    }
+
+    // Asignación de memoria para visited
+    bool **visited = malloc(max_y * sizeof(bool *));
+    if (!visited) {
+        perror("Error en malloc");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = 0; i < max_y; i++) {
+        visited[i] = malloc(max_x * sizeof(bool));
+        if (!visited[i]) {
+            perror("Error en malloc");
+            exit(EXIT_FAILURE);
+        }
+        ft_memset(visited[i], false, max_x * sizeof(bool));
+    }
+}
+
+// bool	valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
+// {
+// 	int 			its = 0;
+// 	static int		**checker = NULL;
+// 	static int		recursive_deep = 0;
+
+// 	// HARCODE
+// 	return (1);
+	
+// 	recursive_deep ++;
+// 	if (checker == NULL)
+// 		checker = empty_map(max_x, max_y);	
+
+// 	if (checker[y][x] == '1')
+// 		return 0;
+// 	checker[y][x] = '1';
+// 	if (map[y][x] == '1')
+// 		return 0;
+// 	if (x > 0)
+// 		its += valid_map_from_player(x - 1, y, map, max_x, max_y);
+// 	if (x < max_x)
+// 		its += valid_map_from_player(x + 1, y, map,  max_x, max_y);
+// 	if (y > 0)
+// 		its += valid_map_from_player(x, y - 1, map,  max_x, max_y);
+// 	if (y < max_y)
+// 		its += valid_map_from_player(x, y + 1, map,  max_x, max_y);
+// 	if ((x == 0 || x == max_x) && map[y][x] == '0')
+// 		return 1;
+// 	if ((y == 0 || y == max_y) && map[y][x] == '0')
+// 		return 1;
+// 	if (its)
+// 		return 1;
+// 	return 0;
+// }
 
 
 int		**empty_map(int max_x, int max_y)

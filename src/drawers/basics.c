@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:04:44 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/13 20:19:32 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:22:37 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	draw_circle(t_mlx *screen, t_point center, int radius, int color)
 					+ (drawer.y - center.y) * (drawer.y - center.y));
 			if (distance <= radius)
 				my_pixel_put(screen, drawer);
-			drawer.x++
+			drawer.x++;
 		}
 		drawer.y++;
 	}

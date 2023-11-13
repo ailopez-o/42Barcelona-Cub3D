@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   basics.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/13 20:04:44 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/13 20:19:32 by framos-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
 #include "drawers.h"
 #include "geometry.h"
@@ -38,7 +50,6 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 		end.y = 0;
 	if (end.y > WINY)
 		end.y = WINY;
-
 	delta.x = end.x - start.x;
 	delta.y = end.y - start.y;
 	pixels = sqrt((delta.x * delta.x) + \
@@ -58,14 +69,16 @@ void	draw_line(t_mlx *screen, t_point start, t_point end)
 	}
 }
 
-void	draw_texture_line(t_mlx *screen, t_line stripe, int *column, bool b_shadow)
+void	draw_texture_line(t_mlx *screen, t_line stripe, int *column,
+			bool b_shadow)
 {
 	t_point	delta;
 	t_point	pixel;
 	int		pixels;
 	int		len;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	if (stripe.p1.y < 0)
 		stripe.p1.y = 0;
 	if (stripe.p1.y > WINY)
@@ -98,27 +111,30 @@ void	draw_texture_line(t_mlx *screen, t_line stripe, int *column, bool b_shadow)
 	free(column);
 }
 
-void draw_circle(t_mlx *screen, t_point center, int radius, int color)
+void	draw_circle(t_mlx *screen, t_point center, int radius, int color)
 {
 	t_point	drawer;
 	float	distance;
 
 	drawer.color = color;
-    for (drawer.y = center.y - radius; drawer.y <= center.y + radius; drawer.y++)
-    {
-        for (drawer.x = center.x - radius; drawer.x <= center.x + radius; drawer.x++)
-        {
-            distance = sqrt((drawer.x - center.x) * (drawer.x - center.x) + (drawer.y - center.y) * (drawer.y - center.y));
-            if (distance <= radius)
-            {
-                my_pixel_put(screen, drawer);
-            }
-        }
-    }
+	drawer.y = center.y - radius;
+	while (drawer.y <= center.y + radius)
+	{
+		drawer.x = center.x - radius;
+		while (drawer.x <= center.x + radius)
+		{
+			distance = sqrt((drawer.x - center.x) * (drawer.x - center.x)
+					+ (drawer.y - center.y) * (drawer.y - center.y));
+			if (distance <= radius)
+				my_pixel_put(screen, drawer);
+			drawer.x++
+		}
+		drawer.y++;
+	}
 }
 
-void clear_screen(t_mlx *screen)
-{	
+void	clear_screen(t_mlx *screen)
+{
 	t_point	cleaner;
 
 	cleaner.x = 0;

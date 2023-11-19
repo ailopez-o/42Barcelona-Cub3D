@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:04:44 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/13 20:22:37 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/19 16:36:32 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ void	draw_texture_line(t_mlx *screen, t_line stripe, int *column,
 		stripe.p2.y = 0;
 	if (stripe.p2.y > WINY)
 		stripe.p2.y = WINY;
-
 	delta.x = stripe.p2.x - stripe.p1.x;
 	delta.y = stripe.p2.y - stripe.p1.y;
 	pixels = sqrt((delta.x * delta.x) + \
@@ -152,7 +151,7 @@ void	clear_screen(t_mlx *screen)
 	}
 }
 
-void draw_polygon(t_mlx *screen, t_polygon polygon, float scale)
+void	draw_polygon(t_mlx *screen, t_polygon polygon, float scale)
 {
 	int	side;
 
@@ -168,8 +167,6 @@ void draw_polygon(t_mlx *screen, t_polygon polygon, float scale)
 		draw_line(screen, polygon.line[side].p1, polygon.line[side].p2);
 	}
 }
-
-
 /**
  * draw_vector - draws a vector on the screen
  *
@@ -179,10 +176,10 @@ void draw_polygon(t_mlx *screen, t_polygon polygon, float scale)
  * @color: the color of the vector to be drawn
  */
 
-void draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color)
+void	draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color)
 {
 	t_line	vector_line;
-	
+
 	vector = normalize_vector(vector);
 	vector_line.p1 = pos;
 	vector_line.p2.x = pos.x + vector.dir[X] * 50;

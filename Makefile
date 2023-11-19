@@ -6,7 +6,7 @@
 #    By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/11/19 17:45:00 by framos-p         ###   ########.fr        #
+#    Updated: 2023/11/19 18:12:40 by framos-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ FILES =		main.c \
 			mlx_window/mouse_events.c \
 			mlx_window/window_init.c \
 			geometry/vectors.c \
+			geometry/vectors_2.c \
 			geometry/raycast.c \
 			geometry/utils.c \
 			drawers/basics.c \

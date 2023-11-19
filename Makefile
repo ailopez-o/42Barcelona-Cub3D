@@ -6,7 +6,7 @@
 #    By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/06/05 14:27:40 by bmoll-pe         ###   ########.fr        #
+#    Updated: 2023/11/19 17:26:39 by framos-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ FILES =		main.c \
 			geometry/raycast.c \
 			geometry/utils.c \
 			drawers/basics.c \
+			drawers/basics_2.c \
 			drawers/utils.c \
 			drawers/render.c \
 			parser/reader.c \

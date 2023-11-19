@@ -6,14 +6,14 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:04:44 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/19 16:36:32 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/19 17:26:26 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 #include "drawers.h"
 #include "geometry.h"
-
+/*
 void	my_pixel_put(t_mlx *screen, t_point pixel)
 {
 	size_t	calc;
@@ -28,7 +28,7 @@ void	my_pixel_put(t_mlx *screen, t_point pixel)
 	screen->img_buff[calc + 1] = (pixel.color >> 8) & 0xff;
 	screen->img_buff[calc + 2] = (pixel.color >> 16) & 0xff;
 }
-
+*/
 /*
 *	This function checks if the whole line is out of the window to avoid the 
 *	operations and getting better the performance.
@@ -131,7 +131,7 @@ void	draw_circle(t_mlx *screen, t_point center, int radius, int color)
 		drawer.y++;
 	}
 }
-
+/*
 void	clear_screen(t_mlx *screen)
 {
 	t_point	cleaner;
@@ -150,7 +150,7 @@ void	clear_screen(t_mlx *screen)
 		cleaner.x = 0;
 	}
 }
-
+*/
 void	draw_polygon(t_mlx *screen, t_polygon polygon, float scale)
 {
 	int	side;

@@ -6,29 +6,14 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:04:44 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/19 17:26:26 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/19 17:36:15 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 #include "drawers.h"
 #include "geometry.h"
-/*
-void	my_pixel_put(t_mlx *screen, t_point pixel)
-{
-	size_t	calc;
 
-	if ((int)pixel.x >= WINX || (int)pixel.x < 0)
-		return ;
-	if ((int)pixel.y >= WINY || (int)pixel.y < 0)
-		return ;
-	pixel.y = WINY - pixel.y;
-	calc = (WINX * 4 * ((int)pixel.y - 1)) + ((int)pixel.x * 4);
-	screen->img_buff[calc] = pixel.color & 0xff;
-	screen->img_buff[calc + 1] = (pixel.color >> 8) & 0xff;
-	screen->img_buff[calc + 2] = (pixel.color >> 16) & 0xff;
-}
-*/
 /*
 *	This function checks if the whole line is out of the window to avoid the 
 *	operations and getting better the performance.
@@ -131,26 +116,7 @@ void	draw_circle(t_mlx *screen, t_point center, int radius, int color)
 		drawer.y++;
 	}
 }
-/*
-void	clear_screen(t_mlx *screen)
-{
-	t_point	cleaner;
 
-	cleaner.x = 0;
-	cleaner.y = 0;
-	cleaner.color = BGCOLOR;
-	while (cleaner.y < WINY)
-	{
-		while (cleaner.x < WINX)
-		{
-			my_pixel_put(screen, cleaner);
-			cleaner.x ++;
-		}
-		cleaner.y ++;
-		cleaner.x = 0;
-	}
-}
-*/
 void	draw_polygon(t_mlx *screen, t_polygon polygon, float scale)
 {
 	int	side;
@@ -167,14 +133,15 @@ void	draw_polygon(t_mlx *screen, t_polygon polygon, float scale)
 		draw_line(screen, polygon.line[side].p1, polygon.line[side].p2);
 	}
 }
-/**
+
+/*
  * draw_vector - draws a vector on the screen
  *
  * @screen: pointer to the screen
  * @vector: the vector to be drawn
  * @pos: the starting point of the vector
  * @color: the color of the vector to be drawn
- */
+*/
 
 void	draw_vector(t_mlx *screen, t_vector vector, t_point pos, int color)
 {

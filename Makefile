@@ -6,7 +6,7 @@
 #    By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/11/19 17:26:39 by framos-p         ###   ########.fr        #
+#    Updated: 2023/11/19 17:45:00 by framos-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,9 @@ FILES =		main.c \
 			drawers/basics.c \
 			drawers/basics_2.c \
 			drawers/utils.c \
+			drawers/utils_2.c \
 			drawers/render.c \
+			drawers/render_2.c \
 			parser/reader.c \
 			parser/utils.c \
 			parser/gnl.c \

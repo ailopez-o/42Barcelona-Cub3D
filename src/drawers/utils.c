@@ -6,7 +6,7 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 22:20:48 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/11/19 17:21:38 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/19 17:47:18 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <math.h>
 #include "geometry.h"
 
-int		ft_round(double num);
 int		*get_texture_column(t_line *wall, t_point point);
 int		*get_texture_column_fix(t_colision *colision);
 
@@ -24,35 +23,6 @@ int		*get_texture_column_fix(t_colision *colision);
 *	linear escale between each channel.
 *	The function return the color number "pix" of line "0->len".
 */
-
-int	gradient(int startcolor, int endcolor, int len, int pix)
-{
-	double	increment[3];
-	int		new[3];
-	int		newcolor;
-
-	increment[0] = (double)((endcolor >> 16) - \
-					(startcolor >> 16)) / (double)len;
-	increment[1] = (double)(((endcolor >> 8) & 0xFF) - \
-					((startcolor >> 8) & 0xFF)) / (double)len;
-	increment[2] = (double)((endcolor & 0xFF) - (startcolor & 0xFF)) \
-					/ (double)len;
-	new[0] = (startcolor >> 16) + ft_round(pix * increment[0]);
-	new[1] = ((startcolor >> 8) & 0xFF) + ft_round(pix * increment[1]);
-	new[2] = (startcolor & 0xFF) + ft_round(pix * increment[2]);
-	newcolor = (new[0] << 16) + (new[1] << 8) + new[2];
-	return (newcolor);
-}
-
-int	ft_round(double num)
-{
-	int	rounded;
-
-	rounded = (int)num;
-	if (num - rounded >= .5)
-		rounded++;
-	return (rounded);
-}
 
 int	color_fade(int color_hex, int value)
 {

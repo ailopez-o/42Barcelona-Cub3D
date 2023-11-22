@@ -17,28 +17,24 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-int			**empty_map(int width, int height);
-bool		validate_map(char *path, t_cub *cub);
-char		*get_int_array(char *line);
-int			get_data_type(char *line);
-int			add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
-int			color_parser(char *line);
-int 		check_map(t_map *map);
-int			map_builder(char **int_map, int scale, t_map *map, t_player *player);
-int 		**resize_matrix(int **matrix, int *width);
-int			**get_image_matrix(char *data, int width, int height);
-t_texture	*get_texture(t_texture *textures, int type);
-bool		valid_map_from_player(int x, int y, char **map, int max_x, int max_y);
+int **empty_map(int width, int height);
+bool validate_map(char *path, t_cub *cub);
+char *get_int_array(char *line);
+int get_data_type(char *line);
+int add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
+int color_parser(char *line);
+int check_map(t_map *map);
+int map_builder(char **int_map, int scale, t_map *map, t_player *player);
+int **resize_matrix(int **matrix, int *width);
+int **get_image_matrix(char *data, int width, int height);
+t_texture *get_texture(t_texture *textures, int type);
+bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y);
 
-
-
-
-bool	parse_map(int argv, char **argc, char **map, t_cub *cub)
+bool parse_map(int argv, char **argc, char **map, t_cub *cub)
 {
 	if (argv != 2)
 		return EXIT_FAILURE;
-	if (ft_strlen(argc[1]) < 4
-		|| ft_strncmp(argc[1] + (ft_strlen(argc[1]) - 4), ".cub", 5))
+	if (ft_strlen(argc[1]) < 4 || ft_strncmp(argc[1] + (ft_strlen(argc[1]) - 4), ".cub", 5))
 		return EXIT_FAILURE;
 	if (validate_map(argc[1], cub))
 		return EXIT_FAILURE;
@@ -47,10 +43,10 @@ bool	parse_map(int argv, char **argc, char **map, t_cub *cub)
 
 int is_player(char *line)
 {
-	int	pos;
+	int pos;
 
 	pos = 0;
-	while(line[pos])
+	while (line[pos])
 	{
 		if (line[pos] == 'N')
 			return pos;
@@ -65,16 +61,16 @@ int is_player(char *line)
 	return 0;
 }
 
-bool	validate_map(char *path, t_cub *cub)
+bool validate_map(char *path, t_cub *cub)
 {
-	int		fd;
-	char	*line;
-	char	**map;
-	int		num_line;
-	int		num_textures;
-	int		data_type;
+	int fd;
+	char *line;
+	char **map;
+	int num_line;
+	int num_textures;
+	int data_type;
 
-	init_cub(cub);	
+	init_cub(cub);
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
@@ -120,65 +116,95 @@ bool	validate_map(char *path, t_cub *cub)
 	printf("size: %d %d\n", cub->map.max_x, cub->map.max_y);
 	map[num_line] = NULL;
 	if (check_map(&cub->map))
-		return(EXIT_FAILURE);
-	if (valid_map_from_player((int)cub->player.matrix_pos.x, (int)cub->player.matrix_pos.y, map, cub->map.max_y, cub->map.max_x))
+		return (EXIT_FAILURE);
+	if (valid_map_from_player((int)cub->player.matrix_pos.x, (int)cub->player.matrix_pos.y, map, cub->map.max_x, cub->map.max_y))
 		map_builder(map, MAPSCALE, &cub->map, &cub->player);
-	return(EXIT_SUCCESS);
+	else
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
-void dfs(char **map, int x, int y, int max_x, int max_y, bool **visited) {
-    if (x < 0 || y < 0 || x >= max_x || y >= max_y || map[y][x] == '1' || visited[y][x]) {
-        return;
-    }
+void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, bool **visitado)
+{
+	// Si llegamos a un borde, entonces hay una salida
+	if (x < 0 || y < 0 || x >= (ancho - 1) || y >= (alto - 1))
+	{
+		*encerrado = false;
+		return;
+	}
 
-    visited[y][x] = true;
+	// Marcar la celda actual como visitada
+	visitado[y][x] = true;
 
-    dfs(map, x + 1, y, max_x, max_y, visited);
-    dfs(map, x - 1, y, max_x, max_y, visited);
-    dfs(map, x, y + 1, max_x, max_y, visited);
-    dfs(map, x, y - 1, max_x, max_y, visited);
+	// Movimientos: arriba, abajo, izquierda, derecha
+	int dx[] = {0, 0, -1, 1};
+	int dy[] = {-1, 1, 0, 0};
+
+	for (int i = 0; i < 4; i++)
+	{
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+
+		// Verificar si la nueva posición es válida y no ha sido visitada
+		if (nx >= 0 && ny >= 0 && nx < ancho && ny < alto && !visitado[ny][nx] && map[ny][nx] == '0')
+		{
+			dfs(nx, ny, ancho, alto, map, encerrado, visitado);
+		}
+	}
 }
 
-bool is_surrounded_by_walls_or_accessible(char **map, bool **visited, int x, int y, int max_x, int max_y) {
-    int dx[] = {-1, -1, -1, 0, 1, 1, 1, 0};
-    int dy[] = {-1, 0, 1, 1, 1, 0, -1, -1};
+// Función para determinar si el jugador está encerrado
+bool estaEncerrado(int ancho, int alto, int x, int y, char **map)
+{
+	bool **visitado;
 
-    for (int i = 0; i < 8; i++) {
-        int nx = x + dx[i];
-        int ny = y + dy[i];
+	visitado = ft_calloc(sizeof(bool *), alto);
 
-        if (nx >= 0 && nx < max_x && ny >= 0 && ny < max_y) {
-            if (map[ny][nx] != '1' && !visited[ny][nx]) {
-                return false;
-            }
-        }
-    }
-
-    return true;
+	// Inicializar visitado a falso
+	for (int i = 0; i < alto; i++)
+	{
+		visitado[i] = ft_calloc(sizeof(bool), ancho);
+		for (int j = 0; j < ancho; j++)
+		{
+			visitado[i][j] = false;
+		}
+	}
+	bool encerrado = true;
+	dfs(x, y, ancho, alto, map, &encerrado, visitado);
+	return encerrado;
 }
 
-bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y) {
+bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
+{
 
-	return 1;
+	int res;
 
-    if (map[y][x] == '1') {
-        return false;
-    }
+	res = estaEncerrado(max_x, max_y, x, y, map);
 
-    // Asignación de memoria para visited
-    bool **visited = malloc(max_y * sizeof(bool *));
-    if (!visited) {
-        perror("Error en malloc");
-        exit(EXIT_FAILURE);
-    }
-    for (int i = 0; i < max_y; i++) {
-        visited[i] = malloc(max_x * sizeof(bool));
-        if (!visited[i]) {
-            perror("Error en malloc");
-            exit(EXIT_FAILURE);
-        }
-        ft_memset(visited[i], false, max_x * sizeof(bool));
-    }
+	return res;
+
+	if (map[y][x] == '1')
+	{
+		return false;
+	}
+
+	// Asignación de memoria para visited
+	bool **visited = malloc(max_y * sizeof(bool *));
+	if (!visited)
+	{
+		perror("Error en malloc");
+		exit(EXIT_FAILURE);
+	}
+	for (int i = 0; i < max_y; i++)
+	{
+		visited[i] = malloc(max_x * sizeof(bool));
+		if (!visited[i])
+		{
+			perror("Error en malloc");
+			exit(EXIT_FAILURE);
+		}
+		ft_memset(visited[i], false, max_x * sizeof(bool));
+	}
 }
 
 // bool	valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
@@ -189,10 +215,10 @@ bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y) {
 
 // 	// HARCODE
 // 	return (1);
-	
+
 // 	recursive_deep ++;
 // 	if (checker == NULL)
-// 		checker = empty_map(max_x, max_y);	
+// 		checker = empty_map(max_x, max_y);
 
 // 	if (checker[y][x] == '1')
 // 		return 0;
@@ -216,43 +242,41 @@ bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y) {
 // 	return 0;
 // }
 
-
-int		**empty_map(int max_x, int max_y)
+int **empty_map(int max_x, int max_y)
 {
-   	int i;
+	int i;
 	int j;
-    int	**array;
-	
-	array = (int**)malloc(max_x * sizeof(int*));
-    if(array == NULL) 
-        return NULL;
+	int **array;
+
+	array = (int **)malloc(max_x * sizeof(int *));
+	if (array == NULL)
+		return NULL;
 
 	i = -1;
 	while (i++ < max_x)
 	{
-        array[i] = (int*)malloc(max_y * sizeof(int));
-        if(array[i] == NULL) 
+		array[i] = (int *)malloc(max_y * sizeof(int));
+		if (array[i] == NULL)
 		{
 			j = -1;
 			while (j++ < i)
-                free(array[j]);
-            free(array);
-            return NULL;
-        }
-    }
-    return array;
+				free(array[j]);
+			free(array);
+			return NULL;
+		}
+	}
+	return array;
 }
 
-
-char	*get_int_array(char *line)
+char *get_int_array(char *line)
 {
-	char	*char_line;
-	int		num_col;
+	char *char_line;
+	int num_col;
 
 	char_line = ft_calloc(sizeof(char), ft_strlen(line) + 1);
 
 	num_col = 0;
-	while(line[num_col])
+	while (line[num_col])
 	{
 		if (line[num_col] == '1')
 			char_line[num_col] = '1';
@@ -271,7 +295,7 @@ char	*get_int_array(char *line)
 	return (char_line);
 }
 
-int	get_data_type(char *line)
+int get_data_type(char *line)
 {
 	if (line[0] && line[0] == 'N' && line[1] && line[1] == 'O' && line[2] && line[2] == ' ')
 		return (NO);
@@ -290,15 +314,15 @@ int	get_data_type(char *line)
 	return (0);
 }
 
-int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
+int add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 {
-	char	*str_trimed;
+	char *str_trimed;
 
-	while(textures->valid == true)
+	while (textures->valid == true)
 		textures++;
 	str_trimed = ft_str_trim(path + 3);
 	textures->path = ft_substr(str_trimed, 0, ft_strlen(path) - 1);
-	free (str_trimed);
+	free(str_trimed);
 	textures->img.ptr = mlx_xpm_file_to_image(screen->handler, textures->path, &textures->width, &textures->height);
 	if (textures->img.ptr == NULL)
 		return (EXIT_FAILURE);
@@ -309,15 +333,15 @@ int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 	textures->type = type;
 	textures->img.matrix = resize_matrix(get_image_matrix(textures->img.addr, textures->width, textures->height), &textures->width);
 	return (EXIT_SUCCESS);
-	//Mirar si hace falta realloc
+	// Mirar si hace falta realloc
 }
 
-int	color_parser(char *line)
+int color_parser(char *line)
 {
-	char	*trim_line;
-	char	**splitted;
-	int		color[3];
-	int		hex;
+	char *trim_line;
+	char **splitted;
+	int color[3];
+	int hex;
 
 	trim_line = ft_str_trim(line + 1);
 	splitted = ft_split(trim_line, ',');
@@ -326,10 +350,10 @@ int	color_parser(char *line)
 	color[2] = ft_atoi(splitted[2]);
 	hex = color[0] << 16 | color[1] << 8 | color[2];
 	free(trim_line);
-	free (splitted[0]);
-	free (splitted[1]);
-	free (splitted[2]);
-	free (splitted);
+	free(splitted[0]);
+	free(splitted[1]);
+	free(splitted[2]);
+	free(splitted);
 	return (hex);
 }
 
@@ -337,13 +361,12 @@ int check_map(t_map *map)
 {
 
 	if (!get_texture(map->textures, NO))
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (!get_texture(map->textures, SO))
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (!get_texture(map->textures, WE))
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (!get_texture(map->textures, EA))
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
-

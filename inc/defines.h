@@ -21,7 +21,7 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define FOV				90
+# define FOV				70
 # define WINY 				800
 # define WIN2D 				1200
 # define WINX				1200
@@ -75,12 +75,12 @@
 # define RAY_COLOR_START 	WHITE
 # define RAY_COLOR_END		AMARILLO
 
-typedef enum{
+typedef enum block_type{
 	NULL_OBJET,
 	WALL,
 	DOOR,
 	SPRITE,
-};
+}block_type;
 
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;
@@ -193,6 +193,7 @@ struct s_map
 	int			top_color;
 	int			max_x;
 	int			max_y;
+	bool		**visited;
 };
 
 struct s_cub

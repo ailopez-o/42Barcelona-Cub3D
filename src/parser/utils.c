@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/25 21:35:03 by bmoll             #+#    #+#             */
-/*   Updated: 2023/05/01 13:34:43 by bmoll            ###   ########.fr       */
+/*   Created: 2023/11/22 10:40:03 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/22 10:49:22 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ void	matrix_printer(int **matrix, int width, int height)
 	void	*win_ptr;
 	void	*img_ptr;
 	char	*img_data;
-	int		i, j;
+	int		i;
+	int		j;
 
 	mlx_ptr = mlx_init();
 	win_ptr = mlx_new_window(mlx_ptr, width, height, "My Image");
 	img_ptr = mlx_new_image(mlx_ptr, width, height);
 	img_data = mlx_get_data_addr(img_ptr, NULL, NULL, NULL);
-
 	// Copiar los datos de la matriz en el buffer de la imagen
-	for (i = 0; i < width; i++)
+	i = -1;
+	while (++i < width)
 	{
-		for (j = 0; j < height; j++)
-		{
+		j = -1;
+		while (++j < height)
 			mlx_pixel_put(mlx_ptr, win_ptr, i, j, matrix[i][j]);
-		}
 	}
 	// mlx_put_image_to_window(mlx_ptr, win_ptr, img_ptr, 0, 0);
 	mlx_loop(mlx_ptr);
@@ -42,9 +42,9 @@ void	matrix_printer(int **matrix, int width, int height)
 
 int	**get_image_matrix(char *data, int width, int height)
 {
-	int		**matrix;
-	int		i;
-	int		j;
+	int	**matrix;
+	int	i;
+	int	j;
 
 	i = -1;
 	matrix = malloc(sizeof(int *) * width);
@@ -62,61 +62,37 @@ int	**get_image_matrix(char *data, int width, int height)
 	return (matrix);
 }
 
-int **resize_matrix(int **matrix, int *width)
+int	**resize_matrix(int **matrix, int *width)
 {
-	int **scaled_columns = ft_calloc(sizeof(int *), MAPSCALE);
-	for (int i = 0; i < MAPSCALE; i++)
-		{
+	int	**scaled_columns;
+	int	i;
+
+	scaled_columns = ft_calloc(sizeof(int *), MAPSCALE);
+	i = -1;
+	while (++i < MAPSCALE)
+	{
 		scaled_columns[i] = matrix[i * *width / MAPSCALE];
 		//printf("pos: %d\n", i * *width / MAPSCALE)
-		}
+	}
 	free(matrix);
 	*width = MAPSCALE;
-	return(scaled_columns);
+	return (scaled_columns);
 }
 
 int	*get_texture_column(t_line *wall, t_point point)
 {
-	double	line_length = distance_between_points(wall->p1, wall->p2);
-	double	texture_repeats = line_length / wall->texture->width;
-	double	point_distance = distance_between_points(wall->p1, point);
-	double	point_position = point_distance / line_length;
-	int		column_index = (int)(point_position * MAPSCALE * texture_repeats) % MAPSCALE;
-	//int		column_index = (int)(point_position * wall->texture->width * texture_repeats) % wall->texture->width;
-
+	double	line_length;
+	double	texture_repeats;
+	double	point_distance;
+	double	point_position;
+	int		column_index;
+	//int		column_index = (int)(point_position * wall->texture->width
+	//* texture_repeats) % wall->texture->width;
+	line_length = distance_between_points(wall->p1, wall->p2);
+	texture_repeats = line_length / wall->texture->width;
+	point_distance = distance_between_points(wall->p1, point);
+	point_position = point_distance / line_length;
+	column_index = (int)(point_position * MAPSCALE * texture_repeats)
+		% MAPSCALE;
 	return (wall->texture->img.matrix[column_index]);
-}
-
-char	*ft_str_trim(char *str) 
-{
-	int		start;
-	int		end;
-	char	*new_str;
-	
-	end = ft_strlen(str) - 1;
-	start = 0;
-	while (str[start] == ' ')
-		start++;
-	while (str[end] == ' ' || str[end] == '\n')
-		end--;
-	if (end < start)
-		return (ft_strdup(""));
-	new_str = ft_substr(str, start, end - start +  1);
-	return (new_str);
-}
-
-void	*ft_realloc(void *ptr, size_t size)
-{
-	void	*new_ptr;
-
-	if (ptr == NULL)
-		return (ft_calloc(size, 1));
-	if (!size)
-		return (ptr);
-	new_ptr = ft_calloc(size, 1);
-	if (!new_ptr)
-		return (NULL);
-	ft_memcpy(new_ptr, ptr, size);
-	free(ptr);
-	return (new_ptr);
 }

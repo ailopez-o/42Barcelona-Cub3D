@@ -6,7 +6,7 @@
 #    By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/11/19 18:12:40 by framos-p         ###   ########.fr        #
+#    Updated: 2023/11/22 11:51:00 by framos-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,8 +53,10 @@ FILES =		main.c \
 			drawers/render_2.c \
 			parser/reader.c \
 			parser/utils.c \
+			parser/utils_2.c \
 			parser/gnl.c \
 			parser/validator.c \
+			parser/validator_2.c \
 
 # Root folders
 SRC_ROOT := src/

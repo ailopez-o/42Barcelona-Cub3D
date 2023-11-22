@@ -61,6 +61,17 @@ int is_player(char *line)
 	return 0;
 }
 
+bool square_map(char **map, int max_x)
+{
+	int i;
+
+	i = -1;
+	while (map[i++] != NULL)
+		map[i] = ft_realloc(map[i], max_x);
+
+	return true;
+}
+
 bool validate_map(char *path, t_cub *cub)
 {
 	int fd;
@@ -115,6 +126,7 @@ bool validate_map(char *path, t_cub *cub)
 	}
 	printf("size: %d %d\n", cub->map.max_x, cub->map.max_y);
 	map[num_line] = NULL;
+	//square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))
 		return (EXIT_FAILURE);
 	if (valid_map_from_player((int)cub->player.matrix_pos.x, (int)cub->player.matrix_pos.y, map, cub->map.max_x, cub->map.max_y))
@@ -127,7 +139,7 @@ bool validate_map(char *path, t_cub *cub)
 void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, bool **visitado)
 {
 	// Si llegamos a un borde, entonces hay una salida
-	if (x < 0 || y < 0 || x >= (ancho - 1) || y >= (alto - 1))
+	if (x <= 0 || y <= 0 || x >= (ancho - 1) || y >= (alto - 1))
 	{
 		*encerrado = false;
 		return;
@@ -135,6 +147,8 @@ void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, bool **
 
 	// Marcar la celda actual como visitada
 	visitado[y][x] = true;
+
+	ancho = ft_strlen(map[y]);
 
 	// Movimientos: arriba, abajo, izquierda, derecha
 	int dx[] = {0, 0, -1, 1};
@@ -146,7 +160,7 @@ void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, bool **
 		int ny = y + dy[i];
 
 		// Verificar si la nueva posición es válida y no ha sido visitada
-		if (nx >= 0 && ny >= 0 && nx < ancho && ny < alto && !visitado[ny][nx] && map[ny][nx] == '0')
+		if (nx >= 0 && ny >= 0 && nx <= ancho && ny <= alto && !visitado[ny][nx] && map[ny][nx] == '0')
 		{
 			dfs(nx, ny, ancho, alto, map, encerrado, visitado);
 		}

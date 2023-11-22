@@ -1,10 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mouse_events.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/22 10:29:22 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/22 10:30:09 by framos-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
 #include "drawers.h"
 #include "geometry.h"
 #include "mlx.h"
-
-
-
 
 /* 
 *	This function handle every time a mouse button is relased
@@ -21,7 +30,7 @@ int	mouse_release(int button, int x, int y, void *param)
 	return (EXIT_SUCCESS);
 }
 
-/* 
+/*
 *	This function handle every time a mouse button is pressed
 */
 
@@ -69,4 +78,3 @@ int	mouse_move(int x, int y, void *param)
 	last_point.y = y;
 	return (EXIT_SUCCESS);
 }
-

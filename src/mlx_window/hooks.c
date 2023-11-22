@@ -1,9 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hooks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/22 10:24:03 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/22 10:26:46 by framos-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
 #include "mlx.h"
 #include "events.h"
 #include "drawers.h"
-
-
 
 /**
  * executor - Sets up and runs the main event loop for the program
@@ -23,5 +33,5 @@ bool	executor(t_cub *cub)
 	mlx_hook(cub->screen.win, 17, 0, terminate_program, cub);
 	mlx_loop_hook(cub->screen.handler, render, cub);
 	mlx_loop(cub->screen.handler);
-	return EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
 }

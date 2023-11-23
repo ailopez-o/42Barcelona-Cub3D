@@ -64,10 +64,17 @@ int is_player(char *line)
 bool square_map(char **map, int max_x)
 {
 	int i;
+	int len;
 
-	i = -1;
-	while (map[i++] != NULL)
-		map[i] = ft_realloc(map[i], max_x);
+	i = 0;
+	while (map[i] != NULL)
+	{
+		len = ft_strlen(map[i]);
+		map[i] = ft_realloc(map[i], max_x + 1);
+		for (int j = len; j < max_x; j++)
+			map[i][j] = '0';
+		i++;
+	}
 
 	return true;
 }
@@ -126,7 +133,7 @@ bool validate_map(char *path, t_cub *cub)
 	}
 	printf("size: %d %d\n", cub->map.max_x, cub->map.max_y);
 	map[num_line] = NULL;
-	//square_map(map, cub->map.max_x);
+	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))
 		return (EXIT_FAILURE);
 	if (valid_map_from_player((int)cub->player.matrix_pos.x, (int)cub->player.matrix_pos.y, map, cub->map.max_x, cub->map.max_y))

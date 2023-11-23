@@ -63,3 +63,48 @@ t_vector	get_geo_vector(char geo)
 	}
 	return (vect);
 }
+
+t_vector	rotate_vector(t_vector vector, float ang)
+{
+	float		radianes;
+	t_vector	new_vector;
+
+	radianes = ang * M_PI / 180.0;
+	new_vector.dir[X] = cos(radianes) * vector.dir[X] - sin(radianes)
+		* vector.dir[Y];
+	new_vector.dir[Y] = sin(radianes) * vector.dir[X] + cos(radianes)
+		* vector.dir[Y];
+	return (new_vector);
+}
+
+/**
+ * normalize_vector - normalizes a vector
+ *
+ * This function normalizes a given vector by dividing its direction
+ * components by the largest component. This ensures that the magnitude
+ * of the vector is equal to 1, and therefore the vector represents
+ * only the direction of the original vector. The function returns
+ * the normalized vector.
+ *
+ * @vector: the vector to be normalized
+ *
+ * Return: the normalized vector
+ */
+
+t_vector	normalize_vector(t_vector vector)
+{
+	float	magnitude;
+	float	sum;
+
+	magnitude = sqrt(vector.dir[X] * vector.dir[X] + vector.dir[Y]
+			* vector.dir[Y]);
+	vector.dir[X] /= magnitude;
+	vector.dir[Y] /= magnitude;
+//	vector.dir[0] + vector.dir[1];
+	if (sum > 1.0)
+	{
+		vector.dir[X] /= sum;
+		vector.dir[Y] /= sum;
+	}
+	return (vector);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 10:50:15 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/22 11:56:11 by framos-p         ###   ########.fr       */
+/*   Created: 2023/07/19 19:02:19 by bmoll-pe          #+#    #+#             */
+/*   Updated: 2023/07/19 19:10:01 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,27 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-char		*get_int_array(char *line);
-int			get_data_type(char *line);
-int			add_texture(char *path, t_texture *textures, t_mlx *screen,
-				int type);
-int			color_parser(char *line);
-int			check_map(t_map *map);
-int			map_builder(char **int_map, int scale, t_map *map,
-				t_player *player);
-int			**resize_matrix(int **matrix, int *width);
-int			**get_image_matrix(char *data, int width, int height);
-t_texture	*get_texture(t_texture *textures, int type);
+int **empty_map(int width, int height);
+bool validate_map(char *path, t_cub *cub);
+char *get_int_array(char *line);
+int get_data_type(char *line);
+int add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
+int color_parser(char *line);
+int check_map(t_map *map);
+int map_builder(char **int_map, int scale, t_map *map, t_player *player);
+int **resize_matrix(int **matrix, int *width);
+int **get_image_matrix(char *data, int width, int height);
+t_texture *get_texture(t_texture *textures, int type);
+bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y);
 
-char	*get_int_array(char *line)
+
+char *get_int_array(char *line)
 {
-	char	*char_line;
-	int		num_col;
+	char *char_line;
+	int num_col;
 
 	char_line = ft_calloc(sizeof(char), ft_strlen(line) + 1);
+
 	num_col = 0;
 	while (line[num_col])
 	{
@@ -55,22 +58,17 @@ char	*get_int_array(char *line)
 	return (char_line);
 }
 
-int	get_data_type(char *line)
+int get_data_type(char *line)
 {
-	if (line[0] && line[0] == 'N' && line[1] && line[1] == 'O' && line[2]
-		&& line[2] == ' ')
+	if (line[0] && line[0] == 'N' && line[1] && line[1] == 'O' && line[2] && line[2] == ' ')
 		return (NO);
-	if (line[0] && line[0] == 'S' && line[1] && line[1] == 'O' && line[2]
-		&& line[2] == ' ')
+	if (line[0] && line[0] == 'S' && line[1] && line[1] == 'O' && line[2] && line[2] == ' ')
 		return (SO);
-	if (line[0] && line[0] == 'W' && line[1] && line[1] == 'E' && line[2]
-		&& line[2] == ' ')
+	if (line[0] && line[0] == 'W' && line[1] && line[1] == 'E' && line[2] && line[2] == ' ')
 		return (WE);
-	if (line[0] && line[0] == 'E' && line[1] && line[1] == 'A' && line[2]
-		&& line[2] == ' ')
+	if (line[0] && line[0] == 'E' && line[1] && line[1] == 'A' && line[2] && line[2] == ' ')
 		return (EA);
-	if (line[0] && line[0] == 'S' && line[1] && line[1] == 'C' && line[2]
-		&& line[2] == ' ')
+	if (line[0] && line[0] == 'S' && line[1] && line[1] == 'C' && line[2] && line[2] == ' ')
 		return (SC);
 	if (line[0] && line[0] == 'C' && line[1] && line[1] == ' ')
 		return (C);
@@ -79,17 +77,16 @@ int	get_data_type(char *line)
 	return (0);
 }
 
-int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
+int add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 {
-	char	*str_trimed;
+	char *str_trimed;
 
 	while (textures->valid == true)
 		textures++;
 	str_trimed = ft_str_trim(path + 3);
 	textures->path = ft_substr(str_trimed, 0, ft_strlen(path) - 1);
-	free (str_trimed);
-	textures->img.ptr = mlx_xpm_file_to_image(screen->handler, textures->path,
-			&textures->width, &textures->height);
+	free(str_trimed);
+	textures->img.ptr = mlx_xpm_file_to_image(screen->handler, textures->path, &textures->width, &textures->height);
 	if (textures->img.ptr == NULL)
 		return (EXIT_FAILURE);
 	textures->img.addr = mlx_get_data_addr(textures->img.ptr, NULL, NULL, NULL);
@@ -97,18 +94,17 @@ int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 		return (EXIT_FAILURE);
 	textures->valid = true;
 	textures->type = type;
-	textures->img.matrix = resize_matrix(get_image_matrix(textures->img.addr,
-				textures->width, textures->height), &textures->width);
+	textures->img.matrix = resize_matrix(get_image_matrix(textures->img.addr, textures->width, textures->height), &textures->width);
 	return (EXIT_SUCCESS);
-	//Mirar si hace falta realloc
+	// Mirar si hace falta realloc
 }
 
-int	color_parser(char *line)
+int color_parser(char *line)
 {
-	char	*trim_line;
-	char	**splitted;
-	int		color[3];
-	int		hex;
+	char *trim_line;
+	char **splitted;
+	int color[3];
+	int hex;
 
 	trim_line = ft_str_trim(line + 1);
 	splitted = ft_split(trim_line, ',');
@@ -117,15 +113,16 @@ int	color_parser(char *line)
 	color[2] = ft_atoi(splitted[2]);
 	hex = color[0] << 16 | color[1] << 8 | color[2];
 	free(trim_line);
-	free (splitted[0]);
-	free (splitted[1]);
-	free (splitted[2]);
-	free (splitted);
+	free(splitted[0]);
+	free(splitted[1]);
+	free(splitted[2]);
+	free(splitted);
 	return (hex);
 }
 
-int	check_map(t_map *map)
+int check_map(t_map *map)
 {
+
 	if (!get_texture(map->textures, NO))
 		return (EXIT_FAILURE);
 	if (!get_texture(map->textures, SO))

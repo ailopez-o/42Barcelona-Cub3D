@@ -24,6 +24,13 @@ int	ft_round(double num)
 	return (rounded);
 }
 
+/*
+*	This function generates the color of each pixel between starcolor and endcolor
+*	To do that get the RGB chanels independtly and create a 
+*	linear escale between each channel.
+*	The function return the color number "pix" of line "0->len".
+*/
+
 int	gradient(int startcolor, int endcolor, int len, int pix)
 {
 	double	increment[3];

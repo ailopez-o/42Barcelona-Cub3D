@@ -6,7 +6,7 @@
 #    By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 19:21:56 by bmoll             #+#    #+#              #
-#    Updated: 2023/11/22 11:51:00 by framos-p         ###   ########.fr        #
+#    Updated: 2023/06/05 14:27:40 by bmoll-pe         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,21 +42,23 @@ FILES =		main.c \
 			mlx_window/mouse_events.c \
 			mlx_window/window_init.c \
 			geometry/vectors.c \
-			geometry/vectors_2.c \
+			geometry/vutils.c \
 			geometry/raycast.c \
 			geometry/utils.c \
 			drawers/basics.c \
-			drawers/basics_2.c \
-			drawers/utils.c \
+			drawers/geometry.c \
+			drawers/utils_1.c \
 			drawers/utils_2.c \
 			drawers/render.c \
-			drawers/render_2.c \
+			drawers/render_3d.c \
+			drawers/render_map.c \
+			drawers/render_player.c \
 			parser/reader.c \
 			parser/utils.c \
-			parser/utils_2.c \
 			parser/gnl.c \
-			parser/validator.c \
-			parser/validator_2.c \
+			parser/check_1.c \
+			parser/check_2.c \
+
 
 # Root folders
 SRC_ROOT := src/
@@ -105,7 +107,7 @@ GCC =		gcc
 
 # Flags for the gcc compilation
 FLAGS =		-g -MMD -MP
-FLAGS +=	-O3
+#FLAGS +=	-O3
 # FLAGS =		-Wall -Werror -Wextra -MMD -MP
 
 MINILIBXCC := -I mlx -L $(DIR_MLX) -lmlx

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 19:59:00 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/13 19:59:09 by framos-p         ###   ########.fr       */
+/*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
+/*   Updated: 2023/06/05 17:33:08 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "keycodes.h"
 # include "libft.h"
 
-# define FOV				90
+# define FOV				70
 # define WINY 				800
 # define WIN2D 				1200
 # define WINX				1200
@@ -40,13 +40,13 @@
 # define ROTATE_L			1
 # define ROTATE_R			2
 
-# define NO	1
-# define SO	2
-# define WE	3
-# define EA	4
-# define F	5
-# define C	6
-# define SC	7
+# define	NO	1
+# define	SO	2
+# define	WE	3
+# define	EA	4
+# define	F	5
+# define	C	6
+# define	SC	7
 
 # define X 0
 # define Y 1
@@ -75,12 +75,12 @@
 # define RAY_COLOR_START 	WHITE
 # define RAY_COLOR_END		AMARILLO
 
-typedef enum e_Name{
+typedef enum block_type{
 	NULL_OBJET,
 	WALL,
 	DOOR,
 	SPRITE,
-}t_EnumName;
+}block_type;
 
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;
@@ -112,7 +112,7 @@ struct s_point
 	float	x;
 	float	y;
 	float	z;
-	int		color;
+	int 	color;
 };
 
 struct s_line
@@ -185,7 +185,7 @@ struct s_texture
 };
 
 struct s_map
-{
+{	
 	t_objet		*objets;
 	t_texture	*textures;
 	int			scale;
@@ -193,6 +193,7 @@ struct s_map
 	int			top_color;
 	int			max_x;
 	int			max_y;
+	bool		**visited;
 };
 
 struct s_cub

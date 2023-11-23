@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/19 17:58:44 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/19 18:05:56 by framos-p         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "defines.h"
 
 float	angle_between_lines(t_line l1, t_line l2)
@@ -35,15 +23,15 @@ float	angle_between_lines(t_line l1, t_line l2)
 bool	is_horizontal(t_line line)
 {
 	if (line.p1.x == line.p2.x)
-		return (true);
-	return (false);
+		return(true);
+	return(false);
 }
 
 bool	is_vertical(t_line line)
 {
 	if (line.p1.y == line.p2.y)
-		return (true);
-	return (false);
+		return(true);
+	return(false);
 }
 
 double	distance_between_points(t_point p1, t_point p2)

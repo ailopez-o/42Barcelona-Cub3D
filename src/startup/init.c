@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 12:00:01 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/22 12:00:44 by framos-p         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "defines.h"
 #include "mlx.h"
 #include "parser.h"
@@ -50,5 +38,5 @@ bool	init_cub(t_cub *cub)
 	cub->map.max_x = 0;
 	cub->map.max_y = 0;
 	cub->map.textures = ft_calloc(1, sizeof(t_texture) * 100);
-	return (EXIT_SUCCESS);
+	return(EXIT_SUCCESS);
 }

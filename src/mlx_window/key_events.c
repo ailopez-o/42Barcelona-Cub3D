@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_events.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/22 10:26:53 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/22 10:28:34 by framos-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
 #include "mlx.h"
 #include "time.h"
@@ -5,18 +17,17 @@
 #include "geometry.h"
 #include <sys/time.h>
 
-
 int		terminate_program(void *param);
 void	move_player(t_cub *cub, int key);
 void	turn_player(t_cub *cub, int key);
 
-/* 
+/*
 *	This function handle when a key is pressed
 */
 
 int	key_press(int key, void *param)
 {
-	t_cub		*cub;
+	t_cub	*cub;
 
 	cub = (t_cub *)param;
 	if (key == KEY_ESC)
@@ -38,20 +49,18 @@ int	key_press(int key, void *param)
 	{
 		cub->player.player_speed++;
 		cub->player.player_rot_speed += 0.05;
-
 	}
 	if (key == KEY_RES || key == KEY_RES2)
 	{
-		if (cub->player.player_speed > 1)		
+		if (cub->player.player_speed > 1)
 			cub->player.player_speed--;
 		if (cub->player.player_rot_speed > 1)
 			cub->player.player_rot_speed -= 0.05;
 	}
-	
 	return (EXIT_SUCCESS);
 }
 
-/* 
+/*
 *	This function handle when a key is relased
 */
 
@@ -61,12 +70,12 @@ int	key_release(int key, void *param)
 
 	(void) key;
 	cub = (t_cub *)param;
-	if (key == KEY_W || key == KEY_UP || key == KEY_S || key == KEY_DOWN || key == KEY_A || key == KEY_D)
+	if (key == KEY_W || key == KEY_UP || key == KEY_S || key == KEY_DOWN
+		|| key == KEY_A || key == KEY_D)
 		cub->player.move = STOP;
 	if (key == KEY_LEFT || key == KEY_RIGHT)
 		cub->player.rotate = STOP;
 	return (EXIT_SUCCESS);
-
 }
 
 int	terminate_program(void *param)
@@ -74,7 +83,6 @@ int	terminate_program(void *param)
 	t_cub	*cub;
 
 	cub = (t_cub *)param;
-	mlx_destroy_window(cub->screen.handler,cub->screen.win);
+	mlx_destroy_window(cub->screen.handler, cub->screen.win);
 	exit(0);
 }
-

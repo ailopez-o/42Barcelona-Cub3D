@@ -77,13 +77,19 @@ int **resize_matrix(int **matrix, int *width)
 
 int	*get_texture_column(t_line *wall, t_point point)
 {
-	double	line_length = distance_between_points(wall->p1, wall->p2);
-	double	texture_repeats = line_length / wall->texture->width;
-	double	point_distance = distance_between_points(wall->p1, point);
-	double	point_position = point_distance / line_length;
-	int		column_index = (int)(point_position * MAPSCALE * texture_repeats) % MAPSCALE;
-	//int		column_index = (int)(point_position * wall->texture->width * texture_repeats) % wall->texture->width;
-
+	double	line_length;
+	double	texture_repeats;
+	double	point_distance;
+	double	point_position;
+	int		column_index;
+	//int		column_index = (int)(point_position * wall->texture->width
+	//* texture_repeats) % wall->texture->width;
+	line_length = distance_between_points(wall->p1, wall->p2);
+	texture_repeats = line_length / wall->texture->width;
+	point_distance = distance_between_points(wall->p1, point);
+	point_position = point_distance / line_length;
+	column_index = (int)(point_position * MAPSCALE * texture_repeats)
+		% MAPSCALE;
 	return (wall->texture->img.matrix[column_index]);
 }
 

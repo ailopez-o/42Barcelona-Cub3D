@@ -45,8 +45,13 @@ FILES =		main.c \
 			geometry/raycast.c \
 			geometry/utils.c \
 			drawers/basics.c \
-			drawers/utils.c \
+			drawers/geometry.c \
+			drawers/utils_1.c \
+			drawers/utils_2.c \
 			drawers/render.c \
+			drawers/render_3d.c \
+			drawers/render_map.c \
+			drawers/render_player.c \
 			parser/reader.c \
 			parser/utils.c \
 			parser/gnl.c \

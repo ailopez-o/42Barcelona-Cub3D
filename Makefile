@@ -42,6 +42,7 @@ FILES =		main.c \
 			mlx_window/mouse_events.c \
 			mlx_window/window_init.c \
 			geometry/vectors.c \
+			geometry/vutils.c \
 			geometry/raycast.c \
 			geometry/utils.c \
 			drawers/basics.c \

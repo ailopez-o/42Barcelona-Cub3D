@@ -1,5 +1,3 @@
-
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -18,39 +16,58 @@
 
 int		*get_texture_column(t_line *wall, t_point point);
 int		*get_texture_column_fix(t_colision *colision);
+int		*get_texture_column(t_line *wall, t_point point);
+int		*get_texture_column_fix(t_colision *colision);
+int		calculate_new_height(double distance, int texture_height);
+int		*create_new_column(int new_height);
+void	populate_new_column(int *new_column, int *texture_stripe,
+			int new_height, int texture_height);
+void	populate_larger_column(int *new_column, int *texture_stripe,
+			int new_height, int texture_height);
+int		*adjust_column_if_greater_than_winy(int *new_column, double distance,
+			int *new_height);
 
-int color_fade(int color_hex, int value)
-{
+/*
+*	This function generates the color of each pixel between starcolor and endcolor
+*	To do that get the RGB chanels independtly and create a 
+*	linear escale between each channel.
+*	The function return the color number "pix" of line "0->len".
+
 	// if (iteraciones > PLYVIEW)
 	// 	return (BGCOLOR);
-	int r = (color_hex >> 16) & 0xFF;
-	int g = (color_hex >> 8) & 0xFF;
-	int b = color_hex & 0xFF;
-
 	// // Escalar el número de iteraciones de 0-300
 	// float escala = (float)iteraciones / PLYVIEW;
 	// if (escala > 1.0) escala = 1.0;
-
 	// Calcular el decremento en función de la escala
 	//int decremento = (int)(escala * 255.0);
-
-	r -= value;
-	g -= value;
-	b -= value;
-
-	// // Si la escala es mayor que 1, establecer el color a negro
+	// Si la escala es mayor que 1, establecer el color a negro
 	// if (escala >= 1.0) {
 	// 	r = 0;
 	// 	g = 0;
 	// 	b = 0;
 	// }
-
 	// Asegurarse de que los componentes RGB no sean menores que 0
-	r = (r < 0) ? 0 : r;
-	g = (g < 0) ? 0 : g;
-	b = (b < 0) ? 0 : b;
-	
-	return (r << 16) | (g << 8) | b;
+*/
+
+int	color_fade(int color_hex, int value)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	r = (color_hex >> 16) & 0xFF;
+	g = (color_hex >> 8) & 0xFF;
+	b = color_hex & 0xFF;
+	r -= value;
+	g -= value;
+	b -= value;
+	if (r < 0)
+		r = 0;
+	if (g < 0)
+		g = 0;
+	if (b < 0)
+		b = 0;
+	return ((r << 16) | (g << 8) | b);
 }
 
 float	norm_distancia(int dist)
@@ -79,9 +96,9 @@ void	*ft_intmemcpy(void *dest, const void *src, size_t n)
 
 void	rotate_texture(int *column, int height)
 {
-	int i;
-	int j;
-	int tmp;
+	int	i;
+	int	j;
+	int	tmp;
 
 	i = 0;
 	j = height - 1;
@@ -95,43 +112,20 @@ void	rotate_texture(int *column, int height)
 	}
 }
 
-int		*adjust_column(t_colision *colision, double distance)
+int	*adjust_column_if_greater_than_winy(int *new_column, double distance,
+		int *new_height)
 {
-	int *new_column;
-	int *cuted;
-	int new_height;
-	int	*texture_stripe;
+	int	*cuted;
 
-	// cargamos el array de int correspondientes a el punto de colisión.
-	texture_stripe = get_texture_column(&colision->line, colision->point);
-    if (distance < colision->line.texture->height)
-    {
-        new_height = (int)(colision->line.texture->height * distance / (double)colision->line.texture->height);
-        new_column = malloc(new_height * sizeof(int));
-        if (!new_column)
-            return NULL;
-        for (int i = 0; i < new_height; i++)
-            new_column[i] = texture_stripe[i * colision->line.texture->height / new_height];
-    }
-    else
-    {
-        new_height = (int)distance;
-        new_column = malloc(new_height * sizeof(int));
-        if (!new_column)
-            return NULL;
-        for (int i = 0; i < new_height; i++)
-            new_column[i] = texture_stripe[i * colision->line.texture->height / new_height % colision->line.texture->height];
-    }
 	if (distance > WINY)
 	{
 		cuted = ft_calloc(sizeof(int), distance - (distance - WINY));
-		ft_intmemcpy(cuted, new_column + (int)((distance - WINY) / 2), distance - (distance - WINY));
+		ft_intmemcpy(cuted, new_column + (int)((distance - WINY) / 2), distance
+			- (distance - WINY));
 		free(new_column);
 		new_column = cuted;
-		new_height = WINY;
+		*new_height = WINY;
 		cuted = NULL;
 	}
-	if (new_column)
-		rotate_texture(new_column, new_height);
 	return (new_column);
 }

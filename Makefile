@@ -49,6 +49,7 @@ FILES =		main.c \
 			drawers/geometry.c \
 			drawers/utils_1.c \
 			drawers/utils_2.c \
+			drawers/utils_3.c \
 			drawers/render.c \
 			drawers/render_3d.c \
 			drawers/render_map.c \
@@ -107,7 +108,7 @@ GCC =		gcc
 
 # Flags for the gcc compilation
 FLAGS =		-g -MMD -MP
-#FLAGS +=	-O3
+FLAGS +=	-O3
 # FLAGS =		-Wall -Werror -Wextra -MMD -MP
 
 MINILIBXCC := -I mlx -L $(DIR_MLX) -lmlx

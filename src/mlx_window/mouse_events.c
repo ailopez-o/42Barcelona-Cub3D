@@ -1,20 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   key_events.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 10:26:53 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/22 10:28:34 by framos-p         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
 #include "defines.h"
 #include "drawers.h"
 #include "geometry.h"
 #include "mlx.h"
+
+
+
 
 /* 
 *	This function handle every time a mouse button is relased
@@ -56,6 +46,18 @@ int	mouse_move(int x, int y, void *param)
 	float			step;
 
 	cub = (t_cub *)param;
+	// if (x < WINX/2)
+	// {
+	// 	mlx_mouse_move(cub->screen.win, 3 * (WINX / 4), y);
+	// 	last_point.x = 3 * (WINX / 4);
+	// 	return(EXIT_SUCCESS);
+	// }
+	// if (x > WINX)
+	// {
+	// 	last_point.x = 3 * (WINX / 4);
+	// 	mlx_mouse_move(cub->screen.win, 3 * (WINX / 4), y);
+	// 	return(EXIT_SUCCESS);
+	// }
 	diff = last_point.x - x;
 	step = diff / 10;
 	if (diff > 0)

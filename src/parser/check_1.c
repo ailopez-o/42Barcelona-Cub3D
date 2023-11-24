@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   validator_2.c                                      :+:      :+:    :+:   */
+/*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/22 11:47:05 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/22 11:57:05 by framos-p         ###   ########.fr       */
+/*   Created: 2023/07/19 19:02:19 by bmoll-pe          #+#    #+#             */
+/*   Updated: 2023/07/19 19:10:01 by bmoll-pe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,64 +17,79 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-int			**empty_map(int width, int height);
-bool		validate_map(char *path, t_cub *cub);
-bool		valid_map_from_player(int x, int y, char **map, int max_x,
-				int max_y);
-char		*get_int_array(char *line);
-int			get_data_type(char *line);
-int			add_texture(char *path, t_texture *textures, t_mlx *screen,
-				int type);
-int			color_parser(char *line);
-int			check_map(t_map *map);
-int			map_builder(char **int_map, int scale, t_map *map,
-				t_player *player);
-int			**resize_matrix(int **matrix, int *width);
-int			**get_image_matrix(char *data, int width, int height);
-t_texture	*get_texture(t_texture *textures, int type);
+int **empty_map(int width, int height);
+bool validate_map(char *path, t_cub *cub);
+char *get_int_array(char *line);
+int get_data_type(char *line);
+int add_texture(char *path, t_texture *textures, t_mlx *screen, int type);
+int color_parser(char *line);
+int check_map(t_map *map);
+int map_builder(char **int_map, int scale, t_map *map, t_player *player);
+int **resize_matrix(int **matrix, int *width);
+int **get_image_matrix(char *data, int width, int height);
+t_texture *get_texture(t_texture *textures, int type);
+bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y);
 
-bool	parse_map(int argv, char **argc, char **map, t_cub *cub)
+bool parse_map(int argv, char **argc, char **map, t_cub *cub)
 {
 	if (argv != 2)
-		return (EXIT_FAILURE);
-	if (ft_strlen(argc[1]) < 4
-		|| ft_strncmp(argc[1] + (ft_strlen(argc[1]) - 4), ".cub", 5))
-		return (EXIT_FAILURE);
+		return EXIT_FAILURE;
+	if (ft_strlen(argc[1]) < 4 || ft_strncmp(argc[1] + (ft_strlen(argc[1]) - 4), ".cub", 5))
+		return EXIT_FAILURE;
 	if (validate_map(argc[1], cub))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		return EXIT_FAILURE;
+	return EXIT_SUCCESS;
 }
 
-int	is_player(char *line)
+int is_player(char *line)
 {
-	int	pos;
+	int pos;
 
 	pos = 0;
 	while (line[pos])
 	{
 		if (line[pos] == 'N')
-			return (pos);
+			return pos;
 		if (line[pos] == 'S')
-			return (pos);
+			return pos;
 		if (line[pos] == 'E')
-			return (pos);
+			return pos;
 		if (line[pos] == 'W')
-			return (pos);
+			return pos;
 		pos++;
 	}
-	return (0);
+	return 0;
 }
 
-bool	validate_map(char *path, t_cub *cub)
+bool square_map(char **map, int max_x)
 {
-	int		fd;
-	char	*line;
-	char	**map;
-	int		num_line;
-	int		num_textures;
-	int		data_type;
+	int i;
+	int len;
+
+	i = 0;
+	while (map[i] != NULL)
+	{
+		len = ft_strlen(map[i]);
+		map[i] = ft_realloc(map[i], max_x + 1);
+		for (int j = len; j < max_x; j++)
+			map[i][j] = '0';
+		i++;
+	}
+
+	return true;
+}
+
+bool validate_map(char *path, t_cub *cub)
+{
+	int fd;
+	char *line;
+	char **map;
+	int num_line;
+	int num_textures;
+	int data_type;
 
 	init_cub(cub);
+
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (EXIT_FAILURE);
@@ -84,8 +99,7 @@ bool	validate_map(char *path, t_cub *cub)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] && (line[0] == '0' || line[0] == '1' || line[0] == ' '
-				|| line[0] == '\t'))
+		if (line[0] && (line[0] == '0' || line[0] == '1' || line[0] == ' ' || line[0] == '\t'))
 		{
 			cub->map.max_y += 1;
 			if (ft_strlen(line) > cub->map.max_x)
@@ -101,11 +115,9 @@ bool	validate_map(char *path, t_cub *cub)
 		else
 		{
 			data_type = get_data_type(line);
-			if (data_type == NO || data_type == SO || data_type == WE
-				|| data_type == EA)
+			if (data_type == NO || data_type == SO || data_type == WE || data_type == EA)
 			{
-				if (add_texture(line, cub->map.textures, &cub->screen,
-						data_type) == EXIT_FAILURE)
+				if (add_texture(line, cub->map.textures, &cub->screen, data_type) == EXIT_FAILURE)
 				{
 					free(line);
 					return (EXIT_FAILURE);
@@ -119,62 +131,113 @@ bool	validate_map(char *path, t_cub *cub)
 		}
 		line = get_next_line(fd);
 	}
-//	printf("size: %d %d\n", cub->map.max_x, cub->map.max_y);
+	printf("size: %d %d\n", cub->map.max_x, cub->map.max_y);
 	map[num_line] = NULL;
+	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))
 		return (EXIT_FAILURE);
-	if (valid_map_from_player((int)cub->player.matrix_pos.x,
-			(int)cub->player.matrix_pos.y, map, cub->map.max_y,
-			cub->map.max_x))
+	if (valid_map_from_player((int)cub->player.matrix_pos.x, (int)cub->player.matrix_pos.y, map, cub->map.max_x, cub->map.max_y))
 		map_builder(map, MAPSCALE, &cub->map, &cub->player);
+	else
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-bool	valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
+void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, bool **visitado)
 {
-	int				its;
-	static int		**checker;
-	static int		recursive_deep;
+	// Si llegamos a un borde, entonces hay una salida
+	if (x <= 0 || y <= 0 || x >= (ancho - 1) || y >= (alto - 1))
+	{
+		*encerrado = false;
+		return;
+	}
 
-	its = 0;
-	checker = NULL;
-	recursive_deep = 0;
-	// HARCODE
-	return (1);
-	recursive_deep++;
-	if (checker == NULL)
-		checker = empty_map(max_x, max_y);
-	if (checker[y][x] == '1')
-		return (0);
-	checker[y][x] = '1';
-	if (map[y][x] == '1')
-		return (0);
-	if (x > 0)
-		its += valid_map_from_player(x - 1, y, map, max_x, max_y);
-	if (x < max_x)
-		its += valid_map_from_player(x + 1, y, map, max_x, max_y);
-	if (y > 0)
-		its += valid_map_from_player(x, y - 1, map, max_x, max_y);
-	if (y < max_y)
-		its += valid_map_from_player(x, y + 1, map, max_x, max_y);
-	if ((x == 0 || x == max_x) && map[y][x] == '0')
-		return (1);
-	if ((y == 0 || y == max_y) && map[y][x] == '0')
-		return (1);
-	if (its)
-		return (1);
-	return (0);
+	// Marcar la celda actual como visitada
+	visitado[y][x] = true;
+
+	ancho = ft_strlen(map[y]);
+
+	// Movimientos: arriba, abajo, izquierda, derecha
+	int dx[] = {0, 0, -1, 1};
+	int dy[] = {-1, 1, 0, 0};
+
+	for (int i = 0; i < 4; i++)
+	{
+		int nx = x + dx[i];
+		int ny = y + dy[i];
+
+		// Verificar si la nueva posición es válida y no ha sido visitada
+		if (nx >= 0 && ny >= 0 && nx <= ancho && ny <= alto && !visitado[ny][nx] && map[ny][nx] == '0')
+		{
+			dfs(nx, ny, ancho, alto, map, encerrado, visitado);
+		}
+	}
 }
 
-int	**empty_map(int max_x, int max_y)
+// Función para determinar si el jugador está encerrado
+bool estaEncerrado(int ancho, int alto, int x, int y, char **map)
 {
-	int	i;
-	int	j;
-	int	**array;
+	bool **visitado;
+
+	visitado = ft_calloc(sizeof(bool *), alto);
+
+	// Inicializar visitado a falso
+	for (int i = 0; i < alto; i++)
+	{
+		visitado[i] = ft_calloc(sizeof(bool), ancho);
+		for (int j = 0; j < ancho; j++)
+		{
+			visitado[i][j] = false;
+		}
+	}
+	bool encerrado = true;
+	dfs(x, y, ancho, alto, map, &encerrado, visitado);
+	return encerrado;
+}
+
+bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
+{
+
+	int res;
+
+	res = estaEncerrado(max_x, max_y, x, y, map);
+
+	return res;
+
+	if (map[y][x] == '1')
+	{
+		return false;
+	}
+
+	// Asignación de memoria para visited
+	bool **visited = malloc(max_y * sizeof(bool *));
+	if (!visited)
+	{
+		perror("Error en malloc");
+		exit(EXIT_FAILURE);
+	}
+	for (int i = 0; i < max_y; i++)
+	{
+		visited[i] = malloc(max_x * sizeof(bool));
+		if (!visited[i])
+		{
+			perror("Error en malloc");
+			exit(EXIT_FAILURE);
+		}
+		ft_memset(visited[i], false, max_x * sizeof(bool));
+	}
+}
+
+int **empty_map(int max_x, int max_y)
+{
+	int i;
+	int j;
+	int **array;
 
 	array = (int **)malloc(max_x * sizeof(int *));
 	if (array == NULL)
-		return (NULL);
+		return NULL;
+
 	i = -1;
 	while (i++ < max_x)
 	{
@@ -185,8 +248,8 @@ int	**empty_map(int max_x, int max_y)
 			while (j++ < i)
 				free(array[j]);
 			free(array);
-			return (NULL);
+			return NULL;
 		}
 	}
-	return (array);
+	return array;
 }

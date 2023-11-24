@@ -21,7 +21,7 @@ typedef struct s_params
 	t_point	end;
 	int		*column;
 	bool	b_shadow;
-} t_params;
+}	t_params;
 
 /*
 *	This function checks if the whole line is out of the window to avoid the 

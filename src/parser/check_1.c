@@ -174,58 +174,22 @@ void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, bool **
 	}
 }
 
-// Función para determinar si el jugador está encerrado
-bool estaEncerrado(int ancho, int alto, int x, int y, char **map)
+bool valid_map_from_player(int x, int y, char **map, int width, int height)
 {
-	bool **visitado;
+	bool **visited;
 
-	visitado = ft_calloc(sizeof(bool *), alto);
-
-	// Inicializar visitado a falso
-	for (int i = 0; i < alto; i++)
+	visited = ft_calloc(sizeof(bool *), height);
+	for (int i = 0; i < height; i++)
 	{
-		visitado[i] = ft_calloc(sizeof(bool), ancho);
-		for (int j = 0; j < ancho; j++)
+		visited[i] = ft_calloc(sizeof(bool), width);
+		for (int j = 0; j < width; j++)
 		{
-			visitado[i][j] = false;
+			visited[i][j] = false;
 		}
 	}
-	bool encerrado = true;
-	dfs(x, y, ancho, alto, map, &encerrado, visitado);
-	return encerrado;
-}
-
-bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y)
-{
-
-	int res;
-
-	res = estaEncerrado(max_x, max_y, x, y, map);
-
-	return res;
-
-	if (map[y][x] == '1')
-	{
-		return false;
-	}
-
-	// Asignación de memoria para visited
-	bool **visited = malloc(max_y * sizeof(bool *));
-	if (!visited)
-	{
-		perror("Error en malloc");
-		exit(EXIT_FAILURE);
-	}
-	for (int i = 0; i < max_y; i++)
-	{
-		visited[i] = malloc(max_x * sizeof(bool));
-		if (!visited[i])
-		{
-			perror("Error en malloc");
-			exit(EXIT_FAILURE);
-		}
-		ft_memset(visited[i], false, max_x * sizeof(bool));
-	}
+	bool closed = true;
+	dfs(x, y, width, height, map, &closed, visited);
+	return closed;
 }
 
 int **empty_map(int max_x, int max_y)

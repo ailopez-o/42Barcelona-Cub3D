@@ -57,6 +57,34 @@ t_texture	*get_texture(t_texture *textures, int type)
 	return (NULL);
 }
 
+void free_image(t_img *img)
+{
+	int i;
+
+	i = 0;
+
+	while(i < img->width)
+	{
+		free(img->matrix[i]);
+		i++;
+	}
+	free(img->matrix);
+}
+
+
+void free_textures(t_texture *textures)
+{
+	int i;
+
+	i = 0;
+	while(textures[i].valid)
+	{
+		free(textures[i].path);
+		free_image(&textures[i].img);
+		i++;
+	}
+}
+
 
 int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 {

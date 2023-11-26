@@ -12,5 +12,5 @@
 
 bool	init_cub(t_cub *cub);
 bool	window_init(t_mlx *screen);
-bool	parse_map(int argv, char **argc, char **map, t_cub *cub);
+bool	parse_map(int argv, char **argc, t_cub *cub);
 bool	executor(t_cub *cub);

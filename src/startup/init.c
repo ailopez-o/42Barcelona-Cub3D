@@ -30,13 +30,8 @@ bool	init_cub(t_cub *cub)
 	cub->player.move = STOP;
 	cub->player.rotate = STOP;
 	cub->fov = FOV;
-	// if (load_map(path, cub) != EXIT_SUCCESS)
-	// 	return(EXIT_FAILURE);
-	//mlx_mouse_hide();
-	cub->player.ray_colider = ft_calloc(sizeof(t_colision), (WIN2D + 1));
-	cub->map.objets = ft_calloc(1, sizeof(t_objet) * 300);
+	//mlx_mouse_hide(); NO BORRAR
 	cub->map.max_x = 0;
 	cub->map.max_y = 0;
-	cub->map.textures = ft_calloc(1, sizeof(t_texture) * 100);
 	return(EXIT_SUCCESS);
 }

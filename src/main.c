@@ -2,6 +2,8 @@
 #include "defines.h"
 #include "init.h"
 
+void free_all(t_cub *cub);
+
 
 /*
 ** CUB3D is a project for 42 that involves building a 3D game engine
@@ -40,14 +42,14 @@
 int	main(int argv, char **argc)
 {
 	t_cub	cub;
-	char	**map;
 
 	ft_bzero(&cub, sizeof(t_cub));
 	if (window_init(&cub.screen))
 		exit(EXIT_FAILURE);
-	if (parse_map(argv, argc, map, &cub))
+	if (parse_map(argv, argc, &cub))
 	{
 		ft_putstr_fd("Map Error\n", 2);
+		free_all(&cub);
 		exit(EXIT_FAILURE);
 	}
 	if (executor(&cub))

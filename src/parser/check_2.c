@@ -17,7 +17,6 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-int **empty_map(int width, int height);
 bool validate_map(char *path, t_cub *cub);
 char *get_int_array(char *line);
 int get_data_type(char *line);
@@ -29,7 +28,6 @@ int **resize_matrix(int **matrix, int *width);
 int **get_image_matrix(char *data, int width, int height);
 t_texture *get_texture(t_texture *textures, int type);
 bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y);
-
 
 char *get_int_array(char *line)
 {
@@ -95,6 +93,8 @@ int add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 	textures->valid = true;
 	textures->type = type;
 	textures->img.matrix = resize_matrix(get_image_matrix(textures->img.addr, textures->width, textures->height), &textures->width);
+	textures->img.width = textures->width;
+	textures->img.height = textures->height;
 	return (EXIT_SUCCESS);
 	// Mirar si hace falta realloc
 }

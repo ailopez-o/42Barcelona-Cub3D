@@ -27,5 +27,5 @@ bool	window_init(t_mlx *screen)
 		return (fprintf(stderr, "Cube error: %s\n", strerror(errno)));
 	screen->img_buff = mlx_get_data_addr(screen->img,
 			NULL, NULL, NULL);
-	return (0);
+	return (EXIT_SUCCESS);
 }

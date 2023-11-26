@@ -155,7 +155,7 @@ struct s_player
 	t_point		matrix_pos;
 	t_vector	front;
 	t_vector	cam;
-	t_colision	*ray_colider;
+	t_colision	ray_colider[WIN2D + 1];
 	int			move;
 	int			rotate;
 	float		player_speed;
@@ -186,14 +186,13 @@ struct s_texture
 
 struct s_map
 {	
-	t_objet		*objets;
-	t_texture	*textures;
+	t_objet		objets[500];
+	t_texture	textures[10];
 	int			scale;
 	int			bottom_color;
 	int			top_color;
 	int			max_x;
 	int			max_y;
-	bool		**visited;
 };
 
 struct s_cub

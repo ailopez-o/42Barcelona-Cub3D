@@ -9,6 +9,9 @@
 int		terminate_program(void *param);
 void	move_player(t_cub *cub, int key);
 void	turn_player(t_cub *cub, int key);
+void free_textures(t_texture *textures);
+
+
 
 /* 
 *	This function handle when a key is pressed
@@ -69,12 +72,19 @@ int	key_release(int key, void *param)
 
 }
 
+void free_all(t_cub *cub)
+{
+	free_textures(cub->map.textures);
+	mlx_destroy_window(cub->screen.handler,cub->screen.win);
+}
+
+
 int	terminate_program(void *param)
 {
 	t_cub	*cub;
 
 	cub = (t_cub *)param;
-	mlx_destroy_window(cub->screen.handler,cub->screen.win);
+	free_all(cub);
 	exit(0);
 }
 

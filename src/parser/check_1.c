@@ -17,7 +17,6 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-int **empty_map(int width, int height);
 bool validate_map(char *path, t_cub *cub);
 char *get_int_array(char *line);
 int get_data_type(char *line);
@@ -30,7 +29,7 @@ int **get_image_matrix(char *data, int width, int height);
 t_texture *get_texture(t_texture *textures, int type);
 bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y);
 
-bool parse_map(int argv, char **argc, char **map, t_cub *cub)
+bool parse_map(int argv, char **argc, t_cub *cub)
 {
 	if (argv != 2)
 		return EXIT_FAILURE;
@@ -79,6 +78,37 @@ bool square_map(char **map, int max_x)
 	return true;
 }
 
+bool line_has_wall(char *line)
+{
+	bool has_wall;
+
+	has_wall = false;
+
+	if (*line == ' ' || *line == '0')
+	{
+		while (*line)
+		{
+			if (*line == '1')
+				has_wall = true;
+			line++;
+		}
+	}
+	return has_wall;
+}
+
+void free_dbl_ptr(char **ptr)
+{
+	int i;
+
+	i = 0;
+	while(ptr[i])
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
+} 
+
 bool validate_map(char *path, t_cub *cub)
 {
 	int fd;
@@ -87,6 +117,7 @@ bool validate_map(char *path, t_cub *cub)
 	int num_line;
 	int num_textures;
 	int data_type;
+	bool map_parsing;
 
 	init_cub(cub);
 
@@ -94,26 +125,36 @@ bool validate_map(char *path, t_cub *cub)
 	if (fd < 0)
 		return (EXIT_FAILURE);
 	map = malloc(sizeof(char **));
+	map_parsing = false;
 	num_line = 0;
 	num_textures = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] && (line[0] == '0' || line[0] == '1' || line[0] == ' ' || line[0] == '\t'))
+		if (line[0] && (line[0] == '0' || line[0] == '1' || line[0] == ' '))
 		{
-			cub->map.max_y += 1;
-			if (ft_strlen(line) > cub->map.max_x)
-				cub->map.max_x = ft_strlen(line);
-			map[num_line++] = get_int_array(line);
-			if (is_player(line))
+			if(map_parsing == true || line_has_wall(line) == true)
 			{
-				cub->player.matrix_pos.x = is_player(line);
-				cub->player.matrix_pos.y = num_line;
+				map_parsing = true;
+				cub->map.max_y += 1;
+				if (ft_strlen(line) > cub->map.max_x)
+					cub->map.max_x = ft_strlen(line);
+				map[num_line++] = get_int_array(line);
+				if (is_player(line))
+				{
+					cub->player.matrix_pos.x = is_player(line);
+					cub->player.matrix_pos.y = num_line;
+				}
+				map = ft_realloc(map, sizeof(char **) * (num_line + 1));
 			}
-			map = ft_realloc(map, sizeof(char **) * (num_line + 1));
 		}
 		else
 		{
+			if (map_parsing == true)
+			{
+				free(line);
+				break;
+			}
 			data_type = get_data_type(line);
 			if (data_type == NO || data_type == SO || data_type == WE || data_type == EA)
 			{
@@ -127,8 +168,8 @@ bool validate_map(char *path, t_cub *cub)
 				cub->map.bottom_color = color_parser(line);
 			if (data_type == C)
 				cub->map.top_color = color_parser(line);
-			free(line);
 		}
+		free(line);
 		line = get_next_line(fd);
 	}
 	printf("size: %d %d\n", cub->map.max_x, cub->map.max_y);
@@ -137,13 +178,16 @@ bool validate_map(char *path, t_cub *cub)
 	if (check_map(&cub->map))
 		return (EXIT_FAILURE);
 	if (valid_map_from_player((int)cub->player.matrix_pos.x, (int)cub->player.matrix_pos.y, map, cub->map.max_x, cub->map.max_y))
+	{
 		map_builder(map, MAPSCALE, &cub->map, &cub->player);
+		free_dbl_ptr(map);
+		return (EXIT_SUCCESS);
+	}	
 	else
 		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
 }
 
-void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, bool **visitado)
+void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, char **visitado)
 {
 	// Si llegamos a un borde, entonces hay una salida
 	if (x <= 0 || y <= 0 || x >= (ancho - 1) || y >= (alto - 1))
@@ -176,7 +220,7 @@ void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, bool **
 
 bool valid_map_from_player(int x, int y, char **map, int width, int height)
 {
-	bool **visited;
+	char **visited;
 
 	visited = ft_calloc(sizeof(bool *), height);
 	for (int i = 0; i < height; i++)
@@ -189,31 +233,6 @@ bool valid_map_from_player(int x, int y, char **map, int width, int height)
 	}
 	bool closed = true;
 	dfs(x, y, width, height, map, &closed, visited);
+	free_dbl_ptr(visited);
 	return closed;
-}
-
-int **empty_map(int max_x, int max_y)
-{
-	int i;
-	int j;
-	int **array;
-
-	array = (int **)malloc(max_x * sizeof(int *));
-	if (array == NULL)
-		return NULL;
-
-	i = -1;
-	while (i++ < max_x)
-	{
-		array[i] = (int *)malloc(max_y * sizeof(int));
-		if (array[i] == NULL)
-		{
-			j = -1;
-			while (j++ < i)
-				free(array[j]);
-			free(array);
-			return NULL;
-		}
-	}
-	return array;
 }

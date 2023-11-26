@@ -9,4 +9,6 @@ minishell
 .DS_Store
 *.txt
 cub3D
+*.cub
+
 

@@ -49,7 +49,7 @@ int	main(int argv, char **argc)
 	if (parse_map(argv, argc, &cub))
 	{
 		ft_putstr_fd("Map Error\n", 2);
-		free_all(&cub);
+		//free_all(&cub);
 		exit(EXIT_FAILURE);
 	}
 	if (executor(&cub))

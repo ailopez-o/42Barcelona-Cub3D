@@ -186,7 +186,7 @@ struct s_texture
 
 struct s_map
 {	
-	t_objet		objets[500];
+	t_objet		objets[1000];
 	t_texture	textures[10];
 	int			scale;
 	int			bottom_color;

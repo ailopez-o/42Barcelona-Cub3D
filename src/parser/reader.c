@@ -142,11 +142,14 @@ int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 			scaner.x += scale;
 			col++;
 		}
+		free(map_arr[row]);
 		col = 0;
 		row++;
 		scaner.x = 0;
 		scaner.y += scale;
+
 	}
+	free(map_arr);
 	return(EXIT_SUCCESS);
 }
 

@@ -96,19 +96,6 @@ bool line_has_wall(char *line)
 	return has_wall;
 }
 
-void free_dbl_ptr(char **ptr)
-{
-	int i;
-
-	i = 0;
-	while(ptr[i])
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
-} 
-
 bool validate_map(char *path, t_cub *cub)
 {
 	int fd;
@@ -124,7 +111,7 @@ bool validate_map(char *path, t_cub *cub)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (EXIT_FAILURE);
-	map = malloc(sizeof(char **));
+	map = ft_calloc(sizeof(char **), 1);
 	map_parsing = false;
 	num_line = 0;
 	num_textures = 0;
@@ -180,7 +167,6 @@ bool validate_map(char *path, t_cub *cub)
 	if (valid_map_from_player((int)cub->player.matrix_pos.x, (int)cub->player.matrix_pos.y, map, cub->map.max_x, cub->map.max_y))
 	{
 		map_builder(map, MAPSCALE, &cub->map, &cub->player);
-		free_dbl_ptr(map);
 		return (EXIT_SUCCESS);
 	}	
 	else
@@ -221,7 +207,7 @@ void dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado, char **
 bool valid_map_from_player(int x, int y, char **map, int width, int height)
 {
 	char **visited;
-
+	
 	visited = ft_calloc(sizeof(bool *), height);
 	for (int i = 0; i < height; i++)
 	{
@@ -233,6 +219,9 @@ bool valid_map_from_player(int x, int y, char **map, int width, int height)
 	}
 	bool closed = true;
 	dfs(x, y, width, height, map, &closed, visited);
-	free_dbl_ptr(visited);
+
+	for (int i = 0; i < height; i++)
+		free(visited[i]);
+	free(visited);
 	return closed;
 }

@@ -28,6 +28,7 @@ int **resize_matrix(int **matrix, int *width);
 int **get_image_matrix(char *data, int width, int height);
 t_texture *get_texture(t_texture *textures, int type);
 bool valid_map_from_player(int x, int y, char **map, int max_x, int max_y);
+int print_map(char **map);
 
 bool parse_map(int argv, char **argc, t_cub *cub)
 {
@@ -72,6 +73,7 @@ bool square_map(char **map, int max_x)
 		map[i] = ft_realloc(map[i], max_x + 1);
 		for (int j = len; j < max_x; j++)
 			map[i][j] = '0';
+		map[i][max_x] = '\0';
 		i++;
 	}
 
@@ -126,7 +128,9 @@ bool validate_map(char *path, t_cub *cub)
 				cub->map.max_y += 1;
 				if (ft_strlen(line) > cub->map.max_x)
 					cub->map.max_x = ft_strlen(line);
-				map[num_line++] = get_int_array(line);
+				map[num_line] = get_int_array(line);
+				num_line++;
+
 				if (is_player(line))
 				{
 					cub->player.matrix_pos.x = is_player(line);
@@ -156,7 +160,6 @@ bool validate_map(char *path, t_cub *cub)
 			if (data_type == C)
 				cub->map.top_color = color_parser(line);
 		}
-		free(line);
 		line = get_next_line(fd);
 	}
 	printf("size: %d %d\n", cub->map.max_x, cub->map.max_y);

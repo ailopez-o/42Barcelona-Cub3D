@@ -34,26 +34,18 @@ char *get_int_array(char *line)
 	char *char_line;
 	int num_col;
 
-	char_line = ft_calloc(sizeof(char), ft_strlen(line) + 1);
+	//char_line = ft_calloc(sizeof(char), ft_strlen(line) + 1);
 
 	num_col = 0;
 	while (line[num_col])
 	{
-		if (line[num_col] == '1')
-			char_line[num_col] = '1';
-		else if (line[num_col] == 'N')
-			char_line[num_col] = 'N';
-		else if (line[num_col] == 'S')
-			char_line[num_col] = 'S';
-		else if (line[num_col] == 'E')
-			char_line[num_col] = 'E';
-		else if (line[num_col] == 'W')
-			char_line[num_col] = 'W';
-		else
-			char_line[num_col] = '0';
+		if (line[num_col] == ' ')
+			line[num_col] = '0';
+		if (line[num_col] == '\n')
+			line[num_col] = '0';
 		num_col++;
 	}
-	return (char_line);
+	return (line);
 }
 
 int get_data_type(char *line)

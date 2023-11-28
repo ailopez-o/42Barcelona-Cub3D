@@ -85,6 +85,24 @@ void free_textures(t_texture *textures)
 	}
 }
 
+void print_map(char **map)
+{
+	int i,j;
+
+	i=0;
+	j=0;
+	while(map[i])
+	{
+		while(map[i][j])
+		{
+			write(1, &map[i][j], 1);
+			j++;
+		}
+		j=0;
+		write(1, "\n", 1);
+		i++;
+	}
+}
 
 int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 {
@@ -93,9 +111,11 @@ int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 	int			col;
 	t_point		scaner;
 
+
 	num_obj = 0;
 	while (map->objets[num_obj].valid)
 		num_obj++;
+
 	scaner.x = 0;
 	scaner.y = 0;
 	row = 0;

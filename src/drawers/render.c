@@ -87,7 +87,7 @@ int	render(void *param)
 	cub = (t_cub *)param;
 	cub->fov_dist = (WIN2D / 2) / tan((cub->fov / 2) * (M_PI / 180));
 	clear_screen(&cub->screen);
-	//render_frame(cub, &num_frames, &last_time);
+	render_frame(cub, &num_frames, &last_time);
 	player_position(cub);
 	get_dir_ray_collider(&cub->player, cub->fov, cub->map.objets);
 	render_3d(cub);

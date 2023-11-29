@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 18:06:10 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/19 18:19:38 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:41:54 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 t_colision	get_closest_colision(t_objet *objet, t_point pos,
 				t_vector ray_vect);
-
 
 t_point	go_vector(t_point init, t_vector vector, int steps)
 {
@@ -34,10 +33,10 @@ t_point	move_player_vector(t_cub *cub, t_vector vector, int steps)
 	t_vector	tmp_vector;
 	float		value;
 
-	iter = 0;
+	iter = -1;
 	new_point.x = cub->player.pos.x;
 	new_point.y = cub->player.pos.y;
-	while (iter <= steps)
+	while (++iter <= steps)
 	{
 		tmp_vector.dir[X] = vector.dir[X];
 		tmp_vector.dir[Y] = 0.0;
@@ -51,7 +50,6 @@ t_point	move_player_vector(t_cub *cub, t_vector vector, int steps)
 		value = new_point.y + vector.dir[Y];
 		if (fabs(value - colision.point.y) > PLYCOLLIDE)
 			new_point.y += vector.dir[Y];
-		iter++;
 	}
 	return (new_point);
 }

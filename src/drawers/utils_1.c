@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 22:20:48 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/05/01 13:32:47 by bmoll            ###   ########.fr       */
+/*   Created: 2023/11/29 15:46:37 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/29 15:46:43 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int		*adjust_column_if_greater_than_winy(int *new_column, double distance,
 			int *new_height);
 
 /*
-*	This function generates the color of each pixel between starcolor and endcolor
-*	To do that get the RGB chanels independtly and create a 
+*	This function generates the color of each pixel between starcolor and
+*	endcolor.To do that get the RGB chanels independtly and create a 
 *	linear escale between each channel.
 *	The function return the color number "pix" of line "0->len".
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmoll-pe <bmoll-pe@student.42.fr>          +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 18:50:56 by bmoll-pe          #+#    #+#             */
-/*   Updated: 2023/06/05 17:33:08 by bmoll-pe         ###   ########.fr       */
+/*   Created: 2023/11/29 15:14:53 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/29 15:43:31 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@
 # define ROTATE_L			1
 # define ROTATE_R			2
 
-# define	NO	1
-# define	SO	2
-# define	WE	3
-# define	EA	4
-# define	F	5
-# define	C	6
-# define	SC	7
+# define NO	1
+# define SO	2
+# define WE	3
+# define EA	4
+# define F	5
+# define C	6
+# define SC	7
 
 # define X 0
 # define Y 1
@@ -75,12 +75,13 @@
 # define RAY_COLOR_START 	WHITE
 # define RAY_COLOR_END		AMARILLO
 
-typedef enum block_type{
+typedef enum block_type
+{
 	NULL_OBJET,
 	WALL,
 	DOOR,
 	SPRITE,
-}block_type;
+}	t_block_type;
 
 typedef struct s_cub		t_cub;
 typedef struct s_mlx		t_mlx;
@@ -95,6 +96,8 @@ typedef struct s_polygon	t_polygon;
 typedef struct s_map		t_map;
 typedef struct s_img		t_img;
 typedef struct s_texture	t_texture;
+typedef struct s_params		t_params;
+typedef struct s_ray		t_ray;
 
 struct s_mlx
 {
@@ -104,7 +107,7 @@ struct s_mlx
 	char	*img_buff;
 	int		bitxpixel;
 	int		lines;
-	int		endian;	
+	int		endian;
 };
 
 struct s_point
@@ -112,7 +115,7 @@ struct s_point
 	float	x;
 	float	y;
 	float	z;
-	int 	color;
+	int		color;
 };
 
 struct s_line
@@ -133,6 +136,28 @@ struct s_colision
 	t_line	line;
 	float	distance;
 	bool	valid;
+};
+
+struct s_params
+{
+	t_mlx	*screen;
+	t_point	start;
+	t_point	end;
+	int		*column;
+	bool	b_shadow;
+};
+
+struct s_ray
+{
+	float		ang;
+	int			num_colision;
+	float		line_height;
+	float		orto_dist;
+	float		dot_product;
+	float		magnitude_v1;
+	float		magnitude_v2;
+	float		angle;
+
 };
 
 struct s_polygon
@@ -185,7 +210,7 @@ struct s_texture
 };
 
 struct s_map
-{	
+{
 	t_objet		objets[1000];
 	t_texture	textures[10];
 	int			scale;

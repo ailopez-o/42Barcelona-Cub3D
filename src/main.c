@@ -1,9 +1,19 @@
-	
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/29 15:19:32 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/29 15:20:21 by framos-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
 #include "init.h"
 
-void free_all(t_cub *cub);
-
+void	free_all(t_cub *cub);
 
 /*
 ** CUB3D is a project for 42 that involves building a 3D game engine
@@ -25,7 +35,6 @@ void free_all(t_cub *cub);
 ** handling user input to move the player and interact with the environment.
 **
 */
-
 /**
  * main - the entry point of the program
  *
@@ -49,11 +58,9 @@ int	main(int argv, char **argc)
 	if (parse_map(argv, argc, &cub))
 	{
 		ft_putstr_fd("Map Error\n", 2);
-		//free_all(&cub);
 		exit(EXIT_FAILURE);
 	}
 	if (executor(&cub))
 		exit(EXIT_FAILURE);
 	exit (EXIT_SUCCESS);
 }
-

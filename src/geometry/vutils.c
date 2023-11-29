@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 18:11:18 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/19 18:19:39 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:43:20 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ t_vector	normalize_vector(t_vector vector)
 			* vector.dir[Y]);
 	vector.dir[X] /= magnitude;
 	vector.dir[Y] /= magnitude;
-//	vector.dir[0] + vector.dir[1];
 	if (sum > 1.0)
 	{
 		vector.dir[X] /= sum;

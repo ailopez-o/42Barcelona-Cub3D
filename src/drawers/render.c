@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 16:36:52 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/22 18:03:07 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:24:08 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_point	scale_position(t_point position, float scale);
 
 static void	update_frame_string(int num_frames, char **frame_str)
 {
-	char *str_num_frames;
+	char	*str_num_frames;
 
 	str_num_frames = ft_itoa(num_frames);
 	*frame_str = ft_strjoin("FPS ", str_num_frames);
@@ -115,11 +115,12 @@ void	draw_textures_and_shadow(t_cub *cub, t_line *stripe,
 			t_colision *colision, float line_height)
 {
 	bool	b_shadow;
-	int 	*column;
+	int		*column;
 
 	b_shadow = is_horizontal(colision->line);
-	column = adjust_column(colision, distance_between_points(stripe->p1, stripe->p2));
-	draw_texture_line(&cub->screen, *stripe, column , b_shadow);
+	column = adjust_column(colision, distance_between_points(stripe->p1,
+				stripe->p2));
+	draw_texture_line(&cub->screen, *stripe, column, b_shadow);
 	free(column);
 	if (stripe->p2.y < WINY)
 	{

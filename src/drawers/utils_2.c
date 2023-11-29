@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 17:43:09 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/19 17:47:16 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:25:20 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	ft_round(double num)
 }
 
 /*
-*	This function generates the color of each pixel between starcolor and endcolor
+*	This function generates the color of each pixel between starcolor and
+*	endcolor.
 *	To do that get the RGB chanels independtly and create a 
 *	linear escale between each channel.
 *	The function return the color number "pix" of line "0->len".

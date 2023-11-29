@@ -6,22 +6,13 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 20:04:44 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/22 16:19:28 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:22:49 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defines.h"
 #include "drawers.h"
 #include "geometry.h"
-
-typedef struct s_params
-{
-	t_mlx	*screen;
-	t_point	start;
-	t_point	end;
-	int		*column;
-	bool	b_shadow;
-}	t_params;
 
 /*
 *	This function checks if the whole line is out of the window to avoid the 

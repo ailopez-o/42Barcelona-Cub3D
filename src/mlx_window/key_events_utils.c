@@ -6,7 +6,7 @@
 /*   By: bmoll <bmoll@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 18:44:01 by bmoll             #+#    #+#             */
-/*   Updated: 2023/04/21 21:36:28 by bmoll            ###   ########.fr       */
+/*   Updated: 2023/11/29 16:07:13 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "drawers.h"
 #include "geometry.h"
 #include <sys/time.h>
+
+void	free_textures(t_texture *textures);
 
 void	move_player(t_cub *cub, int key)
 {
@@ -37,4 +39,19 @@ void	turn_player(t_cub *cub, int key)
 		cub->player.rotate = ROTATE_L;
 	if (key == KEY_RIGHT)
 		cub->player.rotate = ROTATE_R;
+}
+
+void	free_all(t_cub *cub)
+{
+	free_textures(cub->map.textures);
+	mlx_destroy_window(cub->screen.handler, cub->screen.win);
+}
+
+int	terminate_program(void *param)
+{
+	t_cub	*cub;
+
+	cub = (t_cub *)param;
+	free_all(cub);
+	exit(0);
 }

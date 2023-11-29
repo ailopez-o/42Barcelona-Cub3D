@@ -29,13 +29,13 @@ void	my_pixel_put(t_mlx *screen, t_point pixel)
 	screen->img_buff[calc + 2] = (pixel.color >> 16) & 0xff;
 }
 
-void	clear_screen(t_mlx *screen)
+void	clear_screen(t_mlx *screen, int color)
 {
 	t_point	cleaner;
 
 	cleaner.x = 0;
 	cleaner.y = 0;
-	cleaner.color = BGCOLOR;
+	cleaner.color = color;
 	while (cleaner.y < WINY)
 	{
 		while (cleaner.x < WINX)

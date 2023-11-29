@@ -48,7 +48,7 @@ int	key_press(int key, void *param)
 	if (key == KEY_ESC)
 		terminate_program(cub);
 	if (key == KEY_C)
-		clear_screen(&cub->screen);
+		clear_screen(&cub->screen, BGCOLOR);
 	if (key == KEY_W || key == KEY_UP || key == KEY_S
 		|| key == KEY_DOWN || key == KEY_D || key == KEY_A)
 		move_player(cub, key);

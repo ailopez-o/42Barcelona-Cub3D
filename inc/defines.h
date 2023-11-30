@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:14:53 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/30 11:13:56 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:44:52 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_texture	t_texture;
 typedef struct s_params		t_params;
 typedef struct s_ray		t_ray;
 typedef struct s_ptr		t_ptr;
+typedef struct s_mapdata	t_mapdata;
 
 struct s_ptr
 {
@@ -125,6 +126,15 @@ struct s_point
 	float	y;
 	float	z;
 	int		color;
+};
+
+struct s_mapdata
+{
+	t_point	scaner;
+	int		num_obj;
+	int		row;
+	int		col;
+	char	c;
 };
 
 struct s_line

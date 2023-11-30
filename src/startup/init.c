@@ -46,3 +46,9 @@ bool	init_cub(t_cub *cub)
 	cub->map.max_y = 0;
 	return (EXIT_SUCCESS);
 }
+
+int error(char *err_msg)
+{
+	ft_putstr_fd(err_msg, 1);
+	return (EXIT_FAILURE);
+}

@@ -11,3 +11,4 @@
 /* ************************************************************************** */
 
 void	*ft_realloc(void *ptr, size_t size);
+int 	error(char *err_msg);

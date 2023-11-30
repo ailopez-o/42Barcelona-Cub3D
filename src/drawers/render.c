@@ -70,8 +70,13 @@ static void	render_frame(t_cub *cub, int *num_frames, unsigned long *last_time)
 	if (current_time != *last_time)
 	{
 		*last_time = (time.tv_sec * 1000);
+
 		ft_putstr_fd("\rFPS ", 1);
 		ft_putnbr_fd(*num_frames, 1);
+		ft_putstr_fd(" ////// FOV ", 1);
+		ft_putnbr_fd(cub->fov, 1);
+		ft_putstr_fd(" ////// SPEED ", 1);
+		ft_putnbr_fd(cub->player.player_speed, 1);
 		update_frame_string(*num_frames, &frame_str);
 		free(frame_str);
 		*num_frames = 0;

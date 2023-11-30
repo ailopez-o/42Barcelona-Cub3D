@@ -118,7 +118,7 @@ bool	validate_map(char *path, t_cub *cub)
 	init_cub(cub);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return (EXIT_FAILURE);
+		return (error("Failed opening map\n"));
 	map = ft_calloc(sizeof(char **), 1);
 	map_parsing = false;
 	num_line = 0;
@@ -147,20 +147,14 @@ bool	validate_map(char *path, t_cub *cub)
 		else
 		{
 			if (map_parsing == true)
-			{
-				free(line);
-				break ;
-			}
+				return (error("Invalid item while parsing map\n"));
 			data_type = get_data_type(line);
 			if (data_type == NO || data_type == SO || data_type == WE
 				|| data_type == EA)
 			{
 				if (add_texture(line, cub->map.textures, &cub->screen,
 						data_type) == EXIT_FAILURE)
-				{
-					free(line);
-					return (EXIT_FAILURE);
-				}
+					return (error("Failed adding texture\n"));
 			}
 			if (data_type == F)
 				cub->map.bottom_color = color_parser(line);
@@ -173,7 +167,7 @@ bool	validate_map(char *path, t_cub *cub)
 	map[num_line] = NULL;
 	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))
-		return (EXIT_FAILURE);
+		return (error("Not all items needed\n"));
 	if (valid_map_from_player((int)cub->player.matrix_pos.x,
 			(int)cub->player.matrix_pos.y, map, cub->map.max_x,
 			cub->map.max_y))
@@ -182,7 +176,7 @@ bool	validate_map(char *path, t_cub *cub)
 		return (EXIT_SUCCESS);
 	}
 	else
-		return (EXIT_FAILURE);
+		return (error("Failed checking closed map\n"));
 }
 
 void	dfs(int x, int y, int ancho, int alto, char **map, bool *encerrado,

@@ -93,7 +93,7 @@ bool	line_has_wall(char *line)
 	bool	has_wall;
 
 	has_wall = false;
-	if (*line == ' ' || *line == '0')
+	if (*line == ' ' || *line == '0' || *line == '1')
 	{
 		while (*line)
 		{
@@ -147,7 +147,7 @@ bool	validate_map(char *path, t_cub *cub)
 		else
 		{
 			if (map_parsing == true)
-				return (error("Invalid item while parsing map\n"));
+				break;
 			data_type = get_data_type(line);
 			if (data_type == NO || data_type == SO || data_type == WE
 				|| data_type == EA)

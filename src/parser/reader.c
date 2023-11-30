@@ -119,6 +119,20 @@ void	create_empty_space_object(t_map *map, t_point scaner, int scale,
 	}
 }
 
+bool check_objet_init(int current, int pre, int col)
+{
+	if ((current == '1' && col == 0) || (current == '1' && col != 0 && pre == '0'))
+		return true;
+	return false;
+}
+
+bool check_objet_end(int current, int pre, int col)
+{
+	if ((current == '0' && col > 0 && pre == '1'))
+		return true;
+	return false;
+}
+
 int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 {
 	t_mapdata	d;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/30 11:10:09 by framos-p          #+#    #+#             */
+/*   Updated: 2023/11/30 11:10:28 by framos-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defines.h"
 #include "mlx.h"
 #include "parser.h"
@@ -30,8 +42,7 @@ bool	init_cub(t_cub *cub)
 	cub->player.move = STOP;
 	cub->player.rotate = STOP;
 	cub->fov = FOV;
-	//mlx_mouse_hide(); NO BORRAR
 	cub->map.max_x = 0;
 	cub->map.max_y = 0;
-	return(EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

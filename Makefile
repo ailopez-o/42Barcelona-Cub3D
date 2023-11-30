@@ -6,7 +6,7 @@
 #    By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 15:36:06 by framos-p          #+#    #+#              #
-#    Updated: 2023/11/29 15:36:10 by framos-p         ###   ########.fr        #
+#    Updated: 2023/11/30 11:25:05 by framos-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ FILES =		main.c \
 			drawers/render_player.c \
 			parser/reader.c \
 			parser/utils.c \
+			parser/utils_1.c \
 			parser/gnl.c \
 			parser/check_1.c \
 			parser/check_2.c \

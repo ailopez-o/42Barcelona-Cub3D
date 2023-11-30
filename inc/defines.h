@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:14:53 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/29 15:43:31 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/11/30 11:13:56 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,15 @@ typedef struct s_img		t_img;
 typedef struct s_texture	t_texture;
 typedef struct s_params		t_params;
 typedef struct s_ray		t_ray;
+typedef struct s_ptr		t_ptr;
+
+struct s_ptr
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*img_ptr;
+	void	*img_data;
+};
 
 struct s_mlx
 {

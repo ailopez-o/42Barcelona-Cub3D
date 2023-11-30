@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:59:35 by marvin            #+#    #+#             */
-/*   Updated: 2022/05/12 00:16:00 by marvin           ###   ########.fr       */
+/*   Updated: 2023/11/30 11:09:05 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -35,7 +35,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 			dst_counter++;
 			size--;
 		}
-	dst[dst_counter] = '\0';
+		dst[dst_counter] = '\0';
 	}
 	return (return_value);
 }

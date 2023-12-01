@@ -18,7 +18,7 @@
 #include <fcntl.h>
 
 bool		validate_map(char *path, t_cub *cub);
-char		*get_int_array(char *line);
+int			get_int_array(char *line);
 int			get_data_type(char *line);
 int			add_texture(char *path, t_texture *textures, t_mlx *screen,
 				int type);
@@ -32,7 +32,7 @@ t_texture	*get_texture(t_texture *textures, int type);
 bool		valid_map_from_player(int x, int y, char **map, int max_x,
 				int max_y);
 
-char	*get_int_array(char *line)
+int	 get_int_array(char *line)
 {
 	char	*char_line;
 	int		num_col;
@@ -46,7 +46,7 @@ char	*get_int_array(char *line)
 			line[num_col] = '0';
 		num_col++;
 	}
-	return (line);
+	return (EXIT_SUCCESS);
 }
 
 int	get_data_type(char *line)

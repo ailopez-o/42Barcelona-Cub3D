@@ -18,7 +18,7 @@
 #include <fcntl.h>
 
 bool		validate_map(char *path, t_cub *cub);
-char		*get_int_array(char *line);
+int			get_int_array(char *line);
 int			get_data_type(char *line);
 int			add_texture(char *path, t_texture *textures, t_mlx *screen,
 				int type);
@@ -134,13 +134,16 @@ bool	validate_map(char *path, t_cub *cub)
 				cub->map.max_y += 1;
 				if (ft_strlen(line) > cub->map.max_x)
 					cub->map.max_x = ft_strlen(line);
-				map[num_line] = get_int_array(line);
-				num_line++;
 				if (is_player(line))
 				{
 					cub->player.matrix_pos.x = is_player(line);
-					cub->player.matrix_pos.y = num_line;
+					cub->player.matrix_pos.y = num_line + 1;
+					cub->player.init_view = line[(int)cub->player.matrix_pos.x];
 				}
+				if (get_int_array(line) == EXIT_FAILURE)
+					return (error("Forbiden item inside map\n"));
+				map[num_line] = line;
+				num_line++;
 				map = ft_realloc(map, sizeof(char **) * (num_line + 1));
 			}
 		}

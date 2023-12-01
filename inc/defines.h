@@ -204,6 +204,7 @@ struct s_player
 	int			rotate;
 	float		player_speed;
 	float		player_rot_speed;
+	char		init_view;
 };
 
 struct s_img

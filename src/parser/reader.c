@@ -128,7 +128,7 @@ bool check_objet_init(int current, int pre, int col)
 
 bool check_objet_end(int current, int pre, int col)
 {
-	if ((current == '0' && col > 0 && pre == '1'))
+	if ((current != '1' && col > 0 && pre == '1'))
 		return true;
 	return false;
 }
@@ -147,12 +147,9 @@ int	map_builder(char **map_arr, int scale, t_map *map, t_player *player)
 	{
 		while (map_arr[d.row][++d.col] != 0)
 		{
-			if ((map_arr[d.row][d.col] == '1' && d.col == 0) || (map_arr[d.row][d.col]
-					== '1' && d.col != 0 && map_arr[d.row][d.col - 1] == '0'))
+			if (check_objet_init(map_arr[d.row][d.col], map_arr[d.row][d.col - 1], d.col) == true)
 				create_wall_object(map, d.scaner, scale);
-			if ((map_arr[d.row][d.col] == '0' && d.col > 0 && map_arr[d.row][d.col - 1]
-					== '1') || (map_arr[d.row][d.col + 1] == '1'
-					&& map_arr[d.row][d.col + 1] == '0'))
+			if (check_objet_end(map_arr[d.row][d.col], map_arr[d.row][d.col - 1], d.col) == true)
 				create_empty_space_object(map, d.scaner, scale, &d.num_obj);
 			d.scaner.x += scale;
 		}

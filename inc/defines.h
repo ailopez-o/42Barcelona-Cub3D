@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:14:53 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/30 16:44:52 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:01:49 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct s_params		t_params;
 typedef struct s_ray		t_ray;
 typedef struct s_ptr		t_ptr;
 typedef struct s_mapdata	t_mapdata;
+typedef struct s_pars		t_pars;
+typedef struct s_data		t_data;
 
 struct s_ptr
 {
@@ -225,6 +227,25 @@ struct s_texture
 	int		type;
 	char	*path;
 	t_img	img;
+	int		width;
+	int		height;
+};
+
+struct s_pars
+{
+	int		num_line;
+	int		num_textures;
+	int		data_type;
+	bool	map_parsing;
+};
+
+struct s_data
+{
+	int		x;
+	int		y;
+	char	**map;
+	bool	*closed;
+	char	**visited;
 	int		width;
 	int		height;
 };

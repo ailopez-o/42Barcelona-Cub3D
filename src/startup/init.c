@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 11:10:09 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/30 11:10:28 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/04 14:33:12 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	init_cub(t_cub *cub)
 	return (EXIT_SUCCESS);
 }
 
-int error(char *err_msg)
+int	error(char *err_msg)
 {
 	ft_putstr_fd(err_msg, 1);
 	return (EXIT_FAILURE);

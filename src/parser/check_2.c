@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:07:13 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/30 12:12:24 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:17:41 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_texture	*get_texture(t_texture *textures, int type);
 bool		valid_map_from_player(int x, int y, char **map, int max_x,
 				int max_y);
 
-int	 get_int_array(char *line)
+int	get_int_array(char *line)
 {
 	char	*char_line;
 	int		num_col;

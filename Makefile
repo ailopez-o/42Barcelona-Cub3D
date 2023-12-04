@@ -6,7 +6,7 @@
 #    By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 15:36:06 by framos-p          #+#    #+#              #
-#    Updated: 2023/11/30 11:38:08 by framos-p         ###   ########.fr        #
+#    Updated: 2023/12/04 11:13:36 by framos-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ FILES =		main.c \
 			drawers/render_map.c \
 			drawers/render_player.c \
 			parser/reader.c \
+			parser/map_builder.c \
 			parser/reader_utils.c \
 			parser/utils.c \
 			parser/utils_1.c \

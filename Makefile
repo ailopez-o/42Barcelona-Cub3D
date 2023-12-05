@@ -6,7 +6,7 @@
 #    By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 15:36:06 by framos-p          #+#    #+#              #
-#    Updated: 2023/12/04 16:19:03 by framos-p         ###   ########.fr        #
+#    Updated: 2023/12/05 10:40:04 by framos-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,8 @@ FILES =		main.c \
 			parser/utils_1.c \
 			parser/gnl.c \
 			parser/check_1.c \
+			parser/check_1_1.c \
+			parser/check_1_2.c \
 			parser/check_2.c \
 
 
@@ -111,7 +113,7 @@ GCC =		gcc
 
 # Flags for the gcc compilation
 FLAGS =		-g -MMD -MP
-#FLAGS +=	-O3
+FLAGS +=	-O3
 # FLAGS =		-Wall -Werror -Wextra -MMD -MP
 
 MINILIBXCC := -I mlx -L $(DIR_MLX) -lmlx
@@ -157,7 +159,11 @@ reall:
 
 $(NAME) :: $(OBJS)
 		@printf "$(DEL_LINE)\r Compiling $@"
-		@$(GCC) -v $(FLAGS) $(ASAN) $^ $(LIBFT) $(MLX) $(MINILIBXCC) $(OPENGL) -o $@
+		@$(GCC) -v $(FLAGS) $^ $(LIBFT) $(MLX) $(MINILIBXCC) $(OPENGL) -o $@
+
+#$(NAME) :: $(OBJS)
+#		@printf "$(DEL_LINE)\r Compiling $@"
+#		@$(GCC) -v $(FLAGS) $(ASAN) $^ $(LIBFT) $(MLX) $(MINILIBXCC) $(OPENGL) -o $@
 
 $(NAME) ::
 		@printf "$(DEL_LINE)$(GREEN)\rCUB3D COMPILED ✅$(DEF_COLOR)\n"

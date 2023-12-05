@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 11:55:26 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/04 17:09:09 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:44:07 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,166 +17,23 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-bool		validate_map(char *path, t_cub *cub);
-int			get_int_array(char *line);
-int			get_data_type(char *line);
-int			add_texture(char *path, t_texture *textures, t_mlx *screen,
-				int type);
-int			color_parser(char *line);
+bool		open_map_file(char *path, int *fd);
+void		parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars);
+bool		square_map(char **map, int max_x);
 int			check_map(t_map *map);
+bool		valid_map_from_player(t_data *data);
 int			map_builder(char **int_map, int scale, t_map *map,
 				t_player *player);
-int			**resize_matrix(int **matrix, int *width);
-int			**get_image_matrix(char *data, int width, int height);
-t_texture	*get_texture(t_texture *textures, int type);
-bool		valid_map_from_player(t_data *data);
-int			print_map(char **map);
 
-bool	parse_map(int argv, char **argc, t_cub *cub)
+void	initialize_data_struct(t_data *data, t_cub *cub, char **map)
 {
-	if (argv != 2)
-		return (EXIT_FAILURE);
-	if (ft_strlen(argc[1]) < 4 || ft_strncmp(argc[1] + (ft_strlen(argc[1]) - 4),
-			".cub", 5))
-		return (EXIT_FAILURE);
-	if (validate_map(argc[1], cub))
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-int	is_player(char *line)
-{
-	int	pos;
-
-	pos = 0;
-	while (line[pos])
-	{
-		if (line[pos] == 'N')
-			return (pos);
-		if (line[pos] == 'S')
-			return (pos);
-		if (line[pos] == 'E')
-			return (pos);
-		if (line[pos] == 'W')
-			return (pos);
-		pos++;
-	}
-	return (0);
-}
-
-bool	square_map(char **map, int max_x)
-{
-	int	i;
-	int	len;
-	int	j;
-
-	i = 0;
-	while (map[i] != NULL)
-	{
-		len = ft_strlen(map[i]);
-		map[i] = ft_realloc(map[i], max_x + 1);
-		j = len;
-		while (j < max_x)
-		{
-			map[i][j] = '0';
-			j++;
-		}
-		map[i][max_x] = '\0';
-		i++;
-	}
-	return (true);
-}
-
-bool	line_has_wall(char *line)
-{
-	bool	has_wall;
-
-	has_wall = false;
-	if (*line == ' ' || *line == '0' || *line == '1')
-	{
-		while (*line)
-		{
-			if (*line == '1')
-				has_wall = true;
-			line++;
-		}
-	}
-	return (has_wall);
-}
-
-void	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
-{
-	int	data_type;
-
-	if (pars->map_parsing == true || line_has_wall(line) == true)
-	{
-		pars->map_parsing = true;
-		cub->map.max_y += 1;
-		if (ft_strlen(line) > cub->map.max_x)
-			cub->map.max_x = ft_strlen(line);
-		if (is_player(line))
-		{
-			cub->player.matrix_pos.x = is_player(line);
-			cub->player.matrix_pos.y = pars->num_line + 1;
-			cub->player.init_view = line[(int)cub->player.matrix_pos.x];
-		}
-		if (get_int_array(line) == EXIT_FAILURE)
-			error("Forbidden item inside map\n");
-		(*map)[pars->num_line] = ft_strdup(line);
-		(pars->num_line)++;
-		*map = ft_realloc(*map, sizeof(char **) * (pars->num_line + 1));
-	}
-}
-
-void	process_texture_color(char *line, t_cub *cub)
-{
-	int	data_type;
-
-	data_type = get_data_type(line);
-	if (data_type == NO || data_type == SO || data_type == WE
-		|| data_type == EA)
-	{
-		if (add_texture(line, cub->map.textures, &cub->screen, data_type)
-			== EXIT_FAILURE)
-			error("Failed adding texture\n");
-	}
-	if (data_type == F)
-		cub->map.bottom_color = color_parser(line);
-	if (data_type == C)
-		cub->map.top_color = color_parser(line);
-}
-
-void	process_map_line(char *line, t_cub *cub, char ***map, t_pars *pars)
-{
-	if (line[0] && (line[0] == '0' || line[0] == '1' || line[0] == ' '))
-		process_map(line, cub, map, pars);
-	else
-		if (pars->map_parsing == true)
-			return ;
-	process_texture_color(line, cub);
-}
-
-bool	open_map_file(char *path, int *fd)
-{
-	*fd = open(path, O_RDONLY);
-	if (*fd < 0)
-	{
-		error("Failed opening map\n");
-		return (false);
-	}
-	return (true);
-}
-
-void	parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars)
-{
-	char	*line;
-
-	line = get_next_line(fd);
-	while (line)
-	{
-		process_map_line(line, cub, map, pars);
-		line = get_next_line(fd);
-	}
+	data->x = (int)cub->player.matrix_pos.x;
+	data->y = (int)cub->player.matrix_pos.y;
+	data->width = cub->map.max_x;
+	data->height = cub->map.max_y;
+	data->map = map;
+	data->closed = malloc(sizeof(bool));
+	*(data->closed) = true;
 }
 
 bool	validate_map(char *path, t_cub *cub)
@@ -199,13 +56,7 @@ bool	validate_map(char *path, t_cub *cub)
 	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))
 		return (error("Not all items needed\n"), false);
-	data.x = (int)cub->player.matrix_pos.x;
-	data.y = (int)cub->player.matrix_pos.y;
-	data.width = cub->map.max_x;
-	data.height = cub->map.max_y;
-	data.map = map;
-	data.closed = malloc(sizeof(bool));
-	*(data.closed) = true;
+	initialize_data_struct(&data, cub, map);
 	if (valid_map_from_player(&data))
 		return (map_builder(map, MAPSCALE, &cub->map, &cub->player),
 			EXIT_SUCCESS);
@@ -215,9 +66,11 @@ bool	validate_map(char *path, t_cub *cub)
 
 void	dfs(t_data *data, int x, int y)
 {
-	int	i;
-	int	nx;
-	int	ny;
+	int			i;
+	int			nx;
+	int			ny;
+	static int	dx[] = {0, 0, -1, 1};
+	static int	dy[] = {-1, 1, 0, 0};
 
 	if (x <= 0 || y <= 0 || x >= (data->width - 1) || y >= (data->height - 1))
 	{
@@ -226,8 +79,6 @@ void	dfs(t_data *data, int x, int y)
 	}
 	data->visited[y][x] = true;
 	data->width = ft_strlen(data->map[y]);
-	int	dx[] = {0, 0, -1, 1};
-	int	dy[] = {-1, 1, 0, 0};
 	i = -1;
 	while (++i < 4)
 	{
@@ -260,85 +111,3 @@ bool	valid_map_from_player(t_data *data)
 	free(data->visited);
 	return (data->closed);
 }
-
-/*
-bool	validate_map(char *path, t_cub *cub)
-{
-	t_pars	pars;
-	int		fd;
-	char	**map;
-
-	pars.num_line = 0;
-	pars.num_textures = 0;
-	pars.data_type = 0;
-	pars.map_parsing = false;
-	init_cub(cub);
-	if (!open_map_file(path, &fd))
-		return (false);
-	map = ft_calloc(sizeof(char **), 1);
-	parse_map_file(fd, cub, &map, &pars);
-	map[pars.num_line] = NULL;
-	square_map(map, cub->map.max_x);
-	if (check_map(&cub->map))
-		return (error("Not all items needed\n"), false);
-	if (valid_map_from_player((int)cub->player.matrix_pos.x,
-			(int)cub->player.matrix_pos.y, map, cub->map.max_x,
-			cub->map.max_y))
-		return (map_builder(map, MAPSCALE, &cub->map, &cub->player),
-			EXIT_SUCCESS);
-	else
-		return (error("Failed checking closed map\n"), false);
-}
-
-void	dfs(int x, int y, int width, int height, char **map, bool *closed,
-			char **visited)
-{
-	int	i;
-	int	nx;
-	int	ny;
-
-	if (x <= 0 || y <= 0 || x >= (width - 1) || y >= (height - 1))
-	{
-		*closed = false;
-		return ;
-	}
-	visited[y][x] = true;
-	width = ft_strlen(map[y]);
-	int	dx[] = {0, 0, -1, 1};
-	int	dy[] = {-1, 1, 0, 0};
-	i = -1;
-	while (++i < 4)
-	{
-		nx = x + dx[i];
-		ny = y + dy[i];
-		if (nx >= 0 && ny >= 0 && nx <= width && ny <= height && !visited[ny][nx]
-				&& map[ny][nx] == '0')
-			dfs(nx, ny, width, height, map, closed, visited);
-	}
-}
-
-bool	valid_map_from_player(int x, int y, char **map, int width, int height)
-{
-	char	**visited;
-	int		i;
-	int		j;
-	bool	closed;
-
-	visited = ft_calloc(sizeof(bool *), height);
-	i = -1;
-	while (++i < height)
-	{
-		visited[i] = ft_calloc(sizeof(bool), width);
-		j = -1;
-		while (++j < width)
-			visited[i][j] = false;
-	}
-	closed = true;
-	dfs(x, y, width, height, map, &closed, visited);
-	i = -1;
-	while (++i < height)
-		free(visited[i]);
-	free(visited);
-	return (closed);
-}
-*/

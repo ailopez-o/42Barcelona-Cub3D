@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:07:13 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/04 11:17:41 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:50:27 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int			map_builder(char **int_map, int scale, t_map *map,
 int			**resize_matrix(int **matrix, int *width);
 int			**get_image_matrix(char *data, int width, int height);
 t_texture	*get_texture(t_texture *textures, int type);
-bool		valid_map_from_player(int x, int y, char **map, int max_x,
-				int max_y);
+bool		valid_map_from_player(t_data *data);
 
 int	get_int_array(char *line)
 {

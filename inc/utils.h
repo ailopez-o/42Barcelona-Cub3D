@@ -6,9 +6,9 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:19:07 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/30 11:25:26 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/05 10:51:15 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 void	*ft_realloc(void *ptr, size_t size);
-int 	error(char *err_msg);
+int		error(char *err_msg);

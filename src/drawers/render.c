@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 16:36:52 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/29 15:24:08 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:06:23 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static void	render_frame(t_cub *cub, int *num_frames, unsigned long *last_time)
 	if (current_time != *last_time)
 	{
 		*last_time = (time.tv_sec * 1000);
-
 		ft_putstr_fd("\rFPS ", 1);
 		ft_putnbr_fd(*num_frames, 1);
 		ft_putstr_fd(" ////// FOV ", 1);

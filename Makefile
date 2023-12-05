@@ -6,7 +6,7 @@
 #    By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/29 15:36:06 by framos-p          #+#    #+#              #
-#    Updated: 2023/12/05 10:40:04 by framos-p         ###   ########.fr        #
+#    Updated: 2023/12/05 12:04:23 by framos-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ FILES =		main.c \
 			parser/check_1.c \
 			parser/check_1_1.c \
 			parser/check_1_2.c \
+			parser/check_letters.c \
 			parser/check_2.c \
 
 

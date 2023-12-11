@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_letters.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 12:02:53 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/05 12:08:23 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/11 13:02:13 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ bool	is_valid_character(char c)
 		|| c == 'W' || c == 'E');
 }
 
-bool	validate_map_line(char *line)
+int	validate_map_line(char *line)
 {
-	int	player_direction_count;
-	int	i;
+	static int	player_direction_count = 0;
+	int			i;
 
 	i = 0;
-	while (line[i])
+	while (line && line[i])
 	{
 		if (!is_valid_character(line[i]))
 		{
@@ -41,11 +41,5 @@ bool	validate_map_line(char *line)
 			player_direction_count++;
 		i++;
 	}
-	player_direction_count = 0;
-	if (player_direction_count > 1)
-	{
-		error("More than one player direction in the map\n");
-		exit(0);
-	}
-	return (true);
+	return (player_direction_count);
 }

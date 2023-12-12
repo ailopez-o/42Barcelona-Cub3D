@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:07:13 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/05 10:50:27 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:43:06 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,27 +95,6 @@ int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 	textures->img.width = textures->width;
 	textures->img.height = textures->height;
 	return (EXIT_SUCCESS);
-}
-
-int	color_parser(char *line)
-{
-	char	*trim_line;
-	char	**splitted;
-	int		color[3];
-	int		hex;
-
-	trim_line = ft_str_trim(line + 1);
-	splitted = ft_split(trim_line, ',');
-	color[0] = ft_atoi(splitted[0]);
-	color[1] = ft_atoi(splitted[1]);
-	color[2] = ft_atoi(splitted[2]);
-	hex = color[0] << 16 | color[1] << 8 | color[2];
-	free(trim_line);
-	free(splitted[0]);
-	free(splitted[1]);
-	free(splitted[2]);
-	free(splitted);
-	return (hex);
 }
 
 int	check_map(t_map *map)

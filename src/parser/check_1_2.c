@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:36:39 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/11 13:00:06 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/12 12:21:06 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int			add_texture(char *path, t_texture *textures, t_mlx *screen,
 int			color_parser(char *line);
 bool		is_valid_character(char c);
 int			validate_map_line(char *line);
+void		process_texture_color(char *line, t_cub *cub);
 
 void	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
 {
@@ -54,24 +55,6 @@ void	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
 		(pars->num_line)++;
 		*map = ft_realloc(*map, sizeof(char **) * (pars->num_line + 1));
 	}
-}
-
-void	process_texture_color(char *line, t_cub *cub)
-{
-	int	data_type;
-
-	data_type = get_data_type(line);
-	if (data_type == NO || data_type == SO || data_type == WE
-		|| data_type == EA)
-	{
-		if (add_texture(line, cub->map.textures, &cub->screen, data_type)
-			== EXIT_FAILURE)
-			error("Failed adding texture\n");
-	}
-	if (data_type == F)
-		cub->map.bottom_color = color_parser(line);
-	if (data_type == C)
-		cub->map.top_color = color_parser(line);
 }
 
 void	process_map_line(char *line, t_cub *cub, char ***map, t_pars *pars)

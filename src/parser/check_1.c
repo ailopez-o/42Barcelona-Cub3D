@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 11:55:26 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/05 12:07:08 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:11:05 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <fcntl.h>
 
 bool		open_map_file(char *path, int *fd);
-void		parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars);
+int			parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars);
 bool		square_map(char **map, int max_x);
 int			check_map(t_map *map);
 bool		valid_map_from_player(t_data *data);
@@ -36,7 +36,7 @@ void	initialize_data_struct(t_data *data, t_cub *cub, char **map)
 	*(data->closed) = true;
 }
 
-bool	validate_map(char *path, t_cub *cub)
+int	validate_map(char *path, t_cub *cub)
 {
 	t_pars	pars;
 	int		fd;
@@ -49,9 +49,10 @@ bool	validate_map(char *path, t_cub *cub)
 	pars.map_parsing = false;
 	init_cub(cub);
 	if (!open_map_file(path, &fd))
-		return (false);
+		return (EXIT_FAILURE);
 	map = ft_calloc(sizeof(char **), 1);
-	parse_map_file(fd, cub, &map, &pars);
+	if (parse_map_file(fd, cub, &map, &pars) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	map[pars.num_line] = NULL;
 	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))

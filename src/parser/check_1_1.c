@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:35:30 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/14 13:23:24 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:43:21 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 bool		validate_map(char *path, t_cub *cub);
 
-bool	parse_map(int argv, char **argc, t_cub *cub)
+int	parse_map(int argv, char **argc, t_cub *cub)
 {
 	if (argv != 2)
 		return (EXIT_FAILURE);

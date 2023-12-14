@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 11:55:26 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/14 15:11:05 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:42:47 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,16 @@ int	validate_map(char *path, t_cub *cub)
 	map[pars.num_line] = NULL;
 	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))
-		return (error("Not all items needed\n"), false);
+		return (error("Not all items needed\n"));
 	initialize_data_struct(&data, cub, map);
 	if (valid_map_from_player(&data))
-		return (map_builder(map, MAPSCALE, &cub->map, &cub->player),
-			EXIT_SUCCESS);
+	{
+		map_builder(map, MAPSCALE, &cub->map, &cub->player);
+		return (EXIT_SUCCESS);
+	}
 	else
-		return (error("Failed checking closed map\n"), false);
+		return (error("Failed checking closed map\n"));
+	return (EXIT_SUCCESS);
 }
 
 void	dfs(t_data *data, int x, int y)

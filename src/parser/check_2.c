@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:07:13 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/12 12:43:06 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 16:46:42 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,33 @@ int	get_int_array(char *line)
 
 int	get_data_type(char *line)
 {
+	int	i;
+
+	i = 0;
+	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+		i++;
+	if (line[i] && line[i] == 'N' && line[i + 1] && line[i + 1] == 'O'
+		&& line[i + 2] && line[i + 2] == ' ')
+		return (NO);
+	if (line[i] && line[i] == 'S' && line[i + 1] && line[i + 1] == 'O'
+		&& line[i + 2] && line[i + 2] == ' ')
+		return (SO);
+	if (line[i] && line[i] == 'W' && line[i + 1] && line[i + 1] == 'E'
+		&& line[i + 2] && line[i + 2] == ' ')
+		return (WE);
+	if (line[i] && line[i] == 'E' && line[i + 1] && line[i + 1] == 'A'
+		&& line[i + 2] && line[i + 2] == ' ')
+		return (EA);
+	if (line[i] && line[i] == 'C' && line[i + 1] && line[i + 1] == ' ')
+		return (C);
+	if (line[i] && line[i] == 'F' && line[i + 1] && line[i + 1] == ' ')
+		return (F);
+	return (0);
+}
+
+/*
+int	get_data_type(char *line)
+{
 	if (line[0] && line[0] == 'N' && line[1] && line[1] == 'O' && line[2]
 		&& line[2] == ' ')
 		return (NO);
@@ -71,7 +98,7 @@ int	get_data_type(char *line)
 		return (F);
 	return (0);
 }
-
+*/
 int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 {
 	char	*str_trimed;

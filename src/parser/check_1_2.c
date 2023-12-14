@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:36:39 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/14 14:46:04 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:57:40 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,6 @@ int	parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars)
 		line = get_next_line(fd);
 	}
 	if (validate_map_line(NULL) != 1)
-	{
-		error("No player in the map\n");
-		return (EXIT_FAILURE);
-	}
+		return (error("No player in the map\n"));
 	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:19:32 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/29 15:20:21 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 13:23:36 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argv, char **argc)
 	ft_bzero(&cub, sizeof(t_cub));
 	if (window_init(&cub.screen))
 		exit(EXIT_FAILURE);
-	if (parse_map(argv, argc, &cub))
+	if (parse_map(argv, argc, &cub) == EXIT_FAILURE)
 	{
 		ft_putstr_fd("Map Error\n", 2);
 		exit(EXIT_FAILURE);

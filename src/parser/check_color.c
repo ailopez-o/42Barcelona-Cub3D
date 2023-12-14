@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:14:59 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/12 12:20:47 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 16:51:25 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,40 @@ int	is_color_data(int data_type)
 	return (data_type == F || data_type == C);
 }
 
-void	handle_texture_data(char *line, t_cub *cub, int data_type)
+int	handle_texture_data(char *line, t_cub *cub, int data_type)
+{
+	int	texture_added;
+	int	i;
+
+	i = 0;
+	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+		i++;
+	texture_added = add_texture(line + i, cub->map.textures, &cub->screen,
+			data_type);
+	if (texture_added == EXIT_FAILURE)
+		return (error("Failed adding texture\n"));
+	return (EXIT_SUCCESS);
+}
+
+/*
+int	handle_texture_data(char *line, t_cub *cub, int data_type)
 {
 	int	texture_added;
 
 	texture_added = add_texture(line, cub->map.textures,
 			&cub->screen, data_type);
 	if (texture_added == EXIT_FAILURE)
-		error("Failed adding texture\n");
+		return (error("Failed adding texture\n"));
+	return (EXIT_SUCCESS);
 }
-
-void	handle_color_data(char *line, t_cub *cub, int data_type)
+*/
+int	handle_color_data(char *line, t_cub *cub, int data_type)
 {
 	int	parsed_color;
 
 	parsed_color = color_parser(line);
 	if (parsed_color == -1)
-	{
-		error("Invalid color format\n");
-		exit(0);
-	}
+		return (error("Invalid color format\n"));
 	else
 	{
 		if (data_type == F)
@@ -65,15 +79,23 @@ void	handle_color_data(char *line, t_cub *cub, int data_type)
 		else if (data_type == C)
 			cub->map.top_color = parsed_color;
 	}
+	return (EXIT_SUCCESS);
 }
 
-void	process_texture_color(char *line, t_cub *cub)
+int	process_texture_color(char *line, t_cub *cub)
 {
 	int	data_type;
 
 	data_type = get_data_type(line);
 	if (is_texture_data(data_type))
-		handle_texture_data(line, cub, data_type);
+	{
+		if (handle_texture_data(line, cub, data_type) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
 	else if (is_color_data(data_type))
-		handle_color_data(line, cub, data_type);
+	{
+		if (handle_color_data(line, cub, data_type) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_1_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:35:30 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/05 12:07:05 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:43:21 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 
 bool		validate_map(char *path, t_cub *cub);
 
-bool	parse_map(int argv, char **argc, t_cub *cub)
+int	parse_map(int argv, char **argc, t_cub *cub)
 {
 	if (argv != 2)
 		return (EXIT_FAILURE);
 	if (ft_strlen(argc[1]) < 4 || ft_strncmp(argc[1] + (ft_strlen(argc[1]) - 4),
 			".cub", 5))
 		return (EXIT_FAILURE);
-	if (validate_map(argc[1], cub))
+	if (validate_map(argc[1], cub) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

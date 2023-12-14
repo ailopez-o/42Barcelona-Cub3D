@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:36:39 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/12 12:21:06 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:57:40 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int			add_texture(char *path, t_texture *textures, t_mlx *screen,
 int			color_parser(char *line);
 bool		is_valid_character(char c);
 int			validate_map_line(char *line);
-void		process_texture_color(char *line, t_cub *cub);
+int			process_texture_color(char *line, t_cub *cub);
 
-void	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
+int	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
 {
 	int	data_type;
 
@@ -46,25 +46,28 @@ void	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
 		}
 		if (get_int_array(line) == EXIT_FAILURE)
 			error("Forbidden item inside map\n");
-		if (validate_map_line(line) > 1)
-		{
-			error("More than one player in the map\n");
-			exit(0);
-		}
+		if (validate_map_line(line) == -1)
+			return (EXIT_FAILURE);
 		(*map)[pars->num_line] = ft_strdup(line);
 		(pars->num_line)++;
 		*map = ft_realloc(*map, sizeof(char **) * (pars->num_line + 1));
 	}
+	return (EXIT_SUCCESS);
 }
 
-void	process_map_line(char *line, t_cub *cub, char ***map, t_pars *pars)
+int	process_map_line(char *line, t_cub *cub, char ***map, t_pars *pars)
 {
 	if (line[0] && (line[0] == '0' || line[0] == '1' || line[0] == ' '))
-		process_map(line, cub, map, pars);
+	{
+		if (process_map(line, cub, map, pars) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
 	else
 		if (pars->map_parsing == true)
-			return ;
-	process_texture_color(line, cub);
+			return (EXIT_SUCCESS);
+	if (process_texture_color(line, cub) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 bool	open_map_file(char *path, int *fd)
@@ -78,19 +81,19 @@ bool	open_map_file(char *path, int *fd)
 	return (true);
 }
 
-void	parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars)
+int	parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars)
 {
 	char	*line;
 
 	line = get_next_line(fd);
 	while (line)
 	{
-		process_map_line(line, cub, map, pars);
+		if (process_map_line(line, cub, map, pars) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		free(line);
 		line = get_next_line(fd);
 	}
-	if (validate_map_line(line) != 1)
-	{
-		error("No player in he map\n");
-		exit(0);
-	}
+	if (validate_map_line(NULL) != 1)
+		return (error("No player in the map\n"));
+	return (EXIT_SUCCESS);
 }

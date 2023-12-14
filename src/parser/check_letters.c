@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 12:02:53 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/11 13:02:13 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/14 15:12:07 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,17 @@ int	validate_map_line(char *line)
 		if (!is_valid_character(line[i]))
 		{
 			error("Invalid character in the map\n");
-			exit(0);
+			return (-1);
 		}
 		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'W'
 			|| line[i] == 'E')
 			player_direction_count++;
 		i++;
+	}
+	if (player_direction_count > 1)
+	{
+		error("More than one player in the map\n");
+		return (-1);
 	}
 	return (player_direction_count);
 }

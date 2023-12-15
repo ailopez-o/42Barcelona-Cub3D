@@ -111,13 +111,13 @@ bool	valid_map_from_player(t_data *data)
 
 	data->visited = ft_calloc(sizeof(char *), data->height);
 	if (data->visited == NULL)
-		return (NULL);
+		return (false);
 	i = -1;
 	while (++i < data->height)
 	{
 		data->visited[i] = ft_calloc(sizeof(char), data->width);
 		if (data->visited[i] == NULL)
-			return (NULL);
+			return (false);
 		j = -1;
 		while (++j < data->width)
 			data->visited[i][j] = false;

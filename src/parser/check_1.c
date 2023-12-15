@@ -33,6 +33,8 @@ void	initialize_data_struct(t_data *data, t_cub *cub, char **map)
 	data->height = cub->map.max_y;
 	data->map = map;
 	data->closed = malloc(sizeof(bool));
+	if (data->closed == NULL)
+		return (NULL);
 	*(data->closed) = true;
 }
 
@@ -57,6 +59,8 @@ int	validate_map(char *path, t_cub *cub)
 	if (!open_map_file(path, &fd))
 		return (EXIT_FAILURE);
 	map = ft_calloc(sizeof(char **), 1);
+	if (map == NULL)
+		return (NULL);
 	if (parse_map_file(fd, cub, &map, &pars) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	map[pars.num_line] = NULL;
@@ -103,11 +107,15 @@ bool	valid_map_from_player(t_data *data)
 	int	i;
 	int	j;
 
-	data->visited = calloc(sizeof(char *), data->height);
+	data->visited = ft_calloc(sizeof(char *), data->height);
+	if (data>visited == NULL)
+		return (NULL);
 	i = -1;
 	while (++i < data->height)
 	{
-		data->visited[i] = calloc(sizeof(char), data->width);
+		data->visited[i] = ft_calloc(sizeof(char), data->width);
+		if (data->visited[i] == NULL)
+			return (NULL);
 		j = -1;
 		while (++j < data->width)
 			data->visited[i][j] = false;

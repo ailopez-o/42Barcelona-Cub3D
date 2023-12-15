@@ -120,6 +120,8 @@ int	*adjust_column_if_greater_than_winy(int *new_column, double distance,
 	if (distance > WINY)
 	{
 		cuted = ft_calloc(sizeof(int), distance - (distance - WINY));
+		if (cuted == NULL)
+			return (NULL);
 		ft_intmemcpy(cuted, new_column + (int)((distance - WINY) / 2), distance
 			- (distance - WINY));
 		free(new_column);

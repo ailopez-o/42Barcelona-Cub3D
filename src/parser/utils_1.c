@@ -28,15 +28,23 @@ char	*ft_str_trim(char *str)
 	if (end < start)
 		return (ft_strdup(""));
 	new_str = ft_substr(str, start, end - start + 1);
+	if (new_str == NULL)
+		return (NULL);
 	return (new_str);
 }
 
 void	*ft_realloc(void *ptr, size_t size)
 {
 	void	*new_ptr;
+	void	*calloc_result;
 
 	if (ptr == NULL)
-		return (ft_calloc(size, 1));
+	{
+		calloc_result = ft_calloc(size, 1);
+		if (!calloc_result)
+			return (NULL);
+		else
+			return (calloc_result);
 	if (!size)
 		return (ptr);
 	new_ptr = ft_calloc(size, 1);

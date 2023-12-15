@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 14:29:04 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/23 14:33:30 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:27:09 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	*create_new_column(int new_height)
 	int	*new_column;
 
 	new_column = malloc(new_height * sizeof(int));
+	if (!new_column)
+		return (NULL);
 	return (new_column);
 }
 

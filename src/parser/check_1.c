@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 11:55:26 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/14 17:00:34 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:25:01 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool		valid_map_from_player(t_data *data);
 int			map_builder(char **int_map, int scale, t_map *map,
 				t_player *player);
 
-void	initialize_data_struct(t_data *data, t_cub *cub, char **map)
+int	initialize_data_struct(t_data *data, t_cub *cub, char **map)
 {
 	data->x = (int)cub->player.matrix_pos.x;
 	data->y = (int)cub->player.matrix_pos.y;
@@ -34,8 +34,9 @@ void	initialize_data_struct(t_data *data, t_cub *cub, char **map)
 	data->map = map;
 	data->closed = malloc(sizeof(bool));
 	if (data->closed == NULL)
-		return (NULL);
+		return (-1);
 	*(data->closed) = true;
+	return (0);
 }
 
 void	init_vars(t_pars *pars, t_cub *cub)
@@ -60,14 +61,15 @@ int	validate_map(char *path, t_cub *cub)
 		return (EXIT_FAILURE);
 	map = ft_calloc(sizeof(char **), 1);
 	if (map == NULL)
-		return (NULL);
+		return (EXIT_FAILURE);
 	if (parse_map_file(fd, cub, &map, &pars) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	map[pars.num_line] = NULL;
 	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))
 		return (error("Not all items needed\n"));
-	initialize_data_struct(&data, cub, map);
+	if (initialize_data_struct(&data, cub, map) == -1)
+		return (EXIT_FAILURE);
 	if (valid_map_from_player(&data))
 		return ((map_builder(map, MAPSCALE, &cub->map, &cub->player)),
 			EXIT_SUCCESS);
@@ -108,7 +110,7 @@ bool	valid_map_from_player(t_data *data)
 	int	j;
 
 	data->visited = ft_calloc(sizeof(char *), data->height);
-	if (data>visited == NULL)
+	if (data->visited == NULL)
 		return (NULL);
 	i = -1;
 	while (++i < data->height)

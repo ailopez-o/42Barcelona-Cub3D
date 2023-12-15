@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:02:52 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/29 17:03:23 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:12:47 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	*ft_realloc(void *ptr, size_t size)
 			return (NULL);
 		else
 			return (calloc_result);
+	}
 	if (!size)
 		return (ptr);
 	new_ptr = ft_calloc(size, 1);

@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:02:52 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/29 17:03:23 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:12:47 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,24 @@ char	*ft_str_trim(char *str)
 	if (end < start)
 		return (ft_strdup(""));
 	new_str = ft_substr(str, start, end - start + 1);
+	if (new_str == NULL)
+		return (NULL);
 	return (new_str);
 }
 
 void	*ft_realloc(void *ptr, size_t size)
 {
 	void	*new_ptr;
+	void	*calloc_result;
 
 	if (ptr == NULL)
-		return (ft_calloc(size, 1));
+	{
+		calloc_result = ft_calloc(size, 1);
+		if (!calloc_result)
+			return (NULL);
+		else
+			return (calloc_result);
+	}
 	if (!size)
 		return (ptr);
 	new_ptr = ft_calloc(size, 1);

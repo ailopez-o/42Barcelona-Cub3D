@@ -50,6 +50,8 @@ int	**get_image_matrix(char *data, int width, int height)
 	while (++i < width)
 	{
 		matrix[i] = malloc(sizeof(int) * height);
+		if (matrix[i] == NULL)
+			return (NULL);
 		if (!matrix[i])
 			return (NULL);
 		j = -1;
@@ -65,6 +67,8 @@ int	**resize_matrix(int **matrix, int *width)
 	int	i;
 
 	scaled_columns = ft_calloc(sizeof(int *), MAPSCALE);
+	if (scaled_columns == NULL)
+		return (NULL);
 	i = -1;
 	while (++i < MAPSCALE)
 		scaled_columns[i] = matrix[i * *width / MAPSCALE];

@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 10:36:39 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/14 15:57:40 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:35:59 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
 		(*map)[pars->num_line] = ft_strdup(line);
 		(pars->num_line)++;
 		*map = ft_realloc(*map, sizeof(char **) * (pars->num_line + 1));
+		if (*map == NULL)
+			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }

@@ -62,6 +62,8 @@ bool	square_map(char **map, int max_x)
 	{
 		len = ft_strlen(map[i]);
 		map[i] = ft_realloc(map[i], max_x + 1);
+		if (map[i] == NULL)
+			return (NULL);
 		j = len;
 		while (j < max_x)
 		{

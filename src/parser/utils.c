@@ -61,17 +61,24 @@ int	**get_image_matrix(char *data, int width, int height)
 	return (matrix);
 }
 
-int	**resize_matrix(int **matrix, int *width)
+int	**resize_matrix(int **matrix, int *width, int *height)
 {
 	int	**scaled_columns;
 	int	i;
+	int	j;
 
 	scaled_columns = ft_calloc(sizeof(int *), MAPSCALE);
 	if (scaled_columns == NULL)
 		return (NULL);
 	i = -1;
 	while (++i < MAPSCALE)
-		scaled_columns[i] = matrix[i * *width / MAPSCALE];
+	{
+		scaled_columns[i] = ft_calloc(sizeof(int), *height);
+		j = -1;
+		while (++j < *height)
+			scaled_columns[i][j] = matrix[i * *width / MAPSCALE][j];
+		free(matrix[i]);
+	}
 	free(matrix);
 	*width = MAPSCALE;
 	return (scaled_columns);

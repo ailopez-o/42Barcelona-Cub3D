@@ -26,7 +26,7 @@ int			color_parser(char *line);
 int			check_map(t_map *map);
 int			map_builder(char **int_map, int scale, t_map *map,
 				t_player *player);
-int			**resize_matrix(int **matrix, int *width);
+int			**resize_matrix(int **matrix, int *width, int *height);
 int			**get_image_matrix(char *data, int width, int height);
 t_texture	*get_texture(t_texture *textures, int type);
 bool		valid_map_from_player(t_data *data);
@@ -85,31 +85,6 @@ int	get_data_type(char *line)
 	return (0);
 }
 
-/*
-int	get_data_type(char *line)
-{
-	if (line[0] && line[0] == 'N' && line[1] && line[1] == 'O' && line[2]
-		&& line[2] == ' ')
-		return (NO);
-	if (line[0] && line[0] == 'S' && line[1] && line[1] == 'O' && line[2]
-		&& line[2] == ' ')
-		return (SO);
-	if (line[0] && line[0] == 'W' && line[1] && line[1] == 'E' && line[2]
-		&& line[2] == ' ')
-		return (WE);
-	if (line[0] && line[0] == 'E' && line[1] && line[1] == 'A' && line[2]
-		&& line[2] == ' ')
-		return (EA);
-	if (line[0] && line[0] == 'S' && line[1] && line[1] == 'C' && line[2]
-		&& line[2] == ' ')
-		return (SC);
-	if (line[0] && line[0] == 'C' && line[1] && line[1] == ' ')
-		return (C);
-	if (line[0] && line[0] == 'F' && line[1] && line[1] == ' ')
-		return (F);
-	return (0);
-}
-*/
 int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 {
 	char	*str_trimed;
@@ -129,7 +104,8 @@ int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 	textures->valid = true;
 	textures->type = type;
 	textures->img.matrix = resize_matrix(get_image_matrix(textures->img.addr,
-				textures->width, textures->height), &textures->width);
+				textures->width, textures->height), &textures->width,
+			&textures->height);
 	textures->img.width = textures->width;
 	textures->img.height = textures->height;
 	return (EXIT_SUCCESS);

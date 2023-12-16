@@ -53,5 +53,5 @@ int	terminate_program(void *param)
 
 	cub = (t_cub *)param;
 	free_all(cub);
-	exit(0);
+	exit(EXIT_FAILURE);
 }

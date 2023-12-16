@@ -25,7 +25,7 @@
 # define WINY 				800
 # define WIN2D 				1200
 # define WINX				1200
-# define MAPSCALE			60
+# define MAPSCALE			64
 # define MINIMAPSCALE		4
 
 # define PLYSPEED			10

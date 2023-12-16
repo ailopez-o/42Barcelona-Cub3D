@@ -26,7 +26,7 @@ int			color_parser(char *line);
 int			check_map(t_map *map);
 int			map_builder(char **int_map, int scale, t_map *map,
 				t_player *player);
-int			**resize_matrix(int **matrix, int *width);
+int			**resize_matrix(int **matrix, int *width, int *height);
 int			**get_image_matrix(char *data, int width, int height);
 t_texture	*get_texture(t_texture *textures, int type);
 bool		valid_map_from_player(t_data *data);

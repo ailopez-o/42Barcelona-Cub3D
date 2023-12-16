@@ -64,6 +64,21 @@ float	calculate_scale(float mapwidth, float mapheight)
 	return (scale);
 }
 
+void	fill_polygon(t_cub *cub, t_polygon *poly, int color)
+{
+	t_line	line;
+
+	line = poly->line[0];
+	while (line.p1.y < poly->line[2].p1.y)
+	{
+		line.p1.y++;
+		line.p1.color = color;
+		line.p2.y++;
+		line.p2.color = color;
+		draw_line(&(cub->screen), line.p1, line.p2);
+	}
+}
+
 void	draw_objects(t_cub *cub, t_objet *objects, size_t iter)
 {
 	t_polygon	poly;
@@ -78,8 +93,8 @@ void	draw_objects(t_cub *cub, t_objet *objects, size_t iter)
 		side = -1;
 		while (++side < 4)
 		{
-			poly.line[side].p1.color = poly.color;
-			poly.line[side].p2.color = poly.color;
+			poly.line[side].p1.color = MINIMAPCOLOR;
+			poly.line[side].p2.color = MINIMAPCOLOR;
 			draw_line(&(cub->screen), poly.line[side].p1, poly.line[side].p2);
 		}
 		iter++;

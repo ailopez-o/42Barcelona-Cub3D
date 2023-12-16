@@ -27,6 +27,7 @@
 # define WINX				1200
 # define MAPSCALE			64
 # define MINIMAPSCALE		4
+# define MINIMAPCOLOR		DARK_RED
 
 # define PLYSPEED			10
 # define PLYROTSPEED		4

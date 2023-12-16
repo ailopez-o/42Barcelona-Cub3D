@@ -62,7 +62,7 @@ int	validate_map(char *path, t_cub *cub)
 	if (map == NULL)
 		return (EXIT_FAILURE);
 	if (parse_map_file(fd, cub, &map, &pars) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (map[pars.num_line] = NULL, free_double(map), EXIT_FAILURE);
 	map[pars.num_line] = NULL;
 	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))

@@ -103,6 +103,19 @@ typedef struct s_mapdata	t_mapdata;
 typedef struct s_pars		t_pars;
 typedef struct s_data		t_data;
 
+
+struct s_data
+{
+	int		x;
+	int		y;
+	char	**map;
+	bool	closed;
+	char	**visited;
+	int		width;
+	int		height;
+};
+
+
 struct s_ptr
 {
 	void	*mlx_ptr;
@@ -239,16 +252,6 @@ struct s_pars
 	bool	map_parsing;
 };
 
-struct s_data
-{
-	int		x;
-	int		y;
-	char	**map;
-	bool	*closed;
-	char	**visited;
-	int		width;
-	int		height;
-};
 
 struct s_map
 {

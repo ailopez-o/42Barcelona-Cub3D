@@ -55,3 +55,16 @@ void	*ft_realloc(void *ptr, size_t size)
 	free(ptr);
 	return (new_ptr);
 }
+
+void	free_double(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		i++;
+	}
+	free(matrix);
+}

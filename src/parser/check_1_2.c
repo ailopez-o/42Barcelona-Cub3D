@@ -91,7 +91,10 @@ int	parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars)
 	while (line)
 	{
 		if (process_map_line(line, cub, map, pars) == EXIT_FAILURE)
+		{
+			free(line);
 			return (EXIT_FAILURE);
+		}
 		free(line);
 		line = get_next_line(fd);
 	}

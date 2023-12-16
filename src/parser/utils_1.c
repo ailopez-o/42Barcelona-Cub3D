@@ -56,7 +56,7 @@ void	*ft_realloc(void *ptr, size_t size)
 	return (new_ptr);
 }
 
-void	free_double(char **matrix)
+int	free_double(char **matrix)
 {
 	int	i;
 
@@ -67,4 +67,5 @@ void	free_double(char **matrix)
 		i++;
 	}
 	free(matrix);
+	return (EXIT_SUCCESS);
 }

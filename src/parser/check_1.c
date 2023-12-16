@@ -17,14 +17,14 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-bool	open_map_file(char *path, int *fd);
-int		parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars);
-bool	square_map(char **map, int max_x);
-int		check_map(t_map *map);
-bool	valid_map_from_player(t_data *data);
-int		map_builder(char **int_map, int scale, t_map *map,
-			t_player *player);
-void	free_double(char **matrix);
+bool		open_map_file(char *path, int *fd);
+int			parse_map_file(int fd, t_cub *cub, char ***map, t_pars *pars);
+bool		square_map(char **map, int max_x);
+int			check_map(t_map *map);
+bool		valid_map_from_player(t_data *data);
+int			map_builder(char **int_map, int scale, t_map *map,
+				t_player *player);
+int			free_double(char **matrix);
 
 int	initialize_data_struct(t_data *data, t_cub *cub, char **map)
 {
@@ -62,7 +62,7 @@ int	validate_map(char *path, t_cub *cub)
 	if (map == NULL)
 		return (EXIT_FAILURE);
 	if (parse_map_file(fd, cub, &map, &pars) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (map[pars.num_line] = NULL, free_double(map), EXIT_FAILURE);
 	map[pars.num_line] = NULL;
 	square_map(map, cub->map.max_x);
 	if (check_map(&cub->map))
@@ -70,7 +70,8 @@ int	validate_map(char *path, t_cub *cub)
 	if (initialize_data_struct(&data, cub, map) == -1)
 		return (EXIT_FAILURE);
 	if (valid_map_from_player(&data))
-		return(free_double(map), map_builder(map, MAPSCALE, &cub->map, &cub->player));
+		return (map_builder(map, MAPSCALE, &cub->map, &cub->player),
+			free_double(map));
 	else
 		return (free_double(map), error("Failed checking closed map\n"));
 }

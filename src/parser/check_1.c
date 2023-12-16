@@ -24,6 +24,7 @@ int			check_map(t_map *map);
 bool		valid_map_from_player(t_data *data);
 int			map_builder(char **int_map, int scale, t_map *map,
 				t_player *player);
+int			free_double(char **matrix);
 
 int	initialize_data_struct(t_data *data, t_cub *cub, char **map)
 {
@@ -44,20 +45,6 @@ void	init_vars(t_pars *pars, t_cub *cub)
 	pars->data_type = 0;
 	pars->map_parsing = false;
 	init_cub(cub);
-}
-
-
-void free_double(char **matrix)
-{
-	int i;
-
-	i = 0;
-	while (matrix[i])
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
 }
 
 int	validate_map(char *path, t_cub *cub)
@@ -83,11 +70,10 @@ int	validate_map(char *path, t_cub *cub)
 	if (initialize_data_struct(&data, cub, map) == -1)
 		return (EXIT_FAILURE);
 	if (valid_map_from_player(&data))
-		ret = map_builder(map, MAPSCALE, &cub->map, &cub->player);
+		return (map_builder(map, MAPSCALE, &cub->map, &cub->player),
+			free_double(map));
 	else
-		return (error("Failed checking closed map\n"));
-	free_double(map);
-	return (ret);
+		return (free_double(map), error("Failed checking closed map\n"));
 }
 
 void	dfs(t_data *data, int x, int y)

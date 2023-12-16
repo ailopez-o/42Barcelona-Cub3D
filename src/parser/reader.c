@@ -64,10 +64,10 @@ void	find_player_position(char **map_arr, t_player *player, int scale,
 void	initialize_player(char **map_arr, t_map *map, t_player *player,
 			int scale)
 {
-	find_player_position(map_arr, player, scale, 'N');
-	find_player_position(map_arr, player, scale, 'S');
-	find_player_position(map_arr, player, scale, 'W');
-	find_player_position(map_arr, player, scale, 'E');
+	player->pos.x = player->matrix_pos.x * scale;
+	player->pos.y = player->matrix_pos.y * scale;
+	player->front = get_geo_vector((char)player->init_view);
+	player->cam = player->front;
 }
 
 void	init_wall_object(t_objet *obj, t_texture *textures, t_point scaner,

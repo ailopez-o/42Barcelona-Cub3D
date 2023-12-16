@@ -30,6 +30,7 @@ int			**resize_matrix(int **matrix, int *width);
 int			**get_image_matrix(char *data, int width, int height);
 t_texture	*get_texture(t_texture *textures, int type);
 bool		valid_map_from_player(t_data *data);
+int			validate_map_line(char *line);
 
 int	get_int_array(char *line)
 {
@@ -42,6 +43,16 @@ int	get_int_array(char *line)
 		if (line[num_col] == ' ')
 			line[num_col] = '0';
 		if (line[num_col] == '\n')
+			line[num_col] = '0';
+		num_col++;
+	}
+	if (validate_map_line(line) == -1)
+		return (EXIT_FAILURE);
+	num_col = 0;
+	while (line[num_col])
+	{
+		if (line[num_col] == 'N' || line[num_col] == 'S'
+			|| line[num_col] == 'E' || line[num_col] == 'W')
 			line[num_col] = '0';
 		num_col++;
 	}

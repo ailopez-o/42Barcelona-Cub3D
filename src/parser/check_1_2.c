@@ -46,8 +46,6 @@ int	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
 		}
 		if (get_int_array(line) == EXIT_FAILURE)
 			error("Forbidden item inside map\n");
-		if (validate_map_line(line) == -1)
-			return (EXIT_FAILURE);
 		(*map)[pars->num_line] = ft_strdup(line);
 		(pars->num_line)++;
 		*map = ft_realloc(*map, sizeof(char **) * (pars->num_line + 1));

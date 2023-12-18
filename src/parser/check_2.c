@@ -85,12 +85,10 @@ int	get_data_type(char *line)
 	return (0);
 }
 
-
 int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 {
 	char	*str_trimed;
 
-	
 	while (textures->valid == true)
 		textures++;
 	str_trimed = ft_str_trim(path + 3);

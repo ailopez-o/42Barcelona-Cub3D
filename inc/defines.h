@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 15:14:53 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/04 17:01:49 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/18 13:26:42 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ typedef struct s_mapdata	t_mapdata;
 typedef struct s_pars		t_pars;
 typedef struct s_data		t_data;
 
-
 struct s_data
 {
 	int		x;
@@ -115,7 +114,6 @@ struct s_data
 	int		width;
 	int		height;
 };
-
 
 struct s_ptr
 {
@@ -252,7 +250,6 @@ struct s_pars
 	int		data_type;
 	bool	map_parsing;
 };
-
 
 struct s_map
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 11:11:24 by framos-p          #+#    #+#             */
-/*   Updated: 2023/11/30 11:26:26 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:28:32 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,17 @@ int	*get_texture_column(t_line *wall, t_point point)
 	column_index = (int)(point_position * MAPSCALE * texture_repeats)
 		% MAPSCALE;
 	return (wall->texture->img.matrix[column_index]);
+}
+
+void	clean_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isspace(str[i]) != 0)
+			str[i] = 32;		
+		i++;
+	}
 }

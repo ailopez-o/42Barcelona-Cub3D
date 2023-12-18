@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:14:59 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/14 16:51:25 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:28:15 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int			add_texture(char *path, t_texture *textures, t_mlx *screen,
 int			color_parser(char *line);
 bool		is_valid_character(char c);
 int			validate_map_line(char *line);
+void		clean_str(char *str);
 
 int	is_texture_data(int data_type)
 {
@@ -86,6 +87,7 @@ int	process_texture_color(char *line, t_cub *cub)
 {
 	int	data_type;
 
+	clean_str(line);
 	data_type = get_data_type(line);
 	if (is_texture_data(data_type))
 	{

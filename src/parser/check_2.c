@@ -6,7 +6,7 @@
 /*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 12:07:13 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/14 16:46:42 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:26:05 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,12 @@ int	get_data_type(char *line)
 	return (0);
 }
 
+
 int	add_texture(char *path, t_texture *textures, t_mlx *screen, int type)
 {
 	char	*str_trimed;
 
+	
 	while (textures->valid == true)
 		textures++;
 	str_trimed = ft_str_trim(path + 3);

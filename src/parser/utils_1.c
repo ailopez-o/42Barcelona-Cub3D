@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: framos-p <framos-p@student.42barcel>       +#+  +:+       +#+        */
+/*   By: framos-p <framos-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 17:02:52 by framos-p          #+#    #+#             */
-/*   Updated: 2023/12/15 15:12:47 by framos-p         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:49:42 by framos-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_str_trim(char *str)
 	start = 0;
 	while (str[start] == ' ')
 		start++;
-	while (str[end] == ' ' || str[end] == '\n')
+	while (str[end] == ' ' || str[end] == '\n' || str[end] == '\t')
 		end--;
 	if (end < start)
 		return (ft_strdup(""));

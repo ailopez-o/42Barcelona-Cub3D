@@ -41,7 +41,7 @@ int	process_map(char *line, t_cub *cub, char ***map, t_pars *pars)
 		if (is_player(line))
 		{
 			cub->player.matrix_pos.x = is_player(line);
-			cub->player.matrix_pos.y = pars->num_line + 1;
+			cub->player.matrix_pos.y = pars->num_line;
 			cub->player.init_view = line[(int)cub->player.matrix_pos.x];
 		}
 		if (get_int_array(line) == EXIT_FAILURE)
